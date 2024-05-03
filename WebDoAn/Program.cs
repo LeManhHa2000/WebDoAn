@@ -1,10 +1,16 @@
 using AspNetCoreHero.ToastNotification;
+using Microsoft.EntityFrameworkCore;
+using WebDoAn.dbs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
+
+// Dang ki DB
+var connectString = builder.Configuration.GetConnectionString("Default");
+builder.Services.AddDbContext<DoAnDbContext>(option => option.UseNpgsql(connectString));
 
 var app = builder.Build();
 
