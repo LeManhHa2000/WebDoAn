@@ -352,3 +352,5 @@ MigrationBackup/
 
 src/bbk.netcore.Web.Mvc/appsettings.json
 src/bbk.netcore.Web.Mvc/appsettings.Development.json
+/WebDoAn/Migrations/20240503025308_lan1.Designer.cs
+/WebDoAn/Migrations/DoAnDbContextModelSnapshot.cs
