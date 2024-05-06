@@ -1,0 +1,80 @@
+﻿@model IEnumerable<WebDoAn.Models.Shipper>
+
+@{
+    ViewData["Title"] = "Quản lý người giao hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Adminassets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <span class="breadcrumb-item active">Danh sách người giao hàng</span>
+        </nav>
+    </div>
+</div>
+<hr />
+
+<div class="card">
+    <div class="card-header d-flex align-items-center">
+        <h4 class="card-title">Danh sách người giao hàng</h4>
+        <div>
+            <a asp-area="Admin" asp-controller="Shipper" asp-action="Create" class="btn btn-primary">Tạo mới</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="ShipperTable" class="table table-category">
+                <thead>
+                    <tr>
+                        <th>
+                            STT
+                        </th>
+                        <th>
+                            Thời gian tạo
+                        </th>
+                        <th>
+                            Tên người giao hàng
+                        </th>
+                        <th>
+                            Số điện thoại
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>
+                                @item.CreateTime.Date.ToShortDateString()
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.PhoneNumber
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info m-r-5">Xem chi tiết</a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning m-r-5">Sửa</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger m-r-5">Xóa</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="~/Adminassets/vendors/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Adminassets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+
+<script src="~/customjs/admin/shipper/index.js"></script>

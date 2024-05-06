@@ -1,0 +1,38 @@
+﻿@model WebDoAn.Models.Shipper
+
+@{
+    ViewData["Title"] = "Chi tiết người giao hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Shipper" asp-action="Index">Danh sách người giao hàng</a>
+            <span class="breadcrumb-item active">Chi tiết người giao hàng</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Thông tin chi tiết</h4>
+    </div>
+    <div class="card-body">
+        <div>
+            <p><span class="font-weight-bold mr-2">Tên loại hàng:</span><span> @Model.Name</span></p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Ngày tạo:</span><span> @Model.CreateTime.Date.ToShortDateString()</span></p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Số điện thoại:</span><span> @Model.PhoneNumber</span></p>
+        </div>
+
+        <div class="mt-5">
+            <a asp-area="Admin" asp-controller="Shipper" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning m-r-5">Sửa</a>
+            <a asp-area="Admin" asp-controller="Shipper" asp-action="Index" class="btn btn-secondary">Trở lại danh sách</a>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 ﻿(function () {
-    $('#data-table').DataTable({
+
+    $('#ShipperTable').DataTable({
         "language": {
             "emptyTable": "Không tìm thấy dữ liệu",
             "lengthMenu": "Hiển thị _MENU_ bản ghi",
@@ -10,7 +11,7 @@
                 "next": "Tiếp",
                 "previous": "Quay lại"
             },
-            "search": "Nhập tên loại:",
+            "search": "Nhập tên người giao hàng:",
         },
         lengthMenu: [
             [5, 10, 25, 50, -1],
@@ -24,15 +25,10 @@
                 className: 'dt-body-center text-center',
                 render: function (data, type, row, meta) {
                     var stt = parseInt(meta.row) + 1;
-                    return '<span>' + stt +'<span>';
+                    return '<span>' + stt + '<span>';
                 }
             },
         ],
     });
-    //var listtd = $(".table-category").children("tbody").children("tr").children("td.sorting_1");
-    //for (i = 0; i < listtd.length; i++) {
-    //    var stt = i + 1;
-    //    listtd[i].append(stt);
-    //}
-    
-})(jQuery)
+
+})(jQuery);

@@ -1,0 +1,52 @@
+﻿@model WebDoAn.Models.Shipper
+
+@{
+    ViewData["Title"] = "Tạo mới người giao hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Shipper" asp-action="Index">Danh sách người giao hàng</a>
+            <span class="breadcrumb-item active">Tạo mới người giao hàng</span>
+        </nav>
+    </div>
+</div>
+<hr />
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Thông tin tạo mới</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" id="form-validation">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Họ tên người giao hàng</label>
+                        <input asp-for="Name" name="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label">Số điện thoại</label>
+                        <input asp-for="PhoneNumber" id="PhoneNumber" type="text" pattern=".{9,}" maxlength="10" name="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Tạo mới" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary">Trở lại danh sách</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+<script src="~/customjs/admin/shipper/create.js"></script>
+
