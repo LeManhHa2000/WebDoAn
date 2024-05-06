@@ -1,5 +1,4 @@
 ﻿(function () {
-    console.log("dfdsfsfaa");
     $('#data-table').DataTable({
         "language": {
             "emptyTable": "Không tìm thấy dữ liệu",
