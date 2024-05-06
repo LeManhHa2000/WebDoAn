@@ -1,0 +1,59 @@
+﻿@model WebDoAn.Models.Category
+
+@{
+    ViewData["Title"] = "Tạo mới loại hàng hóa";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Danh sách loại hàng hóa</a>
+            <span class="breadcrumb-item active">Tạo mới loại hàng hóa</span>
+        </nav>
+    </div>
+</div>
+<hr />
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Thông tin tạo mới</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" id="form-validation">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row">
+                <div class="col-6">
+                  @* <input type="datetime" asp-for="CreateTime" value="@DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);" hidden class="form-control" /> *@
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Tên loại hàng hóa</label>
+                        <input asp-for="Name" class="form-control" name="Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Thông tin chi tiết</label>
+                <textarea class="form-control" asp-for="Description" name="Description" rows="4" cols="50"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <input id="gridCheck" asp-for="Status" type="checkbox">
+                    <label for="gridCheck">Hoạt động</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Tạo mới" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-secondary">Trở lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/customJs/Admin/Category/create.js"></script>
+

@@ -14,7 +14,7 @@
 
     <!-- Core css -->
     <link href="~/Adminassets/css/app.min.css" rel="stylesheet">
-
+    <link href="~/customcss/admin/custom1.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -207,7 +207,8 @@
         </div>
     </div>
 
-    
+   
+
     <!-- Core Vendors JS -->
     <script src="~/Adminassets/js/vendors.min.js"></script>
     <!-- page js -->
@@ -216,6 +217,7 @@
 
     <!-- Core JS -->
     <script src="~/Adminassets/js/app.min.js"></script>
+    
     @await Component.InvokeAsync("Notyf");
     @await RenderSectionAsync("Scripts", required: false);
 
