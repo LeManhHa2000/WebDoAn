@@ -19,6 +19,7 @@ namespace WebDoAn.Migrations
                     CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
+                    ParentId = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -74,7 +75,6 @@ namespace WebDoAn.Migrations
                     ShortDescription = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
-                    Thumbs = table.Column<string>(type: "text", nullable: true),
                     Tags = table.Column<string>(type: "text", nullable: true),
                     TypeProduct = table.Column<byte>(type: "smallint", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: false)
@@ -116,29 +116,45 @@ namespace WebDoAn.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "comment",
+                name: "blog",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    SubDescription = table.Column<string>(type: "text", nullable: true),
+                    ImgSrc = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_blog", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_blog_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "productImg",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ImgSrc = table.Column<string>(type: "text", nullable: true),
                     ProductId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_comment", x => x.Id);
+                    table.PrimaryKey("PK_productImg", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_comment_product_ProductId",
+                        name: "FK_productImg_product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_comment_user_UserId",
-                        column: x => x.UserId,
-                        principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -174,13 +190,8 @@ namespace WebDoAn.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_comment_ProductId",
-                table: "comment",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_comment_UserId",
-                table: "comment",
+                name: "IX_blog_UserId",
+                table: "blog",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -202,15 +213,23 @@ namespace WebDoAn.Migrations
                 name: "IX_product_CategoryId",
                 table: "product",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_productImg_ProductId",
+                table: "productImg",
+                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "comment");
+                name: "blog");
 
             migrationBuilder.DropTable(
                 name: "orderDetail");
+
+            migrationBuilder.DropTable(
+                name: "productImg");
 
             migrationBuilder.DropTable(
                 name: "user");

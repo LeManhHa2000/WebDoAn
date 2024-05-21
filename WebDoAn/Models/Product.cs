@@ -15,7 +15,6 @@ namespace WebDoAn.Models
         public string? ShortDescription { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-        public string? Thumbs { get; set; }
         public string? Tags { get; set; }
         public ProductEnum.TypeProduct TypeProduct { get; set; }
 
