@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "jsdelivr",
+  "libraries": [
+    {
+      "library": "jstree@3.3.16",
+      "destination": "wwwroot/lib/jstree/"
+    }
+  ]
+}
