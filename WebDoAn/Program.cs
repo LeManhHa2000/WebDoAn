@@ -1,6 +1,7 @@
 using AspNetCoreHero.ToastNotification;
 using Microsoft.EntityFrameworkCore;
 using WebDoAn.dbs;
+using WebDoAn.Service.Admin.Categories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDi
 // Dang ki DB
 var connectString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<DoAnDbContext>(option => option.UseNpgsql(connectString));
+
+builder.Services.AddScoped<ICategoryService,  CategoryService>();
 
 var app = builder.Build();
 

@@ -19,7 +19,7 @@ namespace WebDoAn.dbs
         public DbSet<ProductImg> productImg { get; set; }
         public DbSet<Order> order { get; set; }
         public DbSet<OrderDetail> orderDetail { get; set; }
-        public DbSet<Shipper> shipper { get; set; }
+        //public DbSet<Shipper> shipper { get; set; }
         public DbSet<Blog> blog { get; set; }
         public DbSet<Cart> cart { get; set; }
         //public DbSet<Comment> comment { get; set; }

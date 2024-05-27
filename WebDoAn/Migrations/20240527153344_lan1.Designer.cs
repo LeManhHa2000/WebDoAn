@@ -12,8 +12,8 @@ using WebDoAn.dbs;
 namespace WebDoAn.Migrations
 {
     [DbContext(typeof(DoAnDbContext))]
-    [Migration("20240521032113_lan2")]
-    partial class lan2
+    [Migration("20240527153344_lan1")]
+    partial class lan1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,9 +103,6 @@ namespace WebDoAn.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int>("ParentId")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
 
@@ -137,15 +134,10 @@ namespace WebDoAn.Migrations
                     b.Property<DateTime>("ShipDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("ShipperId")
-                        .HasColumnType("integer");
-
                     b.Property<byte>("Status")
                         .HasColumnType("smallint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ShipperId");
 
                     b.ToTable("order");
                 });
@@ -251,28 +243,6 @@ namespace WebDoAn.Migrations
                     b.ToTable("productImg");
                 });
 
-            modelBuilder.Entity("WebDoAn.Models.Shipper", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreateTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("shipper");
-                });
-
             modelBuilder.Entity("WebDoAn.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -338,17 +308,6 @@ namespace WebDoAn.Migrations
                     b.Navigation("product");
 
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("WebDoAn.Models.Order", b =>
-                {
-                    b.HasOne("WebDoAn.Models.Shipper", "shipper")
-                        .WithMany()
-                        .HasForeignKey("ShipperId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("shipper");
                 });
 
             modelBuilder.Entity("WebDoAn.Models.OrderDetail", b =>

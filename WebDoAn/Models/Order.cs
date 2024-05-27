@@ -15,9 +15,9 @@ namespace WebDoAn.Models
         public OrderEnum.OrderStatus Status { get; set; }
         public string? Note { get; set; }
 
-        [ForeignKey("Shipper")]
-        public int ShipperId { get; set; }
-        public virtual Shipper? shipper { get; set; }
+        //[ForeignKey("Shipper")]
+        //public int ShipperId { get; set; }
+        //public virtual Shipper? shipper { get; set; }
 
     }
 }

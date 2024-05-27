@@ -17,7 +17,6 @@
             [5, 10, 25, 50, 'Tất cả'],
         ],
         columnDefs: [
-
             {
                 orderable: false,
                 targets: 0,

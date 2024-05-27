@@ -25,7 +25,6 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Service\Admin\" />
     <Folder Include="Service\Client\" />
   </ItemGroup>
 

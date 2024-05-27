@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebDoAn.Models;
 using WebDoAn.dbs;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using WebDoAn.Service.Admin.Categories;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -15,20 +16,27 @@ namespace WebDoAn.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly DoAnDbContext _context;
+        private readonly ICategoryService _categoryService;
         public INotyfService _notyfService;
 
-        public CategoryController(DoAnDbContext context, INotyfService notyfService)
+        public CategoryController(DoAnDbContext context, ICategoryService categoryService, INotyfService notyfService)
         {
             _context = context;
+            _categoryService = categoryService;
             _notyfService = notyfService;
         }
 
         // GET: Admin/Category
         public async Task<IActionResult> Index()
         {
-              return _context.categorie != null ? 
-                          View(await _context.categorie.OrderBy(x => x.Id).ToListAsync()) :
-                          Problem("Entity set 'DoAnDbContext.categorie'  is null.");
+              return View(await _categoryService.GetCategories());
+        }
+
+        // GetAll category
+        public JsonResult GetAllCategory()
+        {
+            var list = _context.categorie.ToList();
+            return Json(list);
         }
 
         // GET: Admin/Category/Details/5
@@ -52,7 +60,7 @@ namespace WebDoAn.Areas.Admin.Controllers
         // GET: Admin/Category/Create
         public IActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Admin/Category/Create

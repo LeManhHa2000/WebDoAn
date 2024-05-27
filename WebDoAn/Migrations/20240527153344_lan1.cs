@@ -19,7 +19,6 @@ namespace WebDoAn.Migrations
                     CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    ParentId = table.Column<int>(type: "integer", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -28,18 +27,21 @@ namespace WebDoAn.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "shipper",
+                name: "order",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true)
+                    ShipDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Pay = table.Column<bool>(type: "boolean", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<byte>(type: "smallint", nullable: false),
+                    Note = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_shipper", x => x.Id);
+                    table.PrimaryKey("PK_order", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,31 +93,6 @@ namespace WebDoAn.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "order",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ShipDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Pay = table.Column<bool>(type: "boolean", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<byte>(type: "smallint", nullable: false),
-                    Note = table.Column<string>(type: "text", nullable: true),
-                    ShipperId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_order", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_order_shipper_ShipperId",
-                        column: x => x.ShipperId,
-                        principalTable: "shipper",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "blog",
                 columns: table => new
                 {
@@ -140,21 +117,29 @@ namespace WebDoAn.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "productImg",
+                name: "cart",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ImgSrc = table.Column<string>(type: "text", nullable: true),
-                    ProductId = table.Column<int>(type: "integer", nullable: false)
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    Total = table.Column<decimal>(type: "numeric", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_productImg", x => x.Id);
+                    table.PrimaryKey("PK_cart", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_productImg_product_ProductId",
+                        name: "FK_cart_product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_cart_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -189,15 +174,40 @@ namespace WebDoAn.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "productImg",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ImgSrc = table.Column<string>(type: "text", nullable: true),
+                    ProductId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_productImg", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_productImg_product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_blog_UserId",
                 table: "blog",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_order_ShipperId",
-                table: "order",
-                column: "ShipperId");
+                name: "IX_cart_ProductId",
+                table: "cart",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cart_UserId",
+                table: "cart",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_orderDetail_OrderId",
@@ -226,6 +236,9 @@ namespace WebDoAn.Migrations
                 name: "blog");
 
             migrationBuilder.DropTable(
+                name: "cart");
+
+            migrationBuilder.DropTable(
                 name: "orderDetail");
 
             migrationBuilder.DropTable(
@@ -239,9 +252,6 @@ namespace WebDoAn.Migrations
 
             migrationBuilder.DropTable(
                 name: "product");
-
-            migrationBuilder.DropTable(
-                name: "shipper");
 
             migrationBuilder.DropTable(
                 name: "categorie");
