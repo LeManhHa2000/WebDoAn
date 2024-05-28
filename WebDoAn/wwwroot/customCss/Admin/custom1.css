@@ -1,3 +1,22 @@
 ﻿label.is-invalid {
     color: red;
 }
+
+.block_search {
+    display: flex;
+    justify-content: end;
+}
+
+    .block_search .input_search {
+        padding: 6px 9px;
+        font-size: 14px;
+    }
+
+    .block_search .btn_search {
+        background-image: linear-gradient(#8614f8 0, #760be0 100%);
+        border-radius: 5px;
+        color: white;
+        border-style: none;
+        padding: 0 16px;
+        font-size: 14px;
+    }

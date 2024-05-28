@@ -53,7 +53,7 @@ namespace WebDoAn.Service.Admin.Categories
 
         public List<Category> GetAll(GetInput input)
         {
-            if(input.Name == "")
+            if(input.Name == "all")
             {
                 var list = _db.categorie.OrderBy(x => x.Id).ToList();
                 return list;

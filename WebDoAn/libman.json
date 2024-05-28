@@ -5,6 +5,10 @@
     {
       "library": "jstree@3.3.16",
       "destination": "wwwroot/lib/jstree/"
+    },
+    {
+      "library": "moment@2.30.1",
+      "destination": "wwwroot/lib/moment/"
     }
   ]
 }

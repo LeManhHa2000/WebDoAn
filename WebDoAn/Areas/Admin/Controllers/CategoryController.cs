@@ -9,6 +9,7 @@ using WebDoAn.Models;
 using WebDoAn.dbs;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using WebDoAn.Service.Admin.Categories;
+using WebDoAn.Service.Admin.Categories.Dto;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -36,6 +37,12 @@ namespace WebDoAn.Areas.Admin.Controllers
         public JsonResult GetAllCategory()
         {
             var list = _context.categorie.ToList();
+            return Json(list);
+        }
+
+        public JsonResult GetAlltestCategory(GetInput input)
+        {
+            var list = _categoryService.GetAll(input);
             return Json(list);
         }
 
