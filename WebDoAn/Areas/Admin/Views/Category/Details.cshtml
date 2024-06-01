@@ -1,7 +1,7 @@
 ﻿@model WebDoAn.Models.Category
 
 @{
-    ViewData["Title"] = "Chi tiết loại hàng hóa";
+    ViewData["Title"] = "Chi tiết loại sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -9,8 +9,8 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Danh sách loại hàng hóa</a>
-            <span class="breadcrumb-item active">Chi tiết loại hàng hóa</span>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Danh sách loại sản phẩm</a>
+            <span class="breadcrumb-item active">Chi tiết loại sản phẩm</span>
         </nav>
     </div>
 </div>
@@ -20,7 +20,7 @@
     </div>
     <div class="card-body">
         <div>
-            <p><span class="font-weight-bold mr-2">Tên loại hàng:</span><span> @Model.Name</span></p>
+            <p><span class="font-weight-bold mr-2">Tên loại sản phẩm:</span><span> @Model.Name</span></p>
         </div>
         <div>
             <p><span class="font-weight-bold mr-2">Ngày tạo:</span><span> @Model.CreateTime.Date.ToShortDateString()</span></p>

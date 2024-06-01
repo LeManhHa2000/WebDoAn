@@ -19,7 +19,43 @@
                 </a>
 
             </li>
+            <li class="nav-item">
+                <a asp-area="Admin" asp-controller="Category" asp-action="Index">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-book"></i>
+                    </span>
+                    <span class="title">Quản lý loại sản phẩm</span>
+                </a>
+
+            </li>
+            <li class="nav-item">
+                <a asp-area="Admin" asp-controller="Product" asp-action="Index">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-appstore"></i>
+                    </span>
+                    <span class="title">Quản lý sản phẩm</span>
+                </a>
+
+            </li>
             <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-form"></i>
+                    </span>
+                    <span class="title">Quản lý đơn hàng</span>
+                </a>
+                
+            </li>
+            <li class="nav-item dropdown">
+                <a asp-area="Admin" asp-controller="Shipper" asp-action="Index" class="dropdown-toggle">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-file"></i>
+                    </span>
+                    <span class="title">Quản lý tin tức</span>
+                    
+                </a>
+            </li>
+            @* <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                         <i class="anticon anticon-appstore"></i>
@@ -79,24 +115,6 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item dropdown">
-                <a class="dropdown-toggle" href="javascript:void(0);">
-                    <span class="icon-holder">
-                        <i class="anticon anticon-form"></i>
-                    </span>
-                    <span class="title">Quản lý đơn hàng</span>
-                </a>
-                
-            </li>
-            @* <li class="nav-item dropdown">
-                <a asp-area="Admin" asp-controller="Shipper" asp-action="Index" class="dropdown-toggle">
-                    <span class="icon-holder">
-                        <i class="anticon anticon-hdd"></i>
-                    </span>
-                    <span class="title">Quản lý người giao hàng</span>
-                    
-                </a>
-            </li> *@
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
@@ -240,7 +258,7 @@
                         <a href="error-2.html">Error 2</a>
                     </li>
                 </ul>
-            </li>
+            </li> *@
         </ul>
     </div>
 </div>

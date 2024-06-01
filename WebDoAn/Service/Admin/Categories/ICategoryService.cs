@@ -7,9 +7,9 @@ namespace WebDoAn.Service.Admin.Categories
     {
         public Task<List<Category>> GetCategories();
         public List<Category> GetAll(GetInput input);
-        public Category GetCategoryById(int id);
-        public bool Create(Category category);
-        public bool Update(Category category);
-        public bool Delete(int id);
+        public Task<Category> GetCategoryById(int id);
+        public Task<bool> Create(Category category);
+        public Task<bool> Update(Category category);
+        public Task<bool> Delete(int id);
     }
 }

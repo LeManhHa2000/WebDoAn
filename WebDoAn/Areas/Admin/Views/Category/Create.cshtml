@@ -1,7 +1,7 @@
 ﻿@model WebDoAn.Models.Category
 
 @{
-    ViewData["Title"] = "Tạo mới loại hàng hóa";
+    ViewData["Title"] = "Tạo mới loại sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -9,8 +9,8 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Danh sách loại hàng hóa</a>
-            <span class="breadcrumb-item active">Tạo mới loại hàng hóa</span>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Danh sách loại sản phẩm</a>
+            <span class="breadcrumb-item active">Tạo mới loại sản phẩm</span>
         </nav>
     </div>
 </div>
@@ -25,8 +25,8 @@
             <div class="form-row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label asp-for="Name" class="control-label">Tên loại hàng hóa</label>
-                        <input asp-for="Name" class="form-control" name="Name" />
+                        <label asp-for="Name" class="control-label">Tên loại sản phẩm</label>
+                        <input asp-for="Name" class="form-control border-input-1" name="Name" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Thông tin chi tiết</label>
-                <textarea class="form-control" asp-for="Description" name="Description" rows="4" cols="50"></textarea>
+                <textarea class="form-control border-input-1" asp-for="Description" name="Description" rows="4" cols="50"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">

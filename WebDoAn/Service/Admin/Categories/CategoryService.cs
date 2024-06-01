@@ -15,36 +15,40 @@ namespace WebDoAn.Service.Admin.Categories
             _db = db; 
             _notyfService = notyfService;
         }
-        public bool Create(Category category)
+        public async Task<bool> Create(Category category)
         {
-            var isCate = _db.categorie.Where(x => x.Name == category.Name).ToList();
-            if(isCate == null)
+            var isCate = _db.categorie.Where(x => x.Name.ToLower() == category.Name.ToLower()).ToList();
+            if(isCate.Count() == 0)
             {
+                var date = DateTime.Now;
+                var datecustom = DateTime.SpecifyKind(date, DateTimeKind.Utc);
+                category.CreateTime = datecustom;
+
                 _db.categorie.Add(category);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 _notyfService.Success("Tạo mới thành công");
                 return true;
             }
             else
             {
-                _notyfService.Error("Tên loại hàng này đã tồn tại, vui lòng thay đổi tên !");
+                _notyfService.Error("Tên loại sản phẩm này đã tồn tại, vui lòng thay đổi tên !");
                 return false;
             }
             
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             var cate = _db.categorie.Find(id);
             if(cate == null)
             {
-                _notyfService.Error("Không tìm thấy loại hàng này");
+                _notyfService.Error("Không tìm thấy loại loại này");
                 return false;
             }
             else
             {
-                _db.Remove(cate);
-                _db.SaveChanges();
+                _db.categorie.Remove(cate);
+                await _db.SaveChangesAsync();
                 _notyfService.Success("Xóa thành công");
                 return true;
             }
@@ -72,13 +76,13 @@ namespace WebDoAn.Service.Admin.Categories
             return listCate;
         }
 
-        public Category GetCategoryById(int id)
+        public async Task<Category> GetCategoryById(int id)
         {
-            var cate = _db.categorie.Find(id);
+            var cate = await _db.categorie.FindAsync(id);
             if(cate == null)
             {
                 Category category = new Category();
-                _notyfService.Error("Không tìm thấy loại hàng này");
+                _notyfService.Error("Không tìm thấy loại sản phẩm này");
                 return category;
             }
             else
@@ -87,11 +91,24 @@ namespace WebDoAn.Service.Admin.Categories
             }
         }
 
-        public bool Update(Category category)
+        public async Task<bool> Update(Category category)
         {
-            _db.Update(category);
-            _db.SaveChanges();
-            return true;
+            var isCate = _db.categorie.Where(x => x.Name.ToLower() == category.Name.ToLower()).ToList();
+            if(isCate.Count == 0)
+            {
+                DateTime cate = _db.categorie.Where(x => x.Id == category.Id).Select(x => x.CreateTime).FirstOrDefault();
+                category.CreateTime = cate;
+                _db.Update(category);
+                await _db.SaveChangesAsync();
+                _notyfService.Success("Cập nhật thành công");
+                return true;
+            }
+            else
+            {
+                _notyfService.Error("Tên loại sản phẩm này đã tồn tại, vui lòng thay đổi tên !");
+                return false;
+            }
+
         }
     }
 }

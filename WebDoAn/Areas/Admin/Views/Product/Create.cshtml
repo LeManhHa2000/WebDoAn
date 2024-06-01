@@ -1,0 +1,100 @@
+﻿@model WebDoAn.Models.Product
+
+@{
+    ViewData["Title"] = "Tạo mới sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Danh sách sản phẩm</a>
+            <span class="breadcrumb-item active">Tạo mới sản phẩm</span>
+        </nav>
+    </div>
+</div>
+<hr />
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Thông tin tạo mới</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" id="form-validation">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Tên sản phẩm</label>
+                        <input asp-for="Name" class="form-control border-input-1" name="Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="control-label">Loại sản phẩm</label>
+                        <select asp-for="CategoryId" class="form-control border-input-1" asp-items="ViewBag.CategoryId"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="TypeProduct" class="control-label"></label>
+                        <select asp-for="TypeProduct" class="form-control border-input-1"></select>
+                        <span asp-validation-for="TypeProduct" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="Quantity" class="control-label">Số lượng</label>
+                        <input asp-for="Quantity" class="form-control border-input-1" />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label">Giá (VND)</label>
+                        <input asp-for="Price" class="form-control border-input-1" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="Tags" class="control-label">Ảnh</label>
+                        <input asp-for="Tags" type="file" class="form-control border-input-1" />
+                        <span asp-validation-for="Tags" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="Tags" class="control-label"></label>
+                        <input asp-for="Tags" class="form-control border-input-1" />
+                        <span asp-validation-for="Tags" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="ShortDescription" class="control-label">Mô tả ngắn</label>
+                <input asp-for="ShortDescription" class="form-control border-input-1" />
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Thông tin chi tiết</label>
+                <textarea class="form-control border-input-1" asp-for="Description" name="Description" rows="4" cols="50"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Tạo mới" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-secondary">Trở lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+

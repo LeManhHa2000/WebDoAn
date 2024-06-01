@@ -54,8 +54,7 @@ namespace WebDoAn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.categorie
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var category = await _categoryService.GetCategoryById(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -65,42 +64,31 @@ namespace WebDoAn.Areas.Admin.Controllers
         }
 
         // GET: Admin/Category/Create
+        // View
         public IActionResult Create()
         {
             return PartialView();
         }
 
         // POST: Admin/Category/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Action tạo mới
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CreateTime,Name,Description,Status")] Category category)
+        public async Task<IActionResult> Create(Category category)
         {
-            var isCate = _context.categorie.Where(x => x.Name == category.Name).ToList();
-            if (isCate.Count == 0)
+            var isCreate = await _categoryService.Create(category);
+            if(isCreate)
             {
-
-                if (ModelState.IsValid)
-                {
-                    var date = DateTime.Now;
-                    var datecustom = DateTime.SpecifyKind(date, DateTimeKind.Utc);
-                    category.CreateTime = datecustom;
-                    _context.Add(category);
-                    await _context.SaveChangesAsync();
-                    _notyfService.Success("Tạo mới thành công");
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(category);
+                return RedirectToAction(nameof(Index));
             }
             else
             {
-                _notyfService.Error("Tên loại hàng này đã tồn tại, vui lòng thay đổi tên !");
                 return View(category);
             }
         }
 
         // GET: Admin/Category/Edit/5
+        // View
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.categorie == null)
@@ -108,7 +96,7 @@ namespace WebDoAn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.categorie.FindAsync(id);
+            var category = await _categoryService.GetCategoryById(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -117,40 +105,26 @@ namespace WebDoAn.Areas.Admin.Controllers
         }
 
         // POST: Admin/Category/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Action
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Category category)
         {
-            DateTime cate = _context.categorie.Where(x => x.Id == category.Id).Select(x => x.CreateTime).FirstOrDefault();
-
-            if (ModelState.IsValid)
+            var isUpdate = await _categoryService.Update(category);
+            if(isUpdate)
             {
-                try
-                {
-                    category.CreateTime = cate;
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                    _notyfService.Success("Cập nhật thành công");
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            else
+            {
+                return View(category);
+
+            }
+
         }
 
         // GET: Admin/Category/Delete/5
+        // View
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.categorie == null)
@@ -158,8 +132,7 @@ namespace WebDoAn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.categorie
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var category = await _categoryService.GetCategoryById(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -175,16 +148,14 @@ namespace WebDoAn.Areas.Admin.Controllers
         {
             if (_context.categorie == null)
             {
-                return Problem("Entity set 'DoAnDbContext.categorie'  is null.");
+                return Problem("Dữ liệu trống.");
             }
-            var category = await _context.categorie.FindAsync(id);
+            var category = await _categoryService.GetCategoryById(id);
             if (category != null)
             {
-                _context.categorie.Remove(category);
+                await _categoryService.Delete(id);
             }
-            
-            await _context.SaveChangesAsync();
-            _notyfService.Success("Xóa thành công");
+          
             return RedirectToAction(nameof(Index));
         }
 

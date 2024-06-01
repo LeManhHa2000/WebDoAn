@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WebDoAn.Models.Category>
 
 @{
-    ViewData["Title"] = "Quản lý loại hàng hóa";
+    ViewData["Title"] = "Quản lý loại sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -11,7 +11,7 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <span class="breadcrumb-item active">Danh sách loại hàng hóa</span>
+            <span class="breadcrumb-item active">Danh sách loại sản phẩm</span>
         </nav>
     </div>
 </div>
@@ -19,7 +19,7 @@
 
 <div class="card">
     <div class="card-header d-flex align-items-center">
-        <h4 class="card-title">Danh sách loại hàng hóa</h4>
+        <h4 class="card-title">Danh sách loại sản phẩm</h4>
         <div>
             <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn btn-primary">Tạo mới</a>
         </div>
