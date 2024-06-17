@@ -5,6 +5,16 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
+<head>
+    <link rel="stylesheet" href="~/lib/summernote/dist/summernote-lite.min.css" />
+</head>
+<style>
+    .ck-editor__editable[role="textbox"] {
+        /* Editing area */
+        min-height: 200px;
+    }
+</style>
+
 <div class="page-header">
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
@@ -84,7 +94,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Thông tin chi tiết</label>
-                <textarea class="form-control border-input-1" asp-for="Description" name="Description" rows="4" cols="50"></textarea>
+         @*        <div id="summernote"></div> *@
+                <textarea id="summernote" class="form-control border-input-1" asp-for="Description" name="Description" rows="4" cols="50"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -97,4 +108,5 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-
+<script src="~/lib/summernote/dist/summernote-lite.min.js"></script>
+<script src="~/customjs/admin/product/create.js"></script>
