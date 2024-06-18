@@ -93,7 +93,7 @@ namespace WebDoAn.Service.Admin.Categories
 
         public async Task<bool> Update(Category category)
         {
-            var isCate = _db.categorie.Where(x => x.Name.ToLower() == category.Name.ToLower()).ToList();
+            var isCate = _db.categorie.Where(x => category.Id != x.Id && x.Name.ToLower() == category.Name.ToLower()).ToList();
             if(isCate.Count == 0)
             {
                 DateTime cate = _db.categorie.Where(x => x.Id == category.Id).Select(x => x.CreateTime).FirstOrDefault();
