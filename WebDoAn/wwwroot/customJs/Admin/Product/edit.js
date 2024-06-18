@@ -3,6 +3,8 @@
         height: 200
     });
 
+    console.log("adad");
+
     jQuery.validator.addMethod("requiredSummernote", function () {
         // true to pass validation
         // false to FAIL validation
@@ -31,7 +33,7 @@
                 required: true,
             },
             Photo: {
-                required: true,
+                required: false,
             },
             //Tags: {
             //    required: true,
@@ -49,8 +51,7 @@
             TypeProduct: "Trường này không được để trống",
             Quantity: "Trường này không được để trống",
             Price: "Trường này không được để trống",
-            Photo: "Trường này không được để trống",
-         /*   Tag: "Trường này không được để trống",*/
+            /*   Tag: "Trường này không được để trống",*/
             ShortDescription: "Trường này không được để trống",
             Description: "Trường này không được để trống",
         }
@@ -60,5 +61,5 @@
     //    alert('editor content is empty');
     //}
 
-    
+
 })(jQuery)

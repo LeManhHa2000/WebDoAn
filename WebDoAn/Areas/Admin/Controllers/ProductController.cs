@@ -9,6 +9,9 @@ using WebDoAn.Models;
 using WebDoAn.dbs;
 using WebDoAn.Service.Admin.Products;
 using WebDoAn.Service.Admin.Products.Dto;
+using WebDoAn.ModelPrivew;
+using static WebDoAn.Enums.ProductEnum;
+using System.Xml.Linq;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -17,11 +20,13 @@ namespace WebDoAn.Areas.Admin.Controllers
     {
         private readonly DoAnDbContext _context;
         private readonly IProductService _productService;
+        public IWebHostEnvironment _hostEnvironment;
 
-        public ProductController(DoAnDbContext context, IProductService productService)
+        public ProductController(DoAnDbContext context, IProductService productService, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _productService = productService;
+            _hostEnvironment = hostEnvironment;
         }
 
         // GET: Admin/Product
@@ -52,6 +57,8 @@ namespace WebDoAn.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            ViewBag.cateName = await _productService.GetNameCategory(product.CategoryId);
+
             return View(product);
         }
 
@@ -67,16 +74,36 @@ namespace WebDoAn.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CreateTime,UpdateTime,Name,Description,ShortDescription,Price,Quantity,Tags,TypeProduct,CategoryId")] Product product)
+        public async Task<IActionResult> Create(ProductViewModal productview)
         {
+            String filename = "";
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                String uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images" , "product");
+                filename = Guid.NewGuid().ToString() + "_" + productview.Photo.FileName;
+                string filepath = Path.Combine(uploadfolder, filename);
+                productview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+
+                Product product = new Product{
+                    Name = productview.Name,
+                    Description = productview.Description,
+                    ShortDescription = productview.ShortDescription,
+                    TypeProduct = productview.TypeProduct,
+                    Price = productview.Price,
+                    Quantity = productview.Quantity,
+                    Tags = productview.Tags,
+                    CategoryId = productview.CategoryId,
+                    Image = filename,
+                };
+                var isproduct = await _productService.Create(product);
+                if (isproduct)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Id", product.CategoryId);
-            return View(product);
+            ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Id", productview.CategoryId);
+            return View(productview);
+       
         }
 
         // GET: Admin/Product/Edit/5
@@ -87,12 +114,13 @@ namespace WebDoAn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.product.FindAsync(id);
+            var product = await _productService.GetProductPriViewById(id.Value);
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Id", product.CategoryId);
+            ViewData["Filename"] = _context.product.Find(id.Value).Image.ToString();
+            ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Name", product.CategoryId);
             return View(product);
         }
 
@@ -101,35 +129,57 @@ namespace WebDoAn.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CreateTime,UpdateTime,Name,Description,ShortDescription,Price,Quantity,Tags,TypeProduct,CategoryId")] Product product)
+        public async Task<IActionResult> Edit(ProductViewModal productview)
         {
-            if (id != product.Id)
+            var pro = await _productService.GetProductById(productview.Id);
+            
+            
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                ViewData["ProductId"] = pro.Id;
+                ViewData["Filename"] = pro.Image;
+                ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Name", productview.CategoryId);
+                return View(productview);
+
             }
 
-            if (ModelState.IsValid)
+            // Update lai hinh anh
+            string filename = pro.Image;
+            if(productview.Photo != null)
             {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                string uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images", "product");
+                filename = Guid.NewGuid().ToString() + "_" + productview.Photo.FileName;
+                string filepath = Path.Combine(uploadfolder, filename);
+                productview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+
+                //delete oldfile
+                string oldfilename = _hostEnvironment.WebRootPath + "\\images\\product\\" + pro.Image;
+                System.IO.File.Delete(oldfilename);
+            }
+
+            pro.Name = productview.Name;
+            pro.Description = productview.Description;
+            pro.ShortDescription = productview.ShortDescription;
+            pro.TypeProduct = productview.TypeProduct;
+            pro.Price = productview.Price;
+            pro.Quantity = productview.Quantity;
+            pro.Tags = productview.Tags;
+            pro.CategoryId = productview.CategoryId;
+            pro.Image = filename;
+
+            var isproduct = await _productService.Update(pro);
+            if (isproduct)
+            {
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Id", product.CategoryId);
-            return View(product);
+            else
+            {
+                ViewData["ProductId"] = pro.Id;
+                ViewData["Filename"] = pro.Image;
+                ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Name", productview.CategoryId);
+                return View(productview);
+            }
+            
         }
 
         // GET: Admin/Product/Delete/5
@@ -140,9 +190,7 @@ namespace WebDoAn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.product
-                .Include(p => p.category)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _productService.GetProductById(id.Value);
             if (product == null)
             {
                 return NotFound();
@@ -158,15 +206,14 @@ namespace WebDoAn.Areas.Admin.Controllers
         {
             if (_context.product == null)
             {
-                return Problem("Entity set 'DoAnDbContext.product'  is null.");
+                return Problem("Dữ liệu trống");
             }
-            var product = await _context.product.FindAsync(id);
+            var product = await _productService.GetProductById(id);
             if (product != null)
             {
-                _context.product.Remove(product);
+                await _productService.Delete(id);
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

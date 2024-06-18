@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebDoAn.Enums;
+using WebDoAn.Models;
 
-namespace WebDoAn.Models
+namespace WebDoAn.ModelPrivew
 {
-    public class Product
+    public class ProductViewModal
     {
-        [Key]
         public int Id { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime UpdateTime { get; set; }
@@ -14,6 +14,7 @@ namespace WebDoAn.Models
         public string? Description { get; set; }
         public string? ShortDescription { get; set; }
         public string? Image { get; set; }
+        public IFormFile? Photo { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string? Tags { get; set; }
@@ -22,6 +23,5 @@ namespace WebDoAn.Models
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
         public virtual Category? category { get; set; }
-
     }
 }

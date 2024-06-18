@@ -1,79 +1,94 @@
-﻿@model WebDoAn.Models.Product
+﻿@using static WebDoAn.Enums.ProductEnum
+@model WebDoAn.Models.Product
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreateTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdateTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdateTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ShortDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ShortDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tags)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tags)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TypeProduct)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TypeProduct)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.category.Id)
-        </dd>
-    </dl>
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Danh sách sản phẩm</a>
+            <span class="breadcrumb-item active">Chi tiết sản phẩm</span>
+        </nav>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Thông tin chi tiết</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-8">
+                <div>
+                    <p><span class="font-weight-bold mr-2">Ngày tạo:</span><span> @Model.CreateTime.Date.ToShortDateString()</span></p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Ngày cập nhật mới nhất:</span>
+                        @if (Model.UpdateTime.Date.ToShortDateString() == "1/1/0001")
+                        {
+                            <span></span>
+                        }
+                        else{
+                        <span> @Model.UpdateTime.Date.ToShortDateString()</span>
+                        }
+                    </p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Tên sản phẩm:</span><span> @Model.Name</span></p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Tên loại sản phẩm:</span><span> @ViewBag.cateName</span></p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Số lượng:</span><span> @Model.Quantity</span></p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Giá:</span><span> @Model.Price </span> VND</p>
+                </div>
+                <div>
+                    <p>
+                        <span class="font-weight-bold mr-2">Trạng thái:</span>
+                        @if (Model.TypeProduct == TypeProduct.Active)
+                        {
+                            <span class="badge badge-success">Đang bán</span>
+                        }
+                        else if (Model.TypeProduct == TypeProduct.Stop)
+                        {
+                            <span class="badge badge-warning">Sản phẩm ngừng bán</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">Sản phẩm đã xóa</span>
+
+                        }
+
+                    </p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Mô tả ngắn:</span><span> @Model.ShortDescription</span></p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Mô tả chi tiết:</span></p>
+                    <div>@Html.Raw(Model.Description)</div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div>
+                    <p><span class="font-weight-bold mr-2">Ảnh sản phẩm:</span></p>
+                    <div class="blockview_img">
+                        <img class="img-fluid" src="/images/product/@Model.Image" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-5">
+            <a asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning m-r-5">Sửa</a>
+            <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-secondary">Trở lại danh sách</a>
+        </div>
+    </div>
 </div>

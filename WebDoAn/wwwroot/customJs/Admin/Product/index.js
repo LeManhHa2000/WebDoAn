@@ -50,11 +50,12 @@
             },
             {
                 targets: 1,
-                data: "createTime",
-                render: function (createTime) {
-                    return moment(createTime).format('L');
+                data: "image",
+                width: "14%",
+                render: function (image) {
+                    var imgurl = "../images/product/" + image;
+                    return `<img class="imgproduct_table" src="` + imgurl + `"/>`;
                 }
-
             },
             {
                 targets: 2,
@@ -62,39 +63,41 @@
             },
             {
                 targets: 3,
-                data: "name"
+                data: "price",
+                render: function (price) {
+                    return `<span>` + price +` VND</span> `;
+                }
             },
             {
                 targets: 4,
-                data: "name"
+                data: "quantity"
             },
             {
                 targets: 5,
-                data: "name"
-            },
-            {
-                targets: 6,
-                data: "status",
-                render: function (status) {
-                    if (status) {
-                        return `<span class="badge badge-success">Đang áp dụng</span>`;
+                data: "typeProduct",
+                render: function (typeProduct) {
+                    if (typeProduct == 0) {
+                        return `<span class="badge badge-success">Đang bán</span>`;
+                    }
+                    else if (typeProduct == 1) {
+                        return `<span class="badge badge-warning">Sản phẩm ngừng bán</span>`;
                     }
                     else {
-                        return ` <span class="badge badge-danger">Chưa áp dụng</span>`;
+                        return ` <span class="badge badge-danger">Sản phẩm đã xóa</span>`;
                     }
                 }
             },
             {
 
-                targets: 7,
+                targets: 6,
                 data: 'id',
                 orderable: false,
                 autoWidth: false,
                 render: function (data, type, row, meta) {
-                    return `<div class='text-center'>
-                                <a href="Category/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
-                                <a href="Category/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Sửa</a>
-                                <a href="Category/Delete/`+ row.id + `" class="btn btn-danger m-r-5 text-white">Xóa</a>
+                    return `<div class='d-flex justify-content-center'>
+                                <a href="Product/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
+                                <a href="Product/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Sửa</a>
+                                <a href="Product/Delete/`+ row.id + `" class="btn btn-danger m-r-5 text-white">Xóa</a>
                             </div>`;
                 }
             },

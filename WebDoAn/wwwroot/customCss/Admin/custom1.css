@@ -24,3 +24,15 @@
 .border-input-1 {
     border: 1px solid #b2bcca !important;
 }
+
+.imgproduct_table {
+    width: 100%;
+}
+
+.blockview_img {
+    width: 80%;
+}
+
+.blockview_img img {
+    width: 100%;
+}

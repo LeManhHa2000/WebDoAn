@@ -1,4 +1,5 @@
-﻿@model WebDoAn.Models.Product
+﻿@using static WebDoAn.Enums.ProductEnum
+@model WebDoAn.ModelPrivew.ProductViewModal
 
 @{
     ViewData["Title"] = "Tạo mới sản phẩm";
@@ -9,9 +10,8 @@
     <link rel="stylesheet" href="~/lib/summernote/dist/summernote-lite.min.css" />
 </head>
 <style>
-    .ck-editor__editable[role="textbox"] {
-        /* Editing area */
-        min-height: 200px;
+    #privew {
+        width: 100%;
     }
 </style>
 
@@ -30,42 +30,28 @@
         <h4 class="card-title">Thông tin tạo mới</h4>
     </div>
     <div class="card-body">
-        <form asp-action="Create" id="form-validation">
+        <form asp-action="Create" id="form-validation" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label asp-for="Name" class="control-label">Tên sản phẩm</label>
-                        <input asp-for="Name" class="form-control border-input-1" name="Name" />
+                        <label asp-for="Name" class="control-label">Tên sản phẩm<span class="text-danger">*</span></label>
+                        <input asp-for="Name" class="form-control border-input-1" name="Name" placeholder="Nhập tên sản phẩm ..."/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label asp-for="CategoryId" class="control-label">Loại sản phẩm</label>
-                        <select asp-for="CategoryId" class="form-control border-input-1" asp-items="ViewBag.CategoryId"></select>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label asp-for="TypeProduct" class="control-label"></label>
-                        <select asp-for="TypeProduct" class="form-control border-input-1"></select>
-                        <span asp-validation-for="TypeProduct" class="text-danger"></span>
+                        <label asp-for="CategoryId" class="control-label">Loại sản phẩm<span class="text-danger">*</span></label>
+                        <select asp-for="CategoryId" class="form-control border-input-1" asp-items="ViewBag.CategoryId">
+                            <option value="" selected disabled>Chọn loại sản phẩm</option>
+                        </select>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-2">
                     <div class="form-group">
-                        <label asp-for="Quantity" class="control-label">Số lượng</label>
-                        <input asp-for="Quantity" class="form-control border-input-1" />
-                        <span asp-validation-for="Quantity" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label asp-for="Price" class="control-label">Giá (VND)</label>
-                        <input asp-for="Price" class="form-control border-input-1" />
+                        <label asp-for="Price" class="control-label">Giá (VND)<span class="text-danger">*</span></label>
+                        <input asp-for="Price" class="form-control border-input-1" placeholder="Nhập giá ..."/>
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                 </div>
@@ -73,29 +59,48 @@
             <div class="form-row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label asp-for="Tags" class="control-label">Ảnh</label>
-                        <input asp-for="Tags" type="file" class="form-control border-input-1" />
-                        <span asp-validation-for="Tags" class="text-danger"></span>
+                        <label asp-for="Photo" class="control-label">Ảnh<span class="text-danger">*</span></label>
+                        <input asp-for="Photo" id="Image" type="file" class="form-control border-input-1" accept="image/*" onchange="document.getElementById('privew').src = window.URL.createObjectURL(this.files[0])" />
+                        <img class="mt-1" id="privew" />
+                        <span asp-validation-for="Photo" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="TypeProduct" class="control-label">Trạng thái sản phẩm<span class="text-danger">*</span></label>
+                        <select asp-for="TypeProduct" class="form-control border-input-1" asp-items="Html.GetEnumSelectList<TypeProduct>()">
+                            <option value="" selected disabled>Chọn trạng thái</option>
+                        </select>
+                        <span asp-validation-for="TypeProduct" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="Quantity" class="control-label">Số lượng<span class="text-danger">*</span></label>
+                        <input asp-for="Quantity" class="form-control border-input-1" placeholder="Nhập số lượng ..." />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                
+                @* <div class="col-4">
                     <div class="form-group">
                         <label asp-for="Tags" class="control-label"></label>
                         <input asp-for="Tags" class="form-control border-input-1" />
                         <span asp-validation-for="Tags" class="text-danger"></span>
                     </div>
-                </div>
+                </div> *@
             </div>
            
             <div class="form-group">
-                <label asp-for="ShortDescription" class="control-label">Mô tả ngắn</label>
-                <input asp-for="ShortDescription" class="form-control border-input-1" />
+                <label asp-for="ShortDescription" class="control-label">Mô tả ngắn<span class="text-danger">*</span></label>
+                <textarea asp-for="ShortDescription" class="form-control border-input-1" placeholder="Nhập mô tả ngắn ..."></textarea>
                 <span asp-validation-for="ShortDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Thông tin chi tiết</label>
-         @*        <div id="summernote"></div> *@
-                <textarea id="summernote" class="form-control border-input-1" asp-for="Description" name="Description" rows="4" cols="50"></textarea>
+                <textarea id="summernote" class="form-control border-input-1" asp-for="Description" name="Description" rows="4" cols="50" required></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
