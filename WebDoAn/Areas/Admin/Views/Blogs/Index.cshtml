@@ -1,7 +1,7 @@
-﻿@model IEnumerable<WebDoAn.Models.Product>
+﻿@model IEnumerable<WebDoAn.Models.Blog>
 
 @{
-    ViewData["Title"] = "Quản lý sản phẩm";
+    ViewData["Title"] = "Quản lý tin tức";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -11,23 +11,22 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <span class="breadcrumb-item active">Danh sách sản phẩm</span>
+            <span class="breadcrumb-item active">Danh sách tin tức</span>
         </nav>
     </div>
 </div>
 <hr />
 
-
 <div class="card">
     <div class="card-header d-flex align-items-center">
-        <h4 class="card-title">Danh sách loại sản phẩm</h4>
+        <h4 class="card-title">Danh sách tin tức</h4>
         <div>
-            <a asp-area="Admin" asp-controller="Product" asp-action="Create" class="btn btn-primary">Tạo mới</a>
+            <a asp-area="Admin" asp-controller="Blogs" asp-action="Create" class="btn btn-primary">Tạo mới</a>
         </div>
     </div>
     <div class="card-body">
         <div class="block_search">
-            <input class="input_search" id="SearchInput" placeholder="Nhập tên sản phẩm" />
+            <input class="input_search" id="SearchInput" placeholder="Nhập tên loại hàng hóa" />
             <button id="Search" class="btn_search ml-2">Tìm kiếm</button>
         </div>
         <div class="table-responsive">
@@ -36,19 +35,16 @@
                     <tr>
                         <th>STT</th>
                         <th>
-                            Ảnh sản phẩm
+                            Thời gian tạo
                         </th>
                         <th>
-                            Tên sản phẩm
+                            Tiêu đề
                         </th>
                         <th>
-                            Giá
+                            Ảnh
                         </th>
                         <th>
-                            Số lượng
-                        </th>
-                        <th>
-                            Trạng thái
+                            Mô tả ngắn
                         </th>
                         <th class="text-center">#</th>
                     </tr>
@@ -66,4 +62,4 @@
 
 <script src="~/Adminassets/vendors/datatables/jquery.dataTables.min.js"></script>
 <script src="~/Adminassets/vendors/datatables/dataTables.bootstrap.min.js"></script>
-<script src="~/customjs/admin/product/index.js"></script>
+<script src="~/customjs/admin/blog/index.js"></script>

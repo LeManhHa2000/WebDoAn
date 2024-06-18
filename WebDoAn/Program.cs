@@ -1,6 +1,7 @@
 using AspNetCoreHero.ToastNotification;
 using Microsoft.EntityFrameworkCore;
 using WebDoAn.dbs;
+using WebDoAn.Service.Admin.Blogs;
 using WebDoAn.Service.Admin.Categories;
 using WebDoAn.Service.Admin.Products;
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<DoAnDbContext>(option => option.UseNpgsql(connectS
 
 builder.Services.AddScoped<ICategoryService,  CategoryService>();
 builder.Services.AddScoped<IProductService,  ProductService>();
+builder.Services.AddScoped<IBlogService,  BlogService>();
 
 var app = builder.Build();
 

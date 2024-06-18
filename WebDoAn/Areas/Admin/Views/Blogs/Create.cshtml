@@ -1,0 +1,79 @@
+﻿@model WebDoAn.ModelPrivew.BlogViewModal
+
+@{
+    ViewData["Title"] = "Thêm mới tin tức";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/lib/summernote/dist/summernote-lite.min.css" />
+    <style>
+        .custom-valid_1 {
+            color: red;
+            display: none;
+        }
+
+        #privew {
+            width: 68%;
+        }
+    </style>
+</head>
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Danh sách tin tức</a>
+            <span class="breadcrumb-item active">Tạo mới tin tức</span>
+        </nav>
+    </div>
+</div>
+<hr />
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Thông tin tạo mới</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" id="form-validation" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label">Tiêu đề<span class="text-danger">*</span></label>
+                        <input asp-for="Title" class="form-control border-input-1" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Photo" class="control-label">Ảnh<span class="text-danger">*</span></label>
+                        <input asp-for="Photo" id="Image" type="file" class="form-control border-input-1" accept="image/*" onchange="document.getElementById('privew').src = window.URL.createObjectURL(this.files[0])" />
+                        <img class="mt-1" id="privew" />
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubDescription" class="control-label">Mô tả ngắn<span class="text-danger">*</span></label>
+                <textarea asp-for="SubDescription" class="form-control border-input-1" placeholder="Nhập mô tả ngắn ..."></textarea>
+                <span asp-validation-for="SubDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Mô tả chi tiết</label>
+                <textarea id="summernote" asp-for="Description" class="form-control" required></textarea>
+                <label id="Description-error" class="custom-valid_1" for="Description">Trường này không được để trống</label>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Tạo mới" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-secondary">Trở lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/summernote/dist/summernote-lite.min.js"></script>
+<script src="~/customjs/admin/blog/create.js"></script>
+
