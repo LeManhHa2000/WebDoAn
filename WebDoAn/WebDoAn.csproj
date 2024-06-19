@@ -28,6 +28,7 @@
     <Folder Include="Service\Client\" />
     <Folder Include="wwwroot\images\blog\" />
     <Folder Include="wwwroot\images\product\" />
+    <Folder Include="wwwroot\Loginassests\" />
   </ItemGroup>
 
 </Project>

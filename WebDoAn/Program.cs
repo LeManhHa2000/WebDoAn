@@ -18,6 +18,7 @@ builder.Services.AddDbContext<DoAnDbContext>(option => option.UseNpgsql(connectS
 builder.Services.AddScoped<ICategoryService,  CategoryService>();
 builder.Services.AddScoped<IProductService,  ProductService>();
 builder.Services.AddScoped<IBlogService,  BlogService>();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -35,6 +36,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
