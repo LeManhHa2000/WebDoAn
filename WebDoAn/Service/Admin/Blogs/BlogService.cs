@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using WebDoAn.dbs;
+using WebDoAn.ModelPrivew;
 using WebDoAn.Models;
 using WebDoAn.Service.Admin.Blogs.Dto;
 
@@ -89,6 +90,31 @@ namespace WebDoAn.Service.Admin.Blogs
         {
             var blog = await _db.blog.OrderBy(x => x.Id).ToListAsync();
             return blog;
+        }
+
+        public async Task<BlogViewModal> GetBlogViewById(int id)
+        {
+            var isblog = await _db.blog.FindAsync(id);
+            if (isblog == null)
+            {
+                BlogViewModal blog = new BlogViewModal();
+                _notyfService.Error("Không tìm thấy sản phẩm này");
+                return blog;
+            }
+            else
+            {
+                BlogViewModal newblog = new BlogViewModal
+                {
+                    Id = id,
+                    Title = isblog.Title,
+                    CreateTime = isblog.CreateTime,
+                    SubDescription = isblog.SubDescription,
+                    Description = isblog.Description,
+                    UserId = isblog.UserId,
+                };
+
+                return newblog;
+            }
         }
 
         public async Task<bool> Update(Blog blog)

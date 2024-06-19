@@ -81,11 +81,21 @@
             },
             {
                 targets: 3,
-                data: "title"
+                data: "imgSrc",
+                width: "14%",
+                render: function (imgSrc) {
+                    var imgurl = "../images/blog/" + imgSrc;
+                    return `<img class="imgproduct_table" src="` + imgurl + `"/>`;
+                }
             },
             {
                 targets: 4,
-                data: "title"
+                width: "200px",
+                data: "subDescription",
+                render: function (subDescription) {
+                 
+                    return `<span class="sub_blog1">` + subDescription +`</span>`;
+                }
             },
             {
 
@@ -94,10 +104,10 @@
                 orderable: false,
                 autoWidth: false,
                 render: function (data, type, row, meta) {
-                    return `<div class='text-center'>
-                                <a href="Category/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
-                                <a href="Category/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Sửa</a>
-                                <a href="Category/Delete/`+ row.id + `" class="btn btn-danger m-r-5 text-white">Xóa</a>
+                    return `<div class='d-flex justify-content-center'>
+                                <a href="Blogs/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
+                                <a href="Blogs/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Sửa</a>
+                                <a href="Blogs/Delete/`+ row.id + `" class="btn btn-danger m-r-5 text-white">Xóa</a>
                             </div>`;
                 }
             },

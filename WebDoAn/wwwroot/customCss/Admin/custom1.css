@@ -36,3 +36,12 @@
 .blockview_img img {
     width: 100%;
 }
+
+.sub_blog1 {
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* số dòng hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

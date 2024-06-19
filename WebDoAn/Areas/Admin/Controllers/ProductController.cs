@@ -82,7 +82,12 @@ namespace WebDoAn.Areas.Admin.Controllers
                 String uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images" , "product");
                 filename = Guid.NewGuid().ToString() + "_" + productview.Photo.FileName;
                 string filepath = Path.Combine(uploadfolder, filename);
-                productview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+
+                using (var sream = System.IO.File.Create(filepath))
+                {
+                    productview.Photo.CopyTo(sream);
+                }
+                //productview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
 
                 Product product = new Product{
                     Name = productview.Name,
@@ -150,7 +155,12 @@ namespace WebDoAn.Areas.Admin.Controllers
                 string uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images", "product");
                 filename = Guid.NewGuid().ToString() + "_" + productview.Photo.FileName;
                 string filepath = Path.Combine(uploadfolder, filename);
-                productview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+
+                using (var sream = System.IO.File.Create(filepath))
+                {
+                    productview.Photo.CopyTo(sream);
+                }
+                //productview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
 
                 //delete oldfile
                 string oldfilename = _hostEnvironment.WebRootPath + "\\images\\product\\" + pro.Image;

@@ -1,4 +1,5 @@
-﻿using WebDoAn.Models;
+﻿using WebDoAn.ModelPrivew;
+using WebDoAn.Models;
 using WebDoAn.Service.Admin.Blogs.Dto;
 
 namespace WebDoAn.Service.Admin.Blogs
@@ -11,5 +12,7 @@ namespace WebDoAn.Service.Admin.Blogs
         public Task<bool> Create(Blog blog);
         public Task<bool> Update(Blog blog);
         public Task<bool> Delete(int id);
+        public Task<BlogViewModal> GetBlogViewById(int id);
+
     }
 }

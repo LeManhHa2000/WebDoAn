@@ -26,6 +26,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Migrations\" />
     <Folder Include="Service\Client\" />
+    <Folder Include="wwwroot\images\blog\" />
     <Folder Include="wwwroot\images\product\" />
   </ItemGroup>
 

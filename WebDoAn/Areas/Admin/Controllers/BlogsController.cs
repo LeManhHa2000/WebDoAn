@@ -10,6 +10,7 @@ using WebDoAn.dbs;
 using WebDoAn.Service.Admin.Blogs;
 using WebDoAn.Service.Admin.Blogs.Dto;
 using WebDoAn.ModelPrivew;
+using Microsoft.Extensions.Hosting;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -18,11 +19,13 @@ namespace WebDoAn.Areas.Admin.Controllers
     {
         private readonly DoAnDbContext _context;
         public readonly IBlogService _blogService;
+        public IWebHostEnvironment _hostEnvironment;
 
-        public BlogsController(DoAnDbContext context, IBlogService blogService)
+        public BlogsController(DoAnDbContext context, IBlogService blogService, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _blogService = blogService;
+            _hostEnvironment = hostEnvironment;
         }
 
         // GET: Admin/Blogs
@@ -52,9 +55,7 @@ namespace WebDoAn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blog = await _context.blog
-                .Include(b => b.user)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var blog = await _blogService.GetBlogById(id.Value);
             if (blog == null)
             {
                 return NotFound();
@@ -66,7 +67,7 @@ namespace WebDoAn.Areas.Admin.Controllers
         // GET: Admin/Blogs/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.user, "Id", "Id");
+            //ViewData["UserId"] = new SelectList(_context.user, "Id", "Id");
             return View();
         }
 
@@ -75,16 +76,34 @@ namespace WebDoAn.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BlogViewModal blog)
+        public async Task<IActionResult> Create(BlogViewModal blogview)
         {
+            string filename = "";
             if (ModelState.IsValid)
             {
-                _context.Add(blog);
-                await _context.SaveChangesAsync();
+                String uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images", "blog");
+                filename = Guid.NewGuid().ToString() + "_" + blogview.Photo.FileName;
+                string filepath = Path.Combine(uploadfolder, filename);
+                using(var sream = System.IO.File.Create(filepath))
+                {
+                    blogview.Photo.CopyTo(sream);
+                }
+                //blogview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+
+                Blog blognew = new Blog
+                {
+                    Title = blogview.Title,
+                    SubDescription = blogview.SubDescription,
+                    Description = blogview.Description,
+                    UserId = 1,
+                    ImgSrc = filename
+                };
+
+
+                await _blogService.Create(blognew);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.user, "Id", "Id", blog.UserId);
-            return View(blog);
+            return View(blogview);
         }
 
         // GET: Admin/Blogs/Edit/5
@@ -95,12 +114,13 @@ namespace WebDoAn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blog = await _context.blog.FindAsync(id);
+            var blog = await _blogService.GetBlogViewById(id.Value);
             if (blog == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.user, "Id", "Id", blog.UserId);
+            ViewData["ImgSrc"] = _context.blog.Find(id).ImgSrc.ToString();
+            //ViewData["UserId"] = new SelectList(_context.user, "Id", "Id", blog.UserId);
             return View(blog);
         }
 
@@ -109,35 +129,53 @@ namespace WebDoAn.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CreateTime,Title,Description,SubDescription,ImgSrc,UserId")] Blog blog)
+        public async Task<IActionResult> Edit(BlogViewModal blogview)
         {
-            if (id != blog.Id)
+            var blog = await _blogService.GetBlogById(blogview.Id);
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                ViewData["BlogId"] = blog.Id;
+                ViewData["ImgSrc"] = blog.ImgSrc;
+                return View(blogview);
+                
             }
 
-            if (ModelState.IsValid)
+            // Update lai hinh anh
+            string filename = blog.ImgSrc;
+            if (blogview.Photo != null)
             {
-                try
+                string uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images", "blog");
+                filename = Guid.NewGuid().ToString() + "_" + blogview.Photo.FileName;
+                string filepath = Path.Combine(uploadfolder, filename);
+                using (var sream = System.IO.File.Create(filepath))
                 {
-                    _context.Update(blog);
-                    await _context.SaveChangesAsync();
+                    blogview.Photo.CopyTo(sream);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BlogExists(blog.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                //blogview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+
+                //delete oldfile
+                string oldfilenameblog = _hostEnvironment.WebRootPath + "\\images\\blog\\" + blog.ImgSrc;
+                System.IO.File.Delete(oldfilenameblog);
+            }
+
+            blog.Title = blogview.Title;
+            blog.Description = blogview.Description;
+            blog.SubDescription = blogview.SubDescription;
+            blog.UserId = blog.UserId;
+            blog.ImgSrc = filename;
+
+            var isblog = await _blogService.Update(blog);
+            if (isblog)
+            {
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.user, "Id", "Id", blog.UserId);
-            return View(blog);
+            else
+            {
+                ViewData["BlogId"] = blog.Id;
+                ViewData["ImgSrc"] = blog.ImgSrc;
+                return View(blogview);
+            }
+            //ViewData["UserId"] = new SelectList(_context.user, "Id", "Id", blog.UserId);
         }
 
         // GET: Admin/Blogs/Delete/5
@@ -148,9 +186,7 @@ namespace WebDoAn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blog = await _context.blog
-                .Include(b => b.user)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var blog = await _blogService.GetBlogById(id.Value);
             if (blog == null)
             {
                 return NotFound();
@@ -166,15 +202,13 @@ namespace WebDoAn.Areas.Admin.Controllers
         {
             if (_context.blog == null)
             {
-                return Problem("Entity set 'DoAnDbContext.blog'  is null.");
+                return Problem("Dữ liệu trống");
             }
-            var blog = await _context.blog.FindAsync(id);
+            var blog = await _blogService.GetBlogById(id);
             if (blog != null)
             {
-                _context.blog.Remove(blog);
+                await _blogService.Delete(id);
             }
-            
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

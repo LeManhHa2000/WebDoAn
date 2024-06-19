@@ -2,8 +2,12 @@
     $('#summernote').summernote({
         height: 200,
         toolbar: [
-            ['style', ['bold', 'italic', 'underline',]],
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['view', ['fullscreen', 'codeview', 'help']]
         ]
     });
     jQuery.validator.addMethod("requiredSummernote", function () {
@@ -24,14 +28,14 @@
             SubDescription: {
                 required: true,
             },
-            Description: {
+            Photo: {
                 required: true
             }
         },
         messages: {
             Title: "Trường này không được để trống",
             SubDescription: "Trường này không được để trống",
-            Description: "Trường này không được để trống",
+            Photo: "Trường này không được để trống",
         }
     });
 
