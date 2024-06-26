@@ -7,7 +7,7 @@ namespace WebDoAn.Authentications
 	{
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
-			if(context.HttpContext.Session.GetString("UserName") == null)
+			if(context.HttpContext.Session.GetString("PhoneNumber") == null)
 			{
 				context.Result = new RedirectToRouteResult(
 					new RouteValueDictionary

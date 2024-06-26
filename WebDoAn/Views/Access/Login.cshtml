@@ -36,7 +36,7 @@
 							<div class="text w-100">
 								<h2>Xin chào !</h2>
 								<p>Bạn chưa có tài khoản ?</p>
-								<a href="#" class="btn btn-white btn-outline-white">Đăng kí</a>
+								<a asp-controller="Access" asp-action="Register" class="btn btn-white btn-outline-white">Đăng kí</a>
 							</div>
 						</div>
 						<div class="login-wrap p-4 p-lg-5">
@@ -53,12 +53,21 @@
 							</div>
 								<form asp-controller="Access" asp-action="Login" method="post" class="signin-form">
 									<div class="form-group mb-3">
-										<label class="label" for="name">Tên tài khoản</label>
-										<input asp-for="UserName" type="text" class="form-control" placeholder="Username" required>
+										<label class="label" for="name">Số điện thoại</label>
+										<input asp-for="PhoneNumber" type="text" class="form-control" placeholder="Số điện thoại" required>
 									</div>
 									<div class="form-group mb-3">
 										<label class="label" for="password">Mật khẩu</label>
-										<input asp-for="Password" type="password" class="form-control" placeholder="Password" required>
+										<input asp-for="Password" type="password" class="form-control" placeholder="Mật khẩu" required>
+									</div>
+									<div class="form-group d-flex justify-content-end">
+										<div class="w-50 text-left d-flex justify-content-end">
+											<label class="checkbox-wrap checkbox-primary mb-0">
+												Hiện mật khẩu
+												<input type="checkbox" id="checkshow">
+												<span class="checkmark"></span>
+											</label>
+										</div>
 									</div>
 									<div class="form-group">
 										<button type="submit" class="form-control btn btn-primary submit px-3">Đăng nhập</button>
@@ -130,9 +139,9 @@
 	<script src="~/Loginassests/js/popper.js"></script>
 	<script src="~/Loginassests/js/bootstrap.min.js"></script>
 	<script src="~/Loginassests/js/main.js"></script>
-	<script>
+	@* <script>
 		$('.toast').toast('show');
-	</script>
+	</script> *@
 
 </body>
 </html>

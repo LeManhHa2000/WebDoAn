@@ -115,7 +115,6 @@ namespace WebDoAn.Service.Admin.Products
                     ShortDescription = prod.ShortDescription,
                     Description = prod.Description,
                     CategoryId = prod.CategoryId,
-                    TypeProduct = prod.TypeProduct,
                     Quantity = prod.Quantity,
                     Price = prod.Price,
                     Image = prod.Image,

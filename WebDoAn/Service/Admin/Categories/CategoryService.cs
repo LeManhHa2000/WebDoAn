@@ -97,7 +97,13 @@ namespace WebDoAn.Service.Admin.Categories
             if(isCate.Count == 0)
             {
                 DateTime cate = _db.categorie.Where(x => x.Id == category.Id).Select(x => x.CreateTime).FirstOrDefault();
-                category.CreateTime = cate;
+
+				// Tao moi ngay cập nhật
+				var date = DateTime.Now;
+				var datecustom = DateTime.SpecifyKind(date, DateTimeKind.Utc);
+				category.UpdateTime = datecustom;
+
+				category.CreateTime = cate;
                 _db.Update(category);
                 await _db.SaveChangesAsync();
                 _notyfService.Success("Cập nhật thành công");

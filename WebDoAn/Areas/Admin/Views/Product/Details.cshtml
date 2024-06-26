@@ -50,25 +50,6 @@
                     <p><span class="font-weight-bold mr-2">Giá:</span><span> @Model.Price </span> VND</p>
                 </div>
                 <div>
-                    <p>
-                        <span class="font-weight-bold mr-2">Trạng thái:</span>
-                        @if (Model.TypeProduct == TypeProduct.Active)
-                        {
-                            <span class="badge badge-success">Đang bán</span>
-                        }
-                        else if (Model.TypeProduct == TypeProduct.Stop)
-                        {
-                            <span class="badge badge-warning">Sản phẩm ngừng bán</span>
-                        }
-                        else
-                        {
-                            <span class="badge badge-danger">Sản phẩm đã xóa</span>
-
-                        }
-
-                    </p>
-                </div>
-                <div>
                     <p><span class="font-weight-bold mr-2">Mô tả ngắn:</span><span> @Model.ShortDescription</span></p>
                 </div>
                 <div>

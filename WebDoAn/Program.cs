@@ -4,6 +4,7 @@ using WebDoAn.dbs;
 using WebDoAn.Service.Admin.Blogs;
 using WebDoAn.Service.Admin.Categories;
 using WebDoAn.Service.Admin.Products;
+using WebDoAn.Service.Admin.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddDbContext<DoAnDbContext>(option => option.UseNpgsql(connectS
 builder.Services.AddScoped<ICategoryService,  CategoryService>();
 builder.Services.AddScoped<IProductService,  ProductService>();
 builder.Services.AddScoped<IBlogService,  BlogService>();
+builder.Services.AddScoped<IUserService,  UserService>();
 builder.Services.AddSession();
 
 var app = builder.Build();

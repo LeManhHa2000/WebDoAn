@@ -28,19 +28,6 @@
         <div>
             <p><span class="font-weight-bold mr-2">Mô tả:</span><span> @Model.Description</span></p>
         </div>
-        <div>
-            <p><span class="font-weight-bold mr-2">Trạng thái:</span>
-                @if(Model.Status == true)
-                {
-                    <span class="badge badge-success">Đang hoạt động</span>
-                }
-                else
-                {
-                    <span class="badge badge-danger">Chưa áp dụng</span>
-                }
-
-            </p>
-        </div>
 
         <div class="mt-5">
             <a asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning m-r-5">Sửa</a>

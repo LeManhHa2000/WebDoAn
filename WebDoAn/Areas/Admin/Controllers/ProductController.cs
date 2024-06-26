@@ -93,10 +93,9 @@ namespace WebDoAn.Areas.Admin.Controllers
                     Name = productview.Name,
                     Description = productview.Description,
                     ShortDescription = productview.ShortDescription,
-                    TypeProduct = productview.TypeProduct,
-                    Price = productview.Price,
+                    //TypeProduct = productview.TypeProduct,
+                    //Price = productview.Price,
                     Quantity = productview.Quantity,
-                    Tags = productview.Tags,
                     CategoryId = productview.CategoryId,
                     Image = filename,
                 };
@@ -170,10 +169,9 @@ namespace WebDoAn.Areas.Admin.Controllers
             pro.Name = productview.Name;
             pro.Description = productview.Description;
             pro.ShortDescription = productview.ShortDescription;
-            pro.TypeProduct = productview.TypeProduct;
-            pro.Price = productview.Price;
+            //pro.TypeProduct = productview.TypeProduct;
+            //pro.Price = productview.Price;
             pro.Quantity = productview.Quantity;
-            pro.Tags = productview.Tags;
             pro.CategoryId = productview.CategoryId;
             pro.Image = filename;
 
