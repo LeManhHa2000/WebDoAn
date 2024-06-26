@@ -6,13 +6,25 @@ namespace WebDoAn.Enums
     {
         public enum OrderStatus : byte
         {
-            [Display(Name = "Đã giao hàng")]
-            Delivered = 0,
-            [Display(Name = "Đơn hàng đang giao")]
-            Delivering = 1,
-            [Display(Name = "Đơn hàng bị hủy")]
-            Delete = 2,
+			[Display(Name = "Chờ xác nhận")]
+			Waitting = 0,
+			[Display(Name = "Được xác nhận")]
+			Confirm = 1,
+			[Display(Name = "Đang giao hàng")]
+            Delivering = 2,
+            [Display(Name = "Giao hàng thành công")]
+			Delivered = 3,
+			[Display(Name = "Hoàn thành")]
+			Complete = 4,
+			[Display(Name = "Đơn hàng bị hủy")]
+            Reject = 5,
 
         }
+
+		public enum MethodPay : byte
+		{
+			[Display(Name = "Thanh toán tiền mặt khi nhận hàng (COD)")]
+			COD = 0,
+		}
     }
 }

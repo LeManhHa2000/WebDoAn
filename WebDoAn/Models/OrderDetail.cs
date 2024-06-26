@@ -9,8 +9,7 @@ namespace WebDoAn.Models
         public int Id { get; set; }
         public DateTime CreateTime { get; set; }
         public int Quantity { get; set; }
-        public decimal Total { get; set; }
-        public string? ImgProduct { get; set; }
+        public int Total { get; set; }
 
         [ForeignKey("Order")]
         public int OrderId { get; set; }

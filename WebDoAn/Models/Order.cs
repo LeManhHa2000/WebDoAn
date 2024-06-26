@@ -9,15 +9,24 @@ namespace WebDoAn.Models
         [Key]
         public int Id { get; set; }
         public DateTime CreateTime { get; set; }
-        public DateTime ShipDate { get; set; }
-        public bool Pay { get; set; }
-        public DateTime PaymentDate { get; set; }
+        public DateTime UpdateTime { get; set; }
+		public DateTime ShipDate { get; set; }
+        public int Total { get; set; }
         public OrderEnum.OrderStatus Status { get; set; }
-        public string? Note { get; set; }
+		public OrderEnum.MethodPay PaymentMethod { get; set; }
+		public string? Note { get; set; }
 
-        //[ForeignKey("Shipper")]
-        //public int ShipperId { get; set; }
-        //public virtual Shipper? shipper { get; set; }
+		[ForeignKey("User")]
+		public int UserId { get; set; }
+		public virtual User? user { get; set; }
 
-    }
+		[ForeignKey("Address")]
+		public int AddressId { get; set; }
+		public virtual Address? address { get; set; }
+
+		//[ForeignKey("Shipper")]
+		//public int ShipperId { get; set; }
+		//public virtual Shipper? shipper { get; set; }
+
+	}
 }

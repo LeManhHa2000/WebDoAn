@@ -8,7 +8,8 @@ namespace WebDoAn.Models
         [Key]
         public int Id { get; set; }
         public DateTime CreateTime { get; set; }
-        public string? Title { get; set; }
+        public DateTime UpdateTime { get; set; }
+		public string? Title { get; set; }
         public string? Description { get; set; }
         public string? SubDescription { get; set; }
         public string? ImgSrc { get; set; }
