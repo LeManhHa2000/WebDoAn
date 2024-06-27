@@ -27,10 +27,12 @@ namespace WebDoAn.Service.Admin.Users
 
 				_db.user.Add(user);
 				await _db.SaveChangesAsync();
+				_notyfService.Success("Đăng kí thành công!");
 				return true;
 			}
 			else
 			{
+				_notyfService.Warning("Số điện thoại đã được đăng kí! Vui lòng thay đổi");
 				return false;
 			}
 		}

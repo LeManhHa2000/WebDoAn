@@ -20,7 +20,7 @@ namespace WebDoAn.Enums
 			[Display(Name = "Nữ")]
 			Girl = 1,
 			[Display(Name = "Khác")]
-			Other = 0,
+			Other = 2,
 
 		}
 

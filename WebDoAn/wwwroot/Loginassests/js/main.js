@@ -1,13 +1,12 @@
 (function($) {
 
     "use strict";
-    $('.toast').toast('show');
     document.getElementById("PhoneNumber").addEventListener("input", function () {
         var valueChange = funcChanePhoneNumber();
-        $("#RegesterForm").find('input[name=PhoneNumber]').val(valueChange);
+        $("#FormAccess").find('input[name=PhoneNumber]').val(valueChange);
     });
     function funcChanePhoneNumber() {
-        var valueChange = $("#RegesterForm").find('input[name=PhoneNumber]').val().replace(/[^0-9]/g, '');
+        var valueChange = $("#FormAccess").find('input[name=PhoneNumber]').val().replace(/[^0-9]/g, '');
         return valueChange;
     }
     $("input#Password").on({

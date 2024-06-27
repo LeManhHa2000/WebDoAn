@@ -1,132 +1,73 @@
 ﻿@using static WebDoAn.Enums.UserEnum
 
 @{
-    Layout = null;
+	Layout = "~/Views/Shared/_AccessLayout.cshtml";
 }
 @model User
 
-<!doctype html>
-<html lang="en">
-<head>
-	<title>Login</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	@* <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"> *@
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-	<link rel="stylesheet" href="~/Loginassests/css/style.css">
-
-</head>
-<body>
-	<section class="ftco-section">
-		<div class="container">
-			@* <div class="row justify-content-center">
-			<div class="col-md-6 text-center mb-5">
-			<h2 class="heading-section">Login #07</h2>
-			</div>
-			</div> *@
-			<div class="row justify-content-center">
-				<div class="col-md-12 col-lg-10">
-					<div class="wrap d-md-flex">
-						<div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
-							<div class="text w-100">
-								<h2>Xin chào !</h2>
-								<p>Bạn có muốn trở lại để Đăng nhập ?</p>
-								<a asp-controller="Access" asp-action="Login" class="btn btn-white btn-outline-white">Đăng nhập</a>
+<section class="ftco-section">
+	<div class="container">
+		@* <div class="row justify-content-center">
+		<div class="col-md-6 text-center mb-5">
+		<h2 class="heading-section">Login #07</h2>
+		</div>
+		</div> *@
+		<div class="row justify-content-center">
+			<div class="col-md-12 col-lg-10">
+				<div class="wrap d-md-flex">
+					<div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+						<div class="text w-100">
+							<h2>Xin chào !</h2>
+							<p>Bạn có muốn trở lại để Đăng nhập ?</p>
+							<a asp-controller="Access" asp-action="Login" class="btn btn-white btn-outline-white">Đăng nhập</a>
+						</div>
+					</div>
+					<div class="login-wrap p-4 p-lg-5">
+						<div class="d-flex">
+							<div class="w-100">
+								<h3 class="mb-4">Đăng kí</h3>
 							</div>
 						</div>
-						<div class="login-wrap p-4 p-lg-5">
-							<div class="d-flex">
-								<div class="w-100">
-									<h3 class="mb-4">Đăng kí</h3>
+						<form asp-controller="Access" asp-action="Register" method="post" class="signin-form" id="FormAccess">
+							<div class="form-group mb-3">
+								<label class="label" for="name">Họ và tên</label>
+								<input asp-for="FullName" type="text" class="form-control" placeholder="Họ và tên" required>
+							</div>
+							<div class="form-group mb-3">
+								<label class="label" for="password">Mật khẩu</label>
+								<input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Mật khẩu" maxlength="6" required>
+							</div>
+							<div class="form-group mb-3">
+								<label class="label" for="password">Số điện thoại</label>
+								<input asp-for="PhoneNumber" type="text" class="form-control" placeholder="Số điện thoại" maxlength="10" required>
+							</div>
+							<div class="form-group mb-3">
+								<label class="label" for="password">Email</label>
+								<input asp-for="Email" type="email" class="form-control" placeholder="Email" required>
+							</div>
+							<div class="form-group mb-3">
+								<label class="label" for="password">Giới tính</label>
+								<select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<GenderEnum>()" required>
+									<option selected disabled value="">Chọn</option>
+								</select>
+							</div>
+							<div class="form-group d-flex justify-content-end">
+								<div class="w-50 text-left d-flex justify-content-end">
+									<label class="checkbox-wrap checkbox-primary mb-0">
+										Hiện mật khẩu
+										<input type="checkbox" id="checkshow">
+										<span class="checkmark"></span>
+									</label>
 								</div>
 							</div>
-							<form asp-controller="Access" asp-action="Register" method="post" class="signin-form" id="RegesterForm">
-								<div class="form-group mb-3">
-									<label class="label" for="name">Họ và tên</label>
-									<input asp-for="FullName" type="text" class="form-control" placeholder="Họ và tên" required>
-								</div>
-								<div class="form-group mb-3">
-									<label class="label" for="password">Mật khẩu</label>
-									<input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Mật khẩu" maxlength="6"  required>
-								</div>
-								<div class="form-group mb-3">
-									<label class="label" for="password">Số điện thoại</label>
-									<input asp-for="PhoneNumber" type="text" class="form-control" placeholder="Số điện thoại" maxlength="10" required>
-								</div>
-								<div class="form-group mb-3">
-									<label class="label" for="password">Email</label>
-									<input asp-for="Email" type="email" class="form-control" placeholder="Email" required>
-								</div>
-								<div class="form-group mb-3">
-									<label class="label" for="password">Giới tính</label>
-									<select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<GenderEnum>()" required>
-										<option selected disabled value="">Chọn</option>
-									</select>
-								</div>
-								<div class="form-group d-flex justify-content-end">
-									<div class="w-50 text-left d-flex justify-content-end">
-										<label class="checkbox-wrap checkbox-primary mb-0">
-											Hiện mật khẩu
-											<input type="checkbox" id="checkshow">
-											<span class="checkmark"></span>
-										</label>
-									</div>
-								</div>
-								<div class="form-group">
-									<button type="submit" class="form-control btn btn-primary submit px-3">Đăng kí</button>
-								</div>
-							</form>
-						</div>
+							<div class="form-group">
+								<button type="submit" class="form-control btn btn-primary submit px-3">Đăng kí</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-	</section>
-	@if (ViewBag.MessageErrorRegister != null)
-	{
-		<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
-			<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
-				<div class="toast-header bg-warning">
-					<strong class="mr-auto" style="color: #fff;">Thông báo</strong>
-					<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="toast-body">
-					@ViewBag.MessageErrorRegister
-				</div>
-			</div>
-		</div>
-	}
-	@if (ViewBag.MessageSuccessRegister != null)
-	{
-		<div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
-			<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
-				<div class="toast-header bg-success">
-					<strong class="mr-auto" style="color: #fff;">Thông báo</strong>
-					<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="toast-body">
-					@ViewBag.MessageSuccessRegister
-				</div>
-			</div>
-		</div>
-	}
-
-
-	<script src="~/Loginassests/js/jquery.min.js"></script>
-	<script src="~/Loginassests/js/popper.js"></script>
-	<script src="~/Loginassests/js/bootstrap.min.js"></script>
-	<script src="~/Loginassests/js/main.js"></script>
-
-</body>
-</html>
+</section>
