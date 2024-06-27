@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using WebDoAn.dbs;
 using WebDoAn.Models;
 using WebDoAn.Service.Admin.Users.Dto;
@@ -51,34 +52,51 @@ namespace WebDoAn.Service.Admin.Users
 			}
 		}
 
+		public async Task<List<User>> GetAllUser()
+		{
+			var listuser = await _db.user.OrderBy(x => x.Id).ToListAsync();
+			return listuser;
+		}
+
 		public async Task<User> GetUserById(int id)
 		{
-			var cate = await _db.user.FindAsync(id);
-			if (cate == null)
+			var user = await _db.user.FirstOrDefaultAsync(m => m.Id == id);
+            if (user == null)
 			{
-				User user = new User();
+				User users = new User();
 				_notyfService.Error("Không thấy người dùng này");
-				return user;
+				return users;
 			}
 			else
 			{
-				return cate;
+				return user;
 			}
 		}
 
 		public async Task<bool> UpdateStatus(User user)
 		{
 			DateTime cate = _db.user.Where(x => x.Id == user.Id).Select(x => x.CreateTime).FirstOrDefault();
+            var phoneold = _db.user.Where(x => x.Id == user.Id).Select(x => x.PhoneNumber).FirstOrDefault();
+			var password = _db.user.Where(x => x.Id == user.Id).Select(x => x.Password).FirstOrDefault();
+            var emailold = _db.user.Where(x => x.Id == user.Id).Select(x => x.Email).FirstOrDefault();
+			var fullnameole = _db.user.Where(x => x.Id == user.Id).Select(x => x.FullName).FirstOrDefault();
+			var gtinhold = _db.user.Where(x => x.Id == user.Id).Select(x => x.Gender).FirstOrDefault();
 
-			// Tao moi ngay cập nhật
-			var date = DateTime.Now;
+            // Tao moi ngay cập nhật
+            var date = DateTime.Now;
 			var datecustom = DateTime.SpecifyKind(date, DateTimeKind.Utc);
 			user.UpdateTime = datecustom;
 
 			user.CreateTime = cate;
+			user.Password = password;
+			user.PhoneNumber = phoneold;
+			user.Email = emailold;
+			user.Gender = gtinhold;
+			user.FullName = fullnameole;
+
 			_db.user.Update(user);
 			await _db.SaveChangesAsync();
-			_notyfService.Success("Thay đổi trạng thái thành công");
+			_notyfService.Success("Cập nhật thành công");
 			return true;
 		}
 

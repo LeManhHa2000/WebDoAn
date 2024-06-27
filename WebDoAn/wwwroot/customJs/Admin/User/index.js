@@ -1,33 +1,10 @@
 ﻿(function () {
     moment.locale("vi");
     var data2 = {};
-    //$.ajax({
-    //    type: "GET",
-    //    url: "/Admin/Category/GetAlltestCategory",
-    //    dataType: 'json',
-    //    data: data2,
-    //    success: function (data) {
-    //        console.log("assadsa",data);
-    //    }
-    //});
-    var getFilter = () => {
-        console.log("value inout", $("#SearchInput").val());
-        var inputSearch = $("#SearchInput").val();
-        if (inputSearch == "") {
-            return data2 = {
-                name: "all",
-            };
-        }
-        else {
-            return data2 = {
-                name: inputSearch,
-            };
-        }
-    }
 
     var CateTable = $('#data-table').DataTable({
         ajax: {
-            url: "/Admin/Category/GetAlltestCategory",
+            url: "/Admin/User/GetAllUserByInput",
             data: () => {
                 var inputSearch = $("#SearchInput").val();
                 if (inputSearch == "") {
@@ -60,7 +37,7 @@
                 "next": "Tiếp",
                 "previous": "Quay lại"
             },
-         
+
         },
         lengthMenu: [
             [5, 10, 25, 50, -1],
@@ -73,7 +50,7 @@
                 className: 'dt-body-center text-center',
                 render: function (data, type, row, meta) {
                     var stt = parseInt(meta.row) + 1;
-                    return '<span>' + stt +'<span>';
+                    return '<span>' + stt + '<span>';
                 }
             },
             {
@@ -82,7 +59,7 @@
                 render: function (createTime) {
                     return moment(createTime).format('L');
                 }
-                
+
             },
             {
                 targets: 2,
@@ -98,23 +75,46 @@
             },
             {
                 targets: 3,
-                data: "name"
+                data: "fullName"
             },
             {
                 targets: 4,
-                data: "description"
+                data: "role",
+                render: function (role) {
+                    if (role == 0) {
+                        return `<span>Admin</span>`;
+                    }
+                    else {
+                        return `<span>Khách hàng</span>`;
+                    }
+                }
+            },
+            {
+                targets: 5,
+                data: "phoneNumber"
+            },
+            {
+                targets: 6,
+                data: "active",
+                render: function (status) {
+                    if (status) {
+                        return `<span class="badge badge-success">Đang hoạt động</span>`;
+                    }
+                    else {
+                        return ` <span class="badge badge-danger">Dừng hoạt động</span>`;
+                    }
+                }
             },
             {
 
-                targets: 5,
+                targets: 7,
                 data: 'id',
                 orderable: false,
                 autoWidth: false,
                 render: function (data, type, row, meta) {
                     return `<div class='text-center'>
-                                <a href="Category/Details/`+ row.id+`" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
-                                <a href="Category/Edit/`+ row.id +`" class="btn btn-warning m-r-5 text-white">Sửa</a>
-                                <a href="Category/Delete/`+ row.id +`" class="btn btn-danger m-r-5 text-white">Xóa</a>
+                                <a href="User/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
+                                <a href="User/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Sửa</a>
                             </div>`;
                 }
             },
@@ -124,5 +124,5 @@
     $("#Search").on("click", function () {
         CateTable.ajax.reload();
     });
-    
+
 })(jQuery)

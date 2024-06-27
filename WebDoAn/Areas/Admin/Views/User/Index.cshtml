@@ -1,7 +1,7 @@
-﻿@model IEnumerable<WebDoAn.Models.Category>
+﻿@model IEnumerable<WebDoAn.Models.User>
 
 @{
-    ViewData["Title"] = "Quản lý Danh mục sản phẩm";
+    ViewData["Title"] = "Quản lý người dùng";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -11,7 +11,7 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-            <span class="breadcrumb-item active">Danh sách Danh mục sản phẩm</span>
+            <span class="breadcrumb-item active">Danh sách người dùng</span>
         </nav>
     </div>
 </div>
@@ -19,14 +19,11 @@
 
 <div class="card">
     <div class="card-header d-flex align-items-center">
-        <h4 class="card-title">Danh sách Danh mục sản phẩm</h4>
-        <div>
-            <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn btn-primary">Tạo mới</a>
-        </div>
+        <h4 class="card-title">Danh sách người dùng</h4>
     </div>
     <div class="card-body">
         <div class="block_search">
-            <input class="input_search" id="SearchInput" placeholder="Nhập tên Danh mục"/>
+            <input class="input_search" id="SearchInput" placeholder="Nhập tên người dùng" />
             <button id="Search" class="btn_search ml-2">Tìm kiếm</button>
         </div>
         <div class="table-responsive">
@@ -41,15 +38,22 @@
                             Thời gian cập nhật
                         </th>
                         <th>
-                            Tên Danh mục
+                            Họ và tên
                         </th>
                         <th>
-                            Mô tả
+                            Quyền
+                        </th>
+                        <th>
+                            Số điện thoại
+                        </th>
+                        <th>
+                            Trạng thái
                         </th>
                         <th class="text-center">#</th>
                     </tr>
                 </thead>
                 <tbody>
+
                 </tbody>
             </table>
         </div>
@@ -63,4 +67,4 @@
 
 <script src="~/Adminassets/vendors/datatables/jquery.dataTables.min.js"></script>
 <script src="~/Adminassets/vendors/datatables/dataTables.bootstrap.min.js"></script>
-<script src="~/customJs/Admin/Category/Index.js"></script>
+<script src="~/customjs/admin/user/index.js"></script>

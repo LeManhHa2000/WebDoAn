@@ -1,0 +1,89 @@
+﻿@using static WebDoAn.Enums.UserEnum
+@model WebDoAn.Models.User
+
+@{
+    ViewData["Title"] = "Chỉnh sửa người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="User" asp-action="Index">Danh sách người dùng</a>
+            <span class="breadcrumb-item active">Chỉnh sửa người dùng</span>
+        </nav>
+    </div>
+</div>
+<hr />
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Thông tin chỉnh sửa</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="FullName" class="control-label">Họ và tên</label>
+                        <input asp-for="FullName" class="form-control border-input-1" name="FullName" readonly/>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label">Số điện thoại</label>
+                        <input asp-for="PhoneNumber" class="form-control border-input-1" name="PhoneNumber" readonly />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label">Mật khẩu</label>
+                        <input asp-for="Password" class="form-control border-input-1" name="Password" readonly />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label">Email</label>
+                        <input asp-for="Email" class="form-control border-input-1" name="Email" readonly />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label">Giới tính</label>
+                        <select asp-for="Gender" class="form-control border-input-1" asp-items="Html.GetEnumSelectList<GenderEnum>()" readonly></select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="Role" class="control-label">Quyền</label>
+                        <select asp-for="Role" class="form-control border-input-1" asp-items="Html.GetEnumSelectList<RoleUser>()"></select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-2 m-auto">
+                    <div class="form-group mb-0 text-center">
+                        <div class="checkbox">
+                            <input id="gridCheck" asp-for="Active" type="checkbox" name="Active">
+                            <label for="gridCheck">Hoạt động</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-warning" />
+                <a asp-action="Index" class="btn btn-secondary">Trở lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+

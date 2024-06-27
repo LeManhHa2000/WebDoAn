@@ -1,0 +1,98 @@
+﻿@model WebDoAn.Models.User
+
+@{
+    ViewData["Title"] = "Chi tiết người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="User" asp-action="Index">Danh sách người dùng</a>
+            <span class="breadcrumb-item active">Chi tiết người dùng</span>
+        </nav>
+    </div>
+</div>
+<hr />
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Thông tin chi tiết</h4>
+    </div>
+    <div class="card-body">
+        <div>
+            <p><span class="font-weight-bold mr-2">Họ và tên:</span><span> @Model.FullName</span></p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Ngày tạo:</span><span> @Model.CreateTime.Date.ToShortDateString()</span></p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Ngày cập nhật:</span>
+                @if (@Model.UpdateTime.Date.ToShortDateString() == "1/1/0001")
+                {
+                    <span></span>
+                }
+                else
+                {
+                    <span> @Model.UpdateTime.Date.ToShortDateString()</span>
+                }
+            </p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Quyền:</span>
+                @if (@Model.Role == WebDoAn.Enums.UserEnum.RoleUser.Admin)
+                {
+                    <span>Admin</span>
+                }
+                else
+                {
+                    <span>Khách hàng</span>
+                }
+            </p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Giới tính:</span>
+                @if (@Model.Gender == WebDoAn.Enums.UserEnum.GenderEnum.Boy)
+                {
+                    <span>Nam</span>
+                }
+                else if (@Model.Gender == WebDoAn.Enums.UserEnum.GenderEnum.Girl)
+                {
+                    <span>Nữ</span>
+                }
+                else if (@Model.Gender == WebDoAn.Enums.UserEnum.GenderEnum.Other)
+                {
+                    <span>Khác</span>
+                }
+                
+            </p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Số điện thoại:</span><span> @Model.PhoneNumber</span></p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Mật khẩu:</span><span> @Model.Password</span></p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Email:</span><span> @Model.Email</span></p>
+        </div>
+        <div>
+            <p><span class="font-weight-bold mr-2">Trạng thái:</span>
+                @if (@Model.Active)
+                {
+                    <span class="badge badge-success">Đang hoạt động</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">Dừng hoạt động</span>
+                }
+            </p>
+        </div>
+        <div class="mt-5">
+            <a asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning m-r-5">Sửa</a>
+            <a asp-area="Admin" asp-controller="User" asp-action="Index" class="btn btn-secondary">Trở lại danh sách</a>
+        </div>
+    </div>
+</div>
+
