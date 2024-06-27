@@ -50,6 +50,26 @@
             },
             {
                 targets: 1,
+                data: "createTime",
+                render: function (createTime) {
+                    return moment(createTime).format('L');
+                }
+
+            },
+            {
+                targets: 2,
+                data: "updateTime",
+                render: function (updateTime) {
+                    if (moment(updateTime).format('L') == "01/01/0001") {
+                        return `<span></span>`;
+                    }
+                    else {
+                        return moment(updateTime).format('L')
+                    }
+                }
+            },
+            {
+                targets: 3,
                 data: "image",
                 width: "14%",
                 render: function (image) {
@@ -58,34 +78,12 @@
                 }
             },
             {
-                targets: 2,
+                targets: 4,
                 data: "name"
             },
             {
-                targets: 3,
-                data: "price",
-                render: function (price) {
-                    return `<span>` + price +` VND</span> `;
-                }
-            },
-            {
-                targets: 4,
-                data: "quantity"
-            },
-            {
                 targets: 5,
-                data: "typeProduct",
-                render: function (typeProduct) {
-                    if (typeProduct == 0) {
-                        return `<span class="badge badge-success">Đang bán</span>`;
-                    }
-                    else if (typeProduct == 1) {
-                        return `<span class="badge badge-warning">Sản phẩm ngừng bán</span>`;
-                    }
-                    else {
-                        return ` <span class="badge badge-danger">Sản phẩm đã xóa</span>`;
-                    }
-                }
+                data: "quantity"
             },
             {
 

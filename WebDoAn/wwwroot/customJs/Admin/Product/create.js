@@ -41,9 +41,18 @@
             Photo: {
                 required: true,
             },
-            //Tags: {
-            //    required: true,
-            //},
+            Length: {
+                required: true,
+            },
+            Height: {
+                required: true,
+            },
+            Width: {
+                required: true,
+            },
+            Material: {
+                required: true,
+            },
             ShortDescription: {
                 required: true,
             },
@@ -58,9 +67,11 @@
             Quantity: "Trường này không được để trống",
             Price: "Trường này không được để trống",
             Photo: "Trường này không được để trống",
-         /*   Tag: "Trường này không được để trống",*/
             ShortDescription: "Trường này không được để trống",
-            Description: "Trường này không được để trống",
+            Length: "Trường này không được để trống",
+            Height: "Trường này không được để trống",
+            Width: "Trường này không được để trống",
+            Material: "Trường này không được để trống",
         }
     });
 

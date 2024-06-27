@@ -57,6 +57,43 @@
                 </div>
             </div>
             <div class="form-row">
+                <div class="col-2">
+                    <div class="form-group">
+                        <label asp-for="Length" class="control-label">Chiều dài (cm)<span class="text-danger">*</span></label>
+                        <input asp-for="Length" class="form-control border-input-1" placeholder="..." />
+                        <span asp-validation-for="Length" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label asp-for="Width" class="control-label">Chiều rộng (cm)<span class="text-danger">*</span></label>
+                        <input asp-for="Width" class="form-control border-input-1" placeholder="..." />
+                        <span asp-validation-for="Width" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label asp-for="Height" class="control-label">Chiều cao (cm)<span class="text-danger">*</span></label>
+                        <input asp-for="Height" class="form-control border-input-1" placeholder=" ..." />
+                        <span asp-validation-for="Height" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label asp-for="Quantity" class="control-label">Số lượng<span class="text-danger">*</span></label>
+                        <input asp-for="Quantity" class="form-control border-input-1" placeholder="Nhập số lượng ..." />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label asp-for="Material" class="control-label">Chất liệu<span class="text-danger">*</span></label>
+                        <input asp-for="Material" class="form-control border-input-1" placeholder="Nhập chất liệu" />
+                        <span asp-validation-for="Material" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
                 <div class="col-4">
                     <div class="form-group">
                         <label asp-for="Photo" class="control-label">Ảnh<span class="text-danger">*</span></label>
@@ -65,37 +102,24 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="form-group">
+                    @* <div class="form-group">
                         <label asp-for="TypeProduct" class="control-label">Trạng thái sản phẩm<span class="text-danger">*</span></label>
                         <select asp-for="TypeProduct" class="form-control border-input-1" asp-items="Html.GetEnumSelectList<TypeProduct>()">
                             <option value="" selected disabled>Chọn trạng thái</option>
                         </select>
                         <span asp-validation-for="TypeProduct" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label asp-for="Quantity" class="control-label">Số lượng<span class="text-danger">*</span></label>
-                        <input asp-for="Quantity" min="0" class="form-control border-input-1" placeholder="Nhập số lượng ..." />
-                        <span asp-validation-for="Quantity" class="text-danger"></span>
-                    </div>
+                    </div> *@
                 </div>
             </div>
-            <div class="form-row">
-
-                @* <div class="col-4">
-                <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="Tags" class="form-control border-input-1" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
-                </div>
-                </div> *@
-            </div>
-
             <div class="form-group">
                 <label asp-for="ShortDescription" class="control-label">Mô tả ngắn<span class="text-danger">*</span></label>
                 <textarea asp-for="ShortDescription" class="form-control border-input-1" placeholder="Nhập mô tả ngắn ..."></textarea>
                 <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Evaluate" class="control-label">Đánh giá (nhận từ khách hàng)</label>
+                <textarea asp-for="Evaluate" class="form-control border-input-1" placeholder="Nhập đánh giá ..."></textarea>
+                <span asp-validation-for="Evaluate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Thông tin chi tiết</label>

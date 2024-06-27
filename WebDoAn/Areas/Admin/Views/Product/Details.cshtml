@@ -41,7 +41,25 @@
                     <p><span class="font-weight-bold mr-2">Tên sản phẩm:</span><span> @Model.Name</span></p>
                 </div>
                 <div>
-                    <p><span class="font-weight-bold mr-2">Tên loại sản phẩm:</span><span> @ViewBag.cateName</span></p>
+                    <p><span class="font-weight-bold mr-2">Chất liệu:</span><span> @Model.Material</span></p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Danh mục sản phẩm:</span><span> @ViewBag.cateName</span></p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Kích Thước: (dài x rộng x cao)</span>
+                        <span>@Model.Length cm</span><span> x </span>
+                        <span>@Model.Width cm</span>
+                        @if(Model.Height == 0)
+                        {
+                            <span></span>
+                        }
+                        else
+                        {
+                            <span> x </span><span>@Model.Height cm</span>
+                        }
+
+                    </p>
                 </div>
                 <div>
                     <p><span class="font-weight-bold mr-2">Số lượng:</span><span> @Model.Quantity</span></p>
@@ -51,6 +69,9 @@
                 </div>
                 <div>
                     <p><span class="font-weight-bold mr-2">Mô tả ngắn:</span><span> @Model.ShortDescription</span></p>
+                </div>
+                <div>
+                    <p><span class="font-weight-bold mr-2">Đánh giá (được ghi nhận từ khách hàng)</span><span> @Model.Evaluate</span></p>
                 </div>
                 <div>
                     <p><span class="font-weight-bold mr-2">Mô tả chi tiết:</span></p>

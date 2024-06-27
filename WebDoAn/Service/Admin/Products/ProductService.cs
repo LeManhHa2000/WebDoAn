@@ -118,6 +118,11 @@ namespace WebDoAn.Service.Admin.Products
                     Quantity = prod.Quantity,
                     Price = prod.Price,
                     Image = prod.Image,
+                    Length = prod.Length,
+                    Height = prod.Height,
+                    Width = prod.Width,
+                    Material = prod.Material,
+                    Evaluate = prod.Evaluate,
                 };
 
                 return pro;

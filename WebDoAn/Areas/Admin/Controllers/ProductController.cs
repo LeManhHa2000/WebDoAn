@@ -94,7 +94,12 @@ namespace WebDoAn.Areas.Admin.Controllers
                     Description = productview.Description,
                     ShortDescription = productview.ShortDescription,
                     //TypeProduct = productview.TypeProduct,
-                    //Price = productview.Price,
+                    Price = productview.Price,
+                    Length = productview.Length,
+                    Height = productview.Height,
+                    Width = productview.Width,
+                    Material = productview.Material,
+                    Evaluate = productview.Evaluate,
                     Quantity = productview.Quantity,
                     CategoryId = productview.CategoryId,
                     Image = filename,
@@ -170,7 +175,12 @@ namespace WebDoAn.Areas.Admin.Controllers
             pro.Description = productview.Description;
             pro.ShortDescription = productview.ShortDescription;
             //pro.TypeProduct = productview.TypeProduct;
-            //pro.Price = productview.Price;
+            pro.Price = productview.Price;
+            pro.Length = productview.Length;
+            pro.Width = productview.Width;
+            pro.Height = productview.Height;
+            pro.Evaluate = productview.Evaluate;
+            pro.Material = productview.Material;
             pro.Quantity = productview.Quantity;
             pro.CategoryId = productview.CategoryId;
             pro.Image = filename;
