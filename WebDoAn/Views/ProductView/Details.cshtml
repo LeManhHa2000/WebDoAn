@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Product
+
+<section class="breadcrumb-section set-bg mt-2" style="background-color: #333;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>@Model.Name</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        <a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-name="">Sản phẩm</a>
+                        <span>@Model.Name</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        <img class="product__details__pic__item--large"
+                             src="/images/product/@Model.Image" alt="">
+                    </div>
+                   @*  <div class="product__details__pic__slider owl-carousel">
+                        <img data-imgbigurl="img/product/details/product-details-2.jpg"
+                             src="img/product/details/thumb-1.jpg" alt="">
+                        <img data-imgbigurl="img/product/details/product-details-3.jpg"
+                             src="img/product/details/thumb-2.jpg" alt="">
+                        <img data-imgbigurl="img/product/details/product-details-5.jpg"
+                             src="img/product/details/thumb-3.jpg" alt="">
+                        <img data-imgbigurl="img/product/details/product-details-4.jpg"
+                             src="img/product/details/thumb-4.jpg" alt="">
+                    </div> *@
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    <h3>@Model.Name</h3>
+                    @* <div class="product__details__rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-half-o"></i>
+                        <span>(18 reviews)</span>
+                    </div> *@
+                    <div class="product__details__price">@Model.Price VND</div>
+                    <p>
+                        @Model.ShortDescription
+                    </p>
+                    @if(Model.Quantity == 0)
+                    {
+                        <p><span style="font-size: 1.2rem; color: red;"> <samp>Đã hết hàng</samp></span></p>
+                    }
+                    else
+                    {
+                        <div class="product__details__quantity">
+                            <div class="quantity">
+                                <div class="pro-qty">
+                                    <input type="text" value="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="#" class="primary-btn">Thêm vào giỏ hàng</a>
+                    }
+                    <ul>
+                        <li><b>Số lượng</b> <span>@Model.Quantity</span></li>
+                        <li><b>Chất liệu</b> <span>@Model.Material</span></li>
+                        <li><b>Danh mục</b> <span>@ViewBag.DanhMucName</span></li>
+                        <li>
+                            <b>Chia sẻ</b>
+                            <div class="share">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="#"><i class="fa fa-pinterest"></i></a>
+                            </div>
+                        </li>
+                        <li><span style="color: red;">Chú ý:</span> Nếu bạn muốn mua một số lượng lớn hơn số hàng hiện tại , vui lòng vào mục liên hệ để tiến hành các bước cần thiết</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="product__details__tab">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                               aria-selected="true">Thông tin sản phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                               aria-selected="false">Đánh giá</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div class="product__details__tab__desc">
+                                <h6>Thông tin sản phẩm</h6>
+                                <p><b>Kích thước ước lượng (cao x dài x rộng): </b> <span>@Model.Height cm x</span><span>@Model.Length cm x</span><span>@Model.Width cm</span></p>
+                                @Model.Description
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tabs-3" role="tabpanel">
+                            <div class="product__details__tab__desc">
+                                <h6>Đánh giá ( được ghi nhận và tổng hợp từ phía khách hàng)</h6>
+                                @Model.Evaluate
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Details Section End -->
+<!-- Related Product Section Begin -->
+<section class="related-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title related__product__title">
+                    <h2>Sản phẩm liên quan</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var pro in ViewBag.ProductLienQuan)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="/images/product/@pro.Image">
+                            <ul class="product__item__pic__hover">
+                                <li><a asp-controller="ProductView" asp-action="Details" asp-route-id="@pro.Id"><i class="fa fa-eye"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a asp-controller="ProductView" asp-action="Details" asp-route-id="@pro.Id">@pro.Name</a></h6>
+                            <h5>@pro.Price</h5>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<!-- Related Product Section End -->
+

@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<Product>
+
+<style>
+    .btn_searchPro {
+        position: relative;
+        left: -22px;
+        color: black;
+    }
+
+    .btn_searchPro:hover {
+        color: #000;
+    }
+
+    .item-cate.active a {
+        color: red;
+    }
+
+    .pagination-container .pagination {
+        justify-content: center;
+    }
+
+    .pagination-container .pagination .active {
+            background-color: #7fad39;
+        }
+    .pagination-container .pagination .active span {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #b2b2b2;
+            font-size: 14px;
+            color: #fff;
+            font-weight: 700;
+            line-height: 28px;
+            text-align: center;
+            -webkit-transition: all, 0.3s;
+            -moz-transition: all, 0.3s;
+            -ms-transition: all, 0.3s;
+            -o-transition: all, 0.3s;
+            transition: all, 0.3s;
+    }
+</style>
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg mt-2" style="background-color: #333;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Sản phẩm</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        <span>Sản phẩm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    <div class="sidebar__item">
+                        <div class="blog__sidebar__search">
+                            <input hidden value="@ViewBag.CateIdSearch" id="CateIdSearch" />
+                            <form action="#" class="d-flex align-items-center">
+                                <input type="text" value="@ViewBag.NameProSeacrh" placeholder="Nhập tên sản phẩm ..." onchange="myFunction(this.value)" style="padding-right: 25px;">
+                                <a id="btn_searchPro" class="btn_searchPro" href="/ProductView/Index/@ViewBag.CateIdSearch"><span class="icon_search"></span></a>
+                            </form>
+                        </div>
+                        <h4>Danh mục sản phẩm</h4>
+                        <ul>
+                            <li class="item-cate" cateid="0"><a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-name="@ViewBag.NameProSeacrh">Tất cả</a></li>
+                            @foreach (var item in ViewBag.Listcate){
+                                <li class="item-cate" cateid="@item.Id"><a asp-controller="ProductView" asp-action="Index" asp-route-id="@item.Id" asp-route-name="@ViewBag.NameProSeacrh">@item.Name</a></li>
+                            }
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">
+                <div class="row">
+                    @if (ViewBag.Listproductcount == 0){
+                        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                            <p>Không tìm thấy sản phẩm nào</p>
+                        </div>
+                        
+                    }
+                    else{
+                        @foreach (var pro in Model)
+                        {
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                    <div class="product__item__pic set-bg" data-setbg="/images/product/@pro.Image">
+                                        <ul class="product__item__pic__hover">
+                                            <li><a asp-controller="ProductView" asp-action="Details" asp-route-id="@pro.Id"><i class="fa fa-eye"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <h6><a asp-controller="ProductView" asp-action="Details" asp-route-id="@pro.Id">@pro.Name</a></h6>
+                                        <h5>@pro.Price VND</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="product__pagination">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, id = ViewBag.CateIdSearch, name = ViewBag.NameProSeacrh }))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function myFunction(val) {
+        const element = document.getElementById("btn_searchPro");
+        var text = element.getAttribute("href");
+        var textnew = text + "?name=" + val;
+        document.getElementById("btn_searchPro").setAttribute("href", textnew);
+        
+    }
+
+    var idcate = document.getElementById("CateIdSearch").value;
+    console.log("adad", idcate);
+    //Xet active
+    const collection = document.getElementsByClassName("item-cate");
+    for (var i = 0; i < collection.length; i++) {
+        if (collection[i].getAttribute("cateid") == idcate) {
+            collection[i].classList.add("active");
+        }
+    }
+</script>
+<!-- Product Section End -->
+

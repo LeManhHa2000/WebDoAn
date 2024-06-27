@@ -55,8 +55,8 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
-                <li><a asp-controller="Home" asp-action="Index">Sản phẩm</a></li>
+                <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li><a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-name="">Sản phẩm</a></li>
                 <li><a asp-controller="BlogView" asp-action="Index">Tin tức</a></li>
                 <li><a asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
             </ul>
@@ -93,14 +93,20 @@
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-pinterest-p"></i></a>
                             </div>
+                            @* <div class="header__top__right__language">
+                                <i class="fa fa-user"></i>
+                                <ul>
+                                    <li><a href="#">Thông tin của tôi</a></li>
+                                    <li><a href="#">Đơn hàng của tôi</a></li>
+                                    <li><a asp-controller="Access" asp-action="Logout">Đăng xuất</a></li>
+                                </ul>
+                            </div> *@
                             <div class="header__top__right__auth border-right pr-2">
-                                @* <div>Đăng nhập</div> *@
-                                <a href="#"><i class="fa fa-user"></i> Đăng nhập</a>
+                                <a asp-controller="Access" asp-action="Login"><i class="fa fa-user"></i> Đăng nhập/ Đăng kí</a>
                             </div>
-                            <div class="header__top__right__auth ml-2">
+                           @*  <div class="header__top__right__auth ml-2">
                                 <a asp-controller="Access" asp-action="Logout"><i class="fa fa-sign-out"></i> Đăng xuất</a>
-                                @* <a href="#"><i class="fa fa-sign-out"></i> Đăng xuất</a> *@
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                 </div>
@@ -116,8 +122,8 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
-                            <li><a href="./shop-grid.html">Sản phẩm</a></li>
+                            <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                            <li><a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-name="">Sản phẩm</a></li>
                             <li><a asp-controller="BlogView" asp-action="Index">Tin tức</a></li>
                             <li><a asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
                         </ul>
@@ -127,7 +133,7 @@
                     <div class="header__cart">
                         <ul>
                             <li>Giỏ hàng</li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a asp-controller="Cart" asp-action="Index"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                         </ul>
                     </div>
                 </div>
