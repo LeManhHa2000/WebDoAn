@@ -2906,6 +2906,11 @@ ol {
 	.container {
 		max-width: 1170px;
 	}
+
+	.border_custom {
+		border-left: 1px solid #333;
+		border-right: 1px solid #333;
+	}
 }
 
 /* Medium Device = 1200px */
@@ -2934,6 +2939,11 @@ ol {
 	}
 	.shoping__discount form input {
 		width: 240px;
+	}
+
+	.border_custom {
+		border-left: 1px solid #333;
+		border-right: 1px solid #333;
 	}
 }
 
@@ -3157,6 +3167,12 @@ ol {
 	}
 	.over_hid {
 		overflow: hidden;
+	}
+
+	.border_custom {
+		border-top: 1px solid #333;
+		border-bottom: 1px solid #333;
+		padding: 6px 0;
 	}
 }
 
@@ -3416,6 +3432,11 @@ ol {
 	.over_hid {
 		overflow: hidden;
 	}
+	.border_custom {
+		border-top: 1px solid #333;
+		border-bottom: 1px solid #333;
+		padding: 6px 0;
+	}
 }
 
 /* Small Device = 320px */
@@ -3464,5 +3485,10 @@ ol {
 	}
 	.blog__details__hero__text h2 {
 		font-size: 24px;
+	}
+	.border_custom {
+		border-top: 1px solid #333;
+		border-bottom: 1px solid #333;
+		padding: 6px 0;
 	}
 }

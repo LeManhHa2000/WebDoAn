@@ -11,5 +11,6 @@ namespace WebDoAn.Service.Admin.Categories
         public Task<bool> Create(Category category);
         public Task<bool> Update(Category category);
         public Task<bool> Delete(int id);
+        IEnumerable<Category> GetAllCate();
     }
 }

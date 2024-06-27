@@ -1,0 +1,70 @@
+﻿@model List<Blog>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg mt-2" style="background-color: #333;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Tin tức</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        <span>Tin tức</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Blog Section Begin -->
+<section class="blog spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-5">
+                <div class="blog__sidebar">
+                    @* <div class="blog__sidebar__search">
+                        <form action="#">
+                            <input type="text" placeholder="Search...">
+                            <button type="submit"><span class="icon_search"></span></button>
+                        </form>
+                    </div> *@
+                    <div class="blog__sidebar__item">
+                        <h4>Xin chào</h4>
+                        <p>Bạn có thể tìm hiểu những thông tin liên quan đến nghề sừng mĩ nghệ ở đây</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-7">
+                <div class="row">
+                    @foreach(var item in Model){
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="blog__item">
+                                <div class="blog__item__pic">
+                                    <img src="/images/blog/@item.ImgSrc" alt="">
+                                </div>
+                                <div class="blog__item__text">
+                                    <ul>
+                                        <li><i class="fa fa-calendar-o"></i>@item.CreateTime</li>
+                                    </ul>
+                                    <h5><a asp-controller="BlogView" asp-action="Details" asp-route-id="@item.Id">@item.Title</a></h5>
+                                    <p>
+                                       @item.SubDescription
+                                    </p>
+                                    <a asp-controller="BlogView" asp-action="Details" asp-route-id="@item.Id" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->
+

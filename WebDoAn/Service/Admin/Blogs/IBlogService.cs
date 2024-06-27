@@ -13,6 +13,7 @@ namespace WebDoAn.Service.Admin.Blogs
         public Task<bool> Update(Blog blog);
         public Task<bool> Delete(int id);
         public Task<BlogViewModal> GetBlogViewById(int id);
+        public List<Blog> GetAllBogUser();
 
     }
 }

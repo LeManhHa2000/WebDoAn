@@ -70,6 +70,11 @@ namespace WebDoAn.Service.Admin.Categories
             
         }
 
+        public IEnumerable<Category> GetAllCate()
+        {
+            return _db.categorie;
+        }
+
         public async Task<List<Category>> GetCategories()
         {
             var listCate = await _db.categorie.OrderBy(x => x.Id).ToListAsync();

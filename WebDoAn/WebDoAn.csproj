@@ -27,6 +27,7 @@
     <Folder Include="Migrations\" />
     <Folder Include="Service\Client\" />
     <Folder Include="wwwroot\images\blog\" />
+    <Folder Include="wwwroot\images\useweb\" />
     <Folder Include="wwwroot\images\product\" />
     <Folder Include="wwwroot\Loginassests\" />
   </ItemGroup>

@@ -66,7 +66,7 @@
     $(".categories__slider").owlCarousel({
         loop: true,
         margin: 0,
-        items: 4,
+        items: 3,
         dots: false,
         nav: true,
         navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
@@ -74,7 +74,7 @@
         animateIn: 'fadeIn',
         smartSpeed: 1200,
         autoHeight: false,
-        autoplay: true,
+        /*autoplay: true,*/
         responsive: {
 
             0: {
@@ -90,7 +90,7 @@
             },
 
             992: {
-                items: 4,
+                items: 3,
             }
         }
     });

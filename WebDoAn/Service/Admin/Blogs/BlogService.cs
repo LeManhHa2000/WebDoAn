@@ -70,6 +70,12 @@ namespace WebDoAn.Service.Admin.Blogs
             }
         }
 
+        public List<Blog> GetAllBogUser()
+        {
+            var list = _db.blog.OrderBy(x => x.Id).ToList();
+            return list;
+        }
+
         public async Task<Blog> GetBlogById(int id)
         {
             var bl = await _db.blog.FindAsync(id);
