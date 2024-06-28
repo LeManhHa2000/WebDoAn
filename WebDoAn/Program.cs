@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using WebDoAn.dbs;
 using WebDoAn.Service.Admin.Blogs;
 using WebDoAn.Service.Admin.Categories;
+using WebDoAn.Service.Admin.OrderDetails;
+using WebDoAn.Service.Admin.Orders;
 using WebDoAn.Service.Admin.Products;
 using WebDoAn.Service.Admin.Users;
 using WebDoAn.Service.Client.Carts;
@@ -22,6 +24,8 @@ builder.Services.AddScoped<IProductService,  ProductService>();
 builder.Services.AddScoped<IBlogService,  BlogService>();
 builder.Services.AddScoped<IUserService,  UserService>();
 builder.Services.AddScoped<ICartService,  CartService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache();

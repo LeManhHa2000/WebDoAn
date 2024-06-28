@@ -61,14 +61,12 @@ namespace WebDoAn.Service.Client.Carts
             var cart = _db.cart.Find(id);
             if (cart == null)
             {
-                _notyfService.Error("Không tìm thấy loại loại này");
                 return false;
             }
             else
             {
                 _db.cart.Remove(cart);
                 await _db.SaveChangesAsync();
-                _notyfService.Success("Xóa thành công");
                 return true;
             }
         }

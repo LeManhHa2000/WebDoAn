@@ -15,6 +15,7 @@ namespace WebDoAn.Service.Admin.Products
         public Task<bool> Delete(int id);
         public Task<string> GetNameCategory(int cateId);
         public Task<ProductViewModal> GetProductPriViewById(int id);
+        public Task<bool> UpdateQuantity(Product product);
 
 
     }

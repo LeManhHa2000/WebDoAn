@@ -108,8 +108,8 @@
                                 <div class="header__top__right__language">
                                     <i class="fa fa-user"></i>
                                     <ul>
-                                        <li><a asp-controller="UserDashboard" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")">Thông tin của tôi</a></li>
-                                    <li><a href="#">Đơn hàng của tôi</a></li>
+                                    <li><a asp-controller="UserDashboard" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")">Thông tin của tôi</a></li>
+                                    <li><a asp-controller="OrderUser" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")">Đơn hàng của tôi</a></li>
                                     <li><a asp-controller="Access" asp-action="Logout">Đăng xuất</a></li>
                                     </ul>
                                 </div>

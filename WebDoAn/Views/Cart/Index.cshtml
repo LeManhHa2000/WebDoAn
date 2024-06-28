@@ -7,6 +7,9 @@
 
 @model List<CartViewModal>
 
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor contxt;
+
 <style>
     .shoping__cart__item img {
         width: 110px;
@@ -26,6 +29,15 @@
     .btndathang {
         cursor: pointer;
         color: #fff;
+    }
+
+    .tomuch {
+        color: red !important;
+    }
+
+    .notclick {
+        pointer-events: none;
+        opacity: 0.6;
     }
 </style>
 
@@ -76,7 +88,14 @@
                                     <tr id="row-@item.Id">
                                         <td class="shoping__cart__item">
                                             <img src="/images/product/@item.Image" alt="">
-                                            <h5>@item.Name</h5>
+                                            @if(item.IsToMuch == true)
+                                            {
+                                                <h5 class="tomuch name-@item.Id">@item.Name</h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="name-@item.Id">@item.Name</h5>
+                                            }
                                         </td>
                                         <td class="shoping__cart__price" id="Price-@item.Id">
                                             @item.Price
@@ -104,6 +123,9 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-lg-12">
+                <p style="color: red;" id="toMaxtext"></p>
+            </div>
             <div class="col-lg-6">
                 <div class="shoping__checkout">
                     <h5>Tổng</h5>
@@ -116,7 +138,7 @@
                     }
                     else
                     {
-                        <a asp-controller="OrderUser" asp-action="CreateOrderUser" class="primary-btn">Đặt hàng</a>
+                        <a asp-controller="OrderUser" asp-action="CreateOrderUser" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")" class="primary-btn" id="btn_Dathang">Đặt hàng</a>
                     }
                 </div>
             </div>

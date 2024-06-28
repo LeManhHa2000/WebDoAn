@@ -1,5 +1,6 @@
 ﻿(function () {
     SumToTalAll();
+    loadToQuantityMax();
     $(".btnDelete").on("click", function () {
         var cartId = $(this).data("id");
 
@@ -12,6 +13,7 @@
                 success: function (rs) {
                     $("#row-" + cartId).remove();
                     SumToTalAll();
+                    loadToQuantityMax();
                 }
             })
         }
@@ -32,6 +34,8 @@
                 if (rs.isUpdate == true) {
                     $("#total-" + cartId).text(total);
                     SumToTalAll();
+                    $(".tomuch.name-" + cartId).removeClass("tomuch");
+                    loadToQuantityMax();
                     alert("Cập nhật thành công");
                 }
                 else {
@@ -56,5 +60,18 @@
 
     $("#btn_nullcart").on("click", function () {
         alert("Giỏ hàng trống ! Vui lòng thêm mới sản phẩm vào giỏ trước khi đặt hàng");
-    })
+    });
+
+    function loadToQuantityMax() {
+        if ($(".tomuch").length > 0) {
+            $("#btn_Dathang").addClass("notclick");
+            $("#toMaxtext").text("Có sản phẩm bị thay đổi số lượng và số lượng hàng đặt của bạn đang lớn hơn ( tên sản phẩm màu đỏ ). Vui lòng cập nhật lại !")
+        }
+        else {
+            $("#btn_Dathang").removeClass("notclick");
+            $("#toMaxtext").text("");
+        }
+    }
+ 
+    
 })(jQuery);

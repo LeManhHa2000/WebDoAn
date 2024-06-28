@@ -42,6 +42,7 @@ namespace WebDoAn.Controllers
                                   Quantity = a.Quantity,
                                   Price = b.Price,
                                   Total = a.Quantity * b.Price,
+                                  IsToMuch = a.Quantity > b.Quantity ? true : false,
                               }).OrderBy(x => x.Id).ToList();
             return View(listreturn);
         }
