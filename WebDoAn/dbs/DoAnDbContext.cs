@@ -22,7 +22,7 @@ namespace WebDoAn.dbs
         //public DbSet<Shipper> shipper { get; set; }
         public DbSet<Blog> blog { get; set; }
         public DbSet<Cart> cart { get; set; }
-        public DbSet<Address> address { get; set; }
+        //public DbSet<Address> address { get; set; }
 		//public DbSet<Comment> comment { get; set; }
 
 

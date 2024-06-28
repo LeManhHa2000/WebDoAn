@@ -3,8 +3,28 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor contxt;
 
 @model Product
+
+<style>
+    #AddTocart {
+        cursor: pointer;
+        color: #fff;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 
 <section class="breadcrumb-section set-bg mt-2" style="background-color: #333;">
     <div class="container">
@@ -66,17 +86,27 @@
                     }
                     else
                     {
+                        
                         <div class="product__details__quantity">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input type="number" value="1" id="inputQuantt">
                                 </div>
                             </div>
                         </div>
+                        @if (contxt.HttpContext.Session.GetInt32("UserId") == null)
+                        {
+                            <a asp-controller="Access" asp-action="Login" class="primary-btn">Thêm vào giỏ hàng</a>
+                        }
+                        else
+                        {
+                            <a id="AddTocart" class="primary-btn">Thêm vào giỏ hàng</a>
+                        }
 
-                        <a href="#" class="primary-btn">Thêm vào giỏ hàng</a>
                     }
                     <ul>
+                        <input hidden type="text" value="@contxt.HttpContext.Session.GetInt32("UserId")" id="UserId" />
+                        <input hidden type="text" value="@Model.Id" id="ProductId" />
                         <li><b>Số lượng</b> <span>@Model.Quantity</span></li>
                         <li><b>Chất liệu</b> <span>@Model.Material</span></li>
                         <li><b>Danh mục</b> <span>@ViewBag.DanhMucName</span></li>
@@ -156,4 +186,6 @@
     </div>
 </section>
 <!-- Related Product Section End -->
+<script src="~/Assets/js/jquery-3.3.1.min.js"></script>
+<script src="~/customjs/client/cart/addcart.js"></script>
 

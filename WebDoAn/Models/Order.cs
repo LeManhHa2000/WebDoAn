@@ -20,10 +20,6 @@ namespace WebDoAn.Models
 		public int UserId { get; set; }
 		public virtual User? user { get; set; }
 
-		[ForeignKey("Address")]
-		public int AddressId { get; set; }
-		public virtual Address? address { get; set; }
-
 		//[ForeignKey("Shipper")]
 		//public int ShipperId { get; set; }
 		//public virtual Shipper? shipper { get; set; }

@@ -5,6 +5,7 @@ using WebDoAn.Service.Admin.Blogs;
 using WebDoAn.Service.Admin.Categories;
 using WebDoAn.Service.Admin.Products;
 using WebDoAn.Service.Admin.Users;
+using WebDoAn.Service.Client.Carts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,14 @@ builder.Services.AddScoped<ICategoryService,  CategoryService>();
 builder.Services.AddScoped<IProductService,  ProductService>();
 builder.Services.AddScoped<IBlogService,  BlogService>();
 builder.Services.AddScoped<IUserService,  UserService>();
-builder.Services.AddSession();
+builder.Services.AddScoped<ICartService,  CartService>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(300);
+});
 
 var app = builder.Build();
 

@@ -12,11 +12,13 @@ namespace WebDoAn.Controllers
         public readonly DoAnDbContext _db;
         public readonly IUserService _userService;
 		public INotyfService _notyfService;
-		public AccessController(DoAnDbContext db, IUserService userService, INotyfService notyfService)
+        private readonly IHttpContextAccessor _contxt;
+        public AccessController(DoAnDbContext db, IUserService userService, INotyfService notyfService, IHttpContextAccessor contxt)
         {
             _db = db;
             _userService = userService;
 			_notyfService = notyfService;
+            _contxt = contxt;
         }
         [HttpGet]
         public IActionResult Login()
@@ -42,8 +44,9 @@ namespace WebDoAn.Controllers
                     if (u.Active)
                     {
 						HttpContext.Session.SetString("PhoneNumber", u.PhoneNumber.ToString());
-						HttpContext.Session.SetInt32("Role", ((int)u.Role));
-						HttpContext.Session.SetInt32("UserId", u.Id);
+                        _contxt.HttpContext.Session.SetInt32("Role", ((int)u.Role));
+                        _contxt.HttpContext.Session.SetInt32("UserId", u.Id);
+
 						if (u.Role == RoleUser.Admin)
                         {
 							return RedirectToAction("Index", "Home", new {Area = "Admin" });
@@ -72,8 +75,10 @@ namespace WebDoAn.Controllers
         {
             HttpContext.Session.Clear();
             HttpContext.Session.Remove("PhoneNumber");
-            HttpContext.Session.Remove("Role");
-            HttpContext.Session.Remove("UserId");
+
+            _contxt.HttpContext.Session.Remove("Role");
+            _contxt.HttpContext.Session.Remove("UserId");
+            
 			return RedirectToAction("Login", "Access");
         }
 

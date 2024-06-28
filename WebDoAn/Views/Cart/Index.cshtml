@@ -1,8 +1,33 @@
-﻿
+﻿@using WebDoAn.ModelPrivew
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@model List<CartViewModal>
+
+<style>
+    .shoping__cart__item img {
+        width: 110px;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .btndathang {
+        cursor: pointer;
+        color: #fff;
+    }
+</style>
 
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg mt-2" style="background-color: #333;">
@@ -38,93 +63,61 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="shoping__cart__item">
-                                    <img src="img/cart/cart-1.jpg" alt="">
-                                    <h5>Vegetable’s Package</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                    $55.00
-                                </td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                    $110.00
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <span class="icon_close"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="shoping__cart__item">
-                                    <img src="img/cart/cart-2.jpg" alt="">
-                                    <h5>Fresh Garden Vegetable</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                    $39.00
-                                </td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                    $39.99
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <span class="icon_close"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="shoping__cart__item">
-                                    <img src="img/cart/cart-3.jpg" alt="">
-                                    <h5>Organic Bananas</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                    $69.00
-                                </td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                    $69.99
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <span class="icon_close"></span>
-                                </td>
-                            </tr>
+                            @if(Model.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="5">Chưa có sản phẩm nào trong giỏ hàng</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="row-@item.Id">
+                                        <td class="shoping__cart__item">
+                                            <img src="/images/product/@item.Image" alt="">
+                                            <h5>@item.Name</h5>
+                                        </td>
+                                        <td class="shoping__cart__price" id="Price-@item.Id">
+                                            @item.Price
+                                        </td>
+                                        <td class="shoping__cart__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    <input type="number" value="@item.Quantity" id="Quantt_@item.Id">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="shoping__cart__total total-card" id="total-@item.Id">
+                                            @item.Total
+                                        </td>
+                                        <td class="shoping__cart__item__close">
+                                            <button type="button" data-id="@item.Id" class="btnUpdate btn btn-primary w-100">Cập nhật</button>
+                                            <button type="button" data-id="@item.Id" class="btnDelete btn btn-danger w-100 mt-2">Xóa</button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
-                <div class="shoping__cart__btns">
-                    <a href="#" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
-                    <a href="#" class="primary-btn cart-btn cart-btn-right">
-                        Cập nhật giỏ hàng
-                    </a>
-                </div>
-            </div>
             <div class="col-lg-6">
                 <div class="shoping__checkout">
                     <h5>Tổng</h5>
                     <ul>
-                        <li>Tổng tiền <span>$454.98</span></li>
+                        <li>Thành tiền <span id="TongSum"></span></li>
                     </ul>
-                    <a asp-controller="OrderUser" asp-action="CreateOrderUser" class="primary-btn">Đặt hàng</a>
+                    @if(Model.Count == 0)
+                    {
+                        <a class="primary-btn btndathang" id="btn_nullcart">Đặt hàng</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="OrderUser" asp-action="CreateOrderUser" class="primary-btn">Đặt hàng</a>
+                    }
                 </div>
             </div>
         </div>
@@ -132,3 +125,5 @@
 </section>
 <!-- Shoping Cart Section End -->
 
+<script src="~/Assets/js/jquery-3.3.1.min.js"></script>
+<script src="~/customjs/client/cart/addviewcart.js"></script>

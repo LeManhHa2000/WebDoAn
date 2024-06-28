@@ -11,6 +11,7 @@ namespace WebDoAn.Models
         public DateTime UpdateTime { get; set; }
         public string? FullName { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? Address { get; set; }
         public string? Email { get; set; }
         public UserEnum.RoleUser Role { get; set; } = UserEnum.RoleUser.Client;
         public UserEnum.GenderEnum Gender { get; set; }

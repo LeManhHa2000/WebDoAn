@@ -23,6 +23,10 @@
     <link rel="stylesheet" href="~/Assets/css/style.css" type="text/css">
 </head>
 
+
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor contxt;
+
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
@@ -93,6 +97,23 @@
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-pinterest-p"></i></a>
                             </div>
+                            @if (@contxt.HttpContext.Session.GetInt32("UserId") == null)
+                            {
+                                <div class="header__top__right__auth border-right pr-2">
+                                    <a asp-controller="Access" asp-action="Login"><i class="fa fa-user"></i> Đăng nhập/ Đăng kí</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="header__top__right__language">
+                                    <i class="fa fa-user"></i>
+                                    <ul>
+                                        <li><a asp-controller="UserDashboard" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")">Thông tin của tôi</a></li>
+                                    <li><a href="#">Đơn hàng của tôi</a></li>
+                                    <li><a asp-controller="Access" asp-action="Logout">Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+                            }
                             @* <div class="header__top__right__language">
                                 <i class="fa fa-user"></i>
                                 <ul>
@@ -101,9 +122,9 @@
                                     <li><a asp-controller="Access" asp-action="Logout">Đăng xuất</a></li>
                                 </ul>
                             </div> *@
-                            <div class="header__top__right__auth border-right pr-2">
+                            @* <div class="header__top__right__auth border-right pr-2">
                                 <a asp-controller="Access" asp-action="Login"><i class="fa fa-user"></i> Đăng nhập/ Đăng kí</a>
-                            </div>
+                            </div> *@
                            @*  <div class="header__top__right__auth ml-2">
                                 <a asp-controller="Access" asp-action="Logout"><i class="fa fa-sign-out"></i> Đăng xuất</a>
                             </div> *@
@@ -132,8 +153,11 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li>Giỏ hàng</li>
-                            <li><a asp-controller="Cart" asp-action="Index"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            @if (@contxt.HttpContext.Session.GetInt32("UserId") != null)
+                            {
+                                <li>Giỏ hàng</li>
+                                <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -201,6 +225,8 @@
     <script src="~/Assets/js/mixitup.min.js"></script>
     <script src="~/Assets/js/owl.carousel.min.js"></script>
     <script src="~/Assets/js/main.js"></script>
+
+    @await Component.InvokeAsync("Notyf");
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

@@ -81,6 +81,7 @@ namespace WebDoAn.Service.Admin.Users
             var emailold = _db.user.Where(x => x.Id == user.Id).Select(x => x.Email).FirstOrDefault();
 			var fullnameole = _db.user.Where(x => x.Id == user.Id).Select(x => x.FullName).FirstOrDefault();
 			var gtinhold = _db.user.Where(x => x.Id == user.Id).Select(x => x.Gender).FirstOrDefault();
+			var addressold = _db.user.Where(x => x.Id == user.Id).Select(x => x.Address).FirstOrDefault();
 
             // Tao moi ngay cập nhật
             var date = DateTime.Now;
@@ -93,6 +94,7 @@ namespace WebDoAn.Service.Admin.Users
 			user.Email = emailold;
 			user.Gender = gtinhold;
 			user.FullName = fullnameole;
+			user.Address = addressold;
 
 			_db.user.Update(user);
 			await _db.SaveChangesAsync();
@@ -103,7 +105,10 @@ namespace WebDoAn.Service.Admin.Users
 		public async Task<bool> UpdateUser(User user)
 		{
 			var isUser = _db.user.Where(x => user.Id != x.Id && x.PhoneNumber.ToLower() == user.PhoneNumber.ToLower()).ToList();
-			if (isUser.Count == 0)
+			var passwordold = _db.user.Where(x => x.Id == user.Id).Select(y => y.Password).FirstOrDefault();
+			var activeold = _db.user.Where(x => x.Id == user.Id).Select(y => y.Active).FirstOrDefault();
+			var roleold = _db.user.Where(x => x.Id == user.Id).Select(y => y.Role).FirstOrDefault();
+            if (isUser.Count == 0)
 			{
 				DateTime cate = _db.user.Where(x => x.Id == user.Id).Select(x => x.CreateTime).FirstOrDefault();
 
@@ -113,6 +118,9 @@ namespace WebDoAn.Service.Admin.Users
 				user.UpdateTime = datecustom;
 
 				user.CreateTime = cate;
+				user.Password = passwordold;
+				user.Active = activeold;
+				user.Role = roleold;
 				_db.user.Update(user);
 				await _db.SaveChangesAsync();
 				_notyfService.Success("Cập nhật thành công");
@@ -120,7 +128,7 @@ namespace WebDoAn.Service.Admin.Users
 			}
 			else
 			{
-				_notyfService.Error("Tên loại sản phẩm này đã tồn tại, vui lòng thay đổi tên !");
+				_notyfService.Error("Số điện thoại đã được đăng kí! Vui lòng thay đổi !");
 				return false;
 			}
 		}
