@@ -12,6 +12,7 @@ using WebDoAn.Service.Admin.Products.Dto;
 using WebDoAn.ModelPrivew;
 using static WebDoAn.Enums.ProductEnum;
 using System.Xml.Linq;
+using WebDoAn.Authentications;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -30,6 +31,7 @@ namespace WebDoAn.Areas.Admin.Controllers
         }
 
         // GET: Admin/Product
+        [Authentication]
         public async Task<IActionResult> Index()
         {
             return View(await _productService.GetProducts());

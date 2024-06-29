@@ -12,7 +12,8 @@ namespace WebDoAn.Authentications
 				context.Result = new RedirectToRouteResult(
 					new RouteValueDictionary
 					{
-						{"Controller","Access" },
+                        {"Area", "" },
+                        {"Controller","Access" },
 						{"Action", "Login" }
 					});
 			}

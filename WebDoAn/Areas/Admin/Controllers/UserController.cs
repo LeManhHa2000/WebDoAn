@@ -9,6 +9,7 @@ using WebDoAn.Models;
 using WebDoAn.dbs;
 using WebDoAn.Service.Admin.Users;
 using WebDoAn.Service.Admin.Users.Dto;
+using WebDoAn.Authentications;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -25,6 +26,7 @@ namespace WebDoAn.Areas.Admin.Controllers
         }
 
         // GET: Admin/User
+        [Authentication]
         public async Task<IActionResult> Index()
         {
             return View(await _userService.GetAllUser());

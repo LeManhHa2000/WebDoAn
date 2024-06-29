@@ -12,6 +12,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using WebDoAn.Service.Admin.Orders;
 using WebDoAn.Service.Admin.Orders.Dto;
 using WebDoAn.ModelPrivew;
+using WebDoAn.Authentications;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -33,6 +34,7 @@ namespace WebDoAn.Areas.Admin.Controllers
         }
 
         // GET: Admin/Order
+        [Authentication]
         public async Task<IActionResult> Index()
         {
             var doAnDbContext = _context.order.Include(o => o.user);

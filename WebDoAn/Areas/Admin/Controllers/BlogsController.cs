@@ -11,6 +11,7 @@ using WebDoAn.Service.Admin.Blogs;
 using WebDoAn.Service.Admin.Blogs.Dto;
 using WebDoAn.ModelPrivew;
 using Microsoft.Extensions.Hosting;
+using WebDoAn.Authentications;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -31,6 +32,7 @@ namespace WebDoAn.Areas.Admin.Controllers
         }
 
         // GET: Admin/Blogs
+        [Authentication]
         public async Task<IActionResult> Index()
         {
             return View(await _blogService.GetBlogs());

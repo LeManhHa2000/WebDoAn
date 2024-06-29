@@ -10,6 +10,7 @@ using WebDoAn.dbs;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using WebDoAn.Service.Admin.Categories;
 using WebDoAn.Service.Admin.Categories.Dto;
+using WebDoAn.Authentications;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -28,6 +29,7 @@ namespace WebDoAn.Areas.Admin.Controllers
         }
 
         // GET: Admin/Category
+        [Authentication]
         public async Task<IActionResult> Index()
         {
               return View(await _categoryService.GetCategories());
