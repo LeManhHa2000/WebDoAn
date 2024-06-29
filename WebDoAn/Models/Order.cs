@@ -8,6 +8,7 @@ namespace WebDoAn.Models
     {
         [Key]
         public int Id { get; set; }
+		public string? Code { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime UpdateTime { get; set; }
 		public DateTime ShipDate { get; set; }

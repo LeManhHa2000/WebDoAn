@@ -20,12 +20,14 @@ namespace WebDoAn.Areas.Admin.Controllers
         private readonly DoAnDbContext _context;
         public readonly IBlogService _blogService;
         public IWebHostEnvironment _hostEnvironment;
+        private readonly IHttpContextAccessor _contxt;
 
-        public BlogsController(DoAnDbContext context, IBlogService blogService, IWebHostEnvironment hostEnvironment)
+        public BlogsController(DoAnDbContext context, IBlogService blogService, IWebHostEnvironment hostEnvironment, IHttpContextAccessor contxt)
         {
             _context = context;
             _blogService = blogService;
             _hostEnvironment = hostEnvironment;
+            _contxt = contxt;
         }
 
         // GET: Admin/Blogs
@@ -95,7 +97,7 @@ namespace WebDoAn.Areas.Admin.Controllers
                     Title = blogview.Title,
                     SubDescription = blogview.SubDescription,
                     Description = blogview.Description,
-                    UserId = 1,
+                    UserId = _contxt.HttpContext.Session.GetInt32("UserId").Value,
                     ImgSrc = filename
                 };
 

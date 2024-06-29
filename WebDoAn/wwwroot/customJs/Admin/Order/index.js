@@ -1,27 +1,35 @@
 ﻿(function () {
     moment.locale("vi");
     var data2 = {};
+    //$.ajax({
+    //    type: "GET",
+    //    url: "/Admin/Category/GetAlltestCategory",
+    //    dataType: 'json',
+    //    data: data2,
+    //    success: function (data) {
+    //        console.log("assadsa",data);
+    //    }
+    //});
+     
 
-    var OrderTable = $('#OrderView').DataTable({
+    var CateTable = $('#data-table').DataTable({
         ajax: {
-            url: "/OrderUser/GetAllOrder",
+            url: "/Admin/Order/GetAllOrder",
             data: () => {
-                return data2 = {
-                    orderId : 0,
-                    idUser: $("#UserId").val()
-                };
-                
-                //var inputSearch = $("#SearchInput").val();
-                //if (inputSearch == "") {
-                //    return data2 = {
-                //        name: "all",
-                //    };
-                //}
-                //else {
-                //    return data2 = {
-                //        name: inputSearch,
-                //    };
-                //}
+                var inputSearch = $("#SearchInput").val();
+                var selectstatus = $("#SelectStatus").val();
+                if (inputSearch == "") {
+                    return data2 = {
+                        code: "all",
+                        status: selectstatus
+                    };
+                }
+                else {
+                    return data2 = {
+                        code: inputSearch,
+                        status: selectstatus
+                    };
+                }
             },
             dataSrc: ''
         },
@@ -31,7 +39,6 @@
         //},
         searching: false,
         processing: true,
-        "bLengthChange": false,
         "language": {
             "emptyTable": "Không tìm thấy dữ liệu",
             "lengthMenu": "Hiển thị _MENU_ bản ghi",
@@ -46,43 +53,46 @@
 
         },
         lengthMenu: [
-            [10, 20, 30, 50, -1],
-            [10, 20, 30, 50, 'Tất cả'],
+            [5, 10, 25, 50, -1],
+            [5, 10, 25, 50, 'Tất cả'],
         ],
         columnDefs: [
             {
-                orderable: true,
+                orderable: false,
                 targets: 0,
-                data: "code",
-                className: 'text-center',
+                className: 'dt-body-center text-center',
+                render: function (data, type, row, meta) {
+                    var stt = parseInt(meta.row) + 1;
+                    return '<span>' + stt + '<span>';
+                }
             },
             {
-                orderable: false,
                 targets: 1,
                 data: "createTime",
-                className: 'text-center',
-                render: function (createTime) {
-                    return moment(createTime).format('L');
-                }
 
             },
             {
-                orderable: false,
                 targets: 2,
-                data: "shipDate",
-                className: 'text-center',
-                render: function (shipDate) {
-                    if (moment(shipDate).format('L') == "01/01/0001") {
+                data: "code"
+            },
+            {
+                targets: 3,
+                data: "updateTime",
+                render: function (updateTime) {
+                    if (updateTime == "1/1/0001") {
                         return `<span></span>`;
                     }
                     else {
-                        return moment(shipDate).format('L')
+                        return updateTime;
                     }
                 }
             },
             {
-                orderable: false,
-                targets: 3,
+                targets: 4,
+                data: "nameUser"
+            },
+            {
+                targets: 5,
                 data: "status",
                 className: 'text-center',
                 render: function (status) {
@@ -108,14 +118,23 @@
             },
             {
 
-                targets: 4,
+                targets: 6,
                 data: 'id',
                 orderable: false,
                 autoWidth: false,
                 render: function (data, type, row, meta) {
-                    return `<div class='text-center'>
-                                <a href="https://localhost:44325/OrderUser/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
+                    if (row.status == 5) {
+                        return `<div class='text-center'>
+                                <a href="Order/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
                             </div>`;
+                    }
+                    else {
+                        return `<div class='text-center'>
+                                <a href="Order/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
+                                <a href="Order/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Sửa</a>
+                            </div>`;
+                    }
+                    
                 }
             },
         ],
@@ -125,5 +144,4 @@
         CateTable.ajax.reload();
     });
 
-
-})(jQuery);
+})(jQuery)
