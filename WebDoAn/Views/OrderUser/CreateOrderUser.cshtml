@@ -1,5 +1,6 @@
 ﻿@using WebDoAn.ModelPrivew
 @using static WebDoAn.Enums.OrderEnum
+@using WebDoAn.Common
 
 @{
     ViewData["Title"] = "CreateOrderUser";
@@ -109,13 +110,13 @@
                                         <h5>@item.Name</h5>
                                     </td>
                                     <td class="shoping__cart__price">
-                                        @item.Price
+                                        @Common.FormatNumber(item.Price, 0)
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         @item.Quantity
                                     </td>
                                     <td class="shoping__cart__total">
-                                        @item.Total
+                                        @Common.FormatNumber(item.Total, 0)
                                     </td>
                                 </tr>
                             }

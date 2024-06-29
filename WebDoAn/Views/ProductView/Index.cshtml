@@ -6,6 +6,7 @@
 
 @using X.PagedList.Mvc.Core;
 @model X.PagedList.IPagedList<Product>
+@using WebDoAn.Common
 
 <style>
     .btn_searchPro {
@@ -109,7 +110,7 @@
                                     </div>
                                     <div class="product__item__text">
                                         <h6><a asp-controller="ProductView" asp-action="Details" asp-route-id="@pro.Id">@pro.Name</a></h6>
-                                        <h5>@pro.Price VND</h5>
+                                        <h5>@Common.FormatNumber(pro.Price , 0) VND</h5>
                                     </div>
                                 </div>
                             </div>

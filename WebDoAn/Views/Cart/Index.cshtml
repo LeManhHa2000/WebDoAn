@@ -1,5 +1,5 @@
 ﻿@using WebDoAn.ModelPrivew
-
+@using WebDoAn.Common
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -97,8 +97,8 @@
                                                 <h5 class="name-@item.Id">@item.Name</h5>
                                             }
                                         </td>
-                                        <td class="shoping__cart__price" id="Price-@item.Id">
-                                            @item.Price
+                                        <td class="shoping__cart__price" id="Price-@item.Id" data-gia="@item.Price">
+                                            @Common.FormatNumber(item.Price , 0)
                                         </td>
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
@@ -107,8 +107,8 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="shoping__cart__total total-card" id="total-@item.Id">
-                                            @item.Total
+                                        <td class="shoping__cart__total total-card" id="total-@item.Id" data-total="@item.Total">
+                                            @Common.FormatNumber(item.Total, 0)
                                         </td>
                                         <td class="shoping__cart__item__close">
                                             <button type="button" data-id="@item.Id" class="btnUpdate btn btn-primary w-100">Cập nhật</button>

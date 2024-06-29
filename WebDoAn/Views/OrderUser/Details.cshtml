@@ -1,5 +1,5 @@
 ﻿@using static WebDoAn.Enums.OrderEnum
-
+@using WebDoAn.Common
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -26,7 +26,7 @@
                     <h2>Thông tin đơn hàng</h2>
                     <div class="breadcrumb__option">
                         <a asp-controller="Home" asp-action="Index">Trang chủ</a>
-                        <a asp-controller="Cart" asp-action="Index">Đơn hanfng của tôi</a>
+                        <a asp-controller="OrderUser" asp-action="Index" asp-route-id="@ViewBag.UserInfor.Id">Đơn hàng của tôi</a>
                         <span>Thông tin đơn hàng</span>
                     </div>
                 </div>
@@ -61,8 +61,57 @@
             <input type="text" asp-for="UserId" hidden value="@ViewBag.UserInfor.Id" />
             <div class="form-row">
                 <div class="form-group col-md-3">
+                    <label for="inputState">Trạng thái</label>
+                    @if(Model.Status == OrderStatus.Waitting)
+                    {
+                        <input type="text" class="form-control" id="inputAddress" value="Chờ xác nhận" readonly>
+                    }
+                    else if (Model.Status == OrderStatus.Confirm)
+                    {
+                        <input type="text" class="form-control" id="inputAddress" value="Được xác nhận" readonly>
+                    }
+                    else if (Model.Status == OrderStatus.Delivering)
+                    {
+                        <input type="text" class="form-control" id="inputAddress" value="Đang giao hàng" readonly>
+                    }
+                    else if (Model.Status == OrderStatus.Delivered)
+                    {
+                        <input type="text" class="form-control" id="inputAddress" value="Giao hàng thành công" readonly>
+                    }
+                    else if (Model.Status == OrderStatus.Complete)
+                    {
+                        <input type="text" class="form-control" id="inputAddress" value="Đơn hàng hoàn thành" readonly>
+                    }
+                    else if (Model.Status == OrderStatus.Reject)
+                    {
+                        <input type="text" class="form-control" id="inputAddress" value="Đơn hàng bị hủy" readonly>
+                    }
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputState">Ngày cập nhật đơn hàng</label>
+                    @if (@Model.UpdateTime.Date.ToShortDateString() == "1/1/0001")
+                    {
+                        <input asp-for="Total" type="text" class="form-control" id="inputAddress" value="" readonly>
+                    }
+                    else
+                    {
+                        <input asp-for="Total" type="text" class="form-control" id="inputAddress" value="@Model.UpdateTime.Date.ToShortDateString()" readonly>
+                    }
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputState">Ngày giao hàng</label>
+                    @if (@Model.ShipDate.Date.ToShortDateString() == "1/1/0001")
+                    {
+                        <input asp-for="Total" type="text" class="form-control" id="inputAddress" value="" readonly>
+                    }
+                    else
+                    {
+                        <input asp-for="Total" type="text" class="form-control" id="inputAddress" value="@Model.ShipDate.Date.ToShortDateString()" readonly>
+                    }
+                </div>
+                <div class="form-group col-md-3">
                     <label for="inputState">Tổng tiền (VND)</label>
-                    <input asp-for="Total" type="text" class="form-control" id="inputAddress" value="@ViewBag.ToTalSum" readonly>
+                    <input asp-for="Total" type="text" class="form-control" id="inputAddress" value="@Common.FormatNumber(ViewBag.ToTalSum,0)" readonly>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputState">Phương thức thanh toán</label>
@@ -101,13 +150,13 @@
                                         <h5>@item.Name</h5>
                                     </td>
                                     <td class="shoping__cart__price">
-                                        @item.Total
+                                        @Common.FormatNumber(item.Total, 0)
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         @item.Quantity
                                     </td>
                                     <td class="shoping__cart__total">
-                                        @item.Sum
+                                        @Common.FormatNumber(item.Sum, 0)
                                     </td>
                                 </tr>
                             }

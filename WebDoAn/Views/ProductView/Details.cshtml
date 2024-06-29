@@ -5,6 +5,7 @@
 }
 @using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor contxt;
+@using WebDoAn.Common
 
 @model Product
 
@@ -76,7 +77,7 @@
                         <i class="fa fa-star-half-o"></i>
                         <span>(18 reviews)</span>
                     </div> *@
-                    <div class="product__details__price">@Model.Price VND</div>
+                    <div class="product__details__price">@Common.FormatNumber(Model.Price, 0) VND</div>
                     <p>
                         @Model.ShortDescription
                     </p>

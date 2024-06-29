@@ -37,16 +37,33 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="~Assets/img/logo.png" alt=""></a>
+            <a class="textlogo-small" asp-controller="Home" asp-action="Index">SHOP <span style="color: fuchsia !important;">LIÊN HOAN</span></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
-                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                <li>Giỏ hàng</li>
+                <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i></a></li>
             </ul>
         </div>
         <div class="humberger__menu__widget">
-            <div class="header__top__right__language">
+            @if (@contxt.HttpContext.Session.GetInt32("UserId") == null)
+            {
+                <div class="header__top__right__auth border-right pr-2">
+                    <a asp-controller="Access" asp-action="Login"><i class="fa fa-user"></i> Đăng nhập/ Đăng kí</a>
+                </div>
+            }
+            else
+            {
+                <div class="header__top__right__language">
+                    <i class="fa fa-user"></i>
+                    <ul>
+                        <li><a asp-controller="UserDashboard" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")">Thông tin của tôi</a></li>
+                        <li><a asp-controller="OrderUser" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")">Đơn hàng của tôi</a></li>
+                        <li><a asp-controller="Access" asp-action="Logout">Đăng xuất</a></li>
+                    </ul>
+                </div>
+            }
+            @* <div class="header__top__right__language">
                 <img src="~Assets/img/language.png" alt="">
                 <div>Đăng nhập</div>
                 <span class="arrow_carrot-down"></span>
@@ -54,8 +71,8 @@
             </div>
             <div class="header__top__right__auth">
                 <a asp-controller="Access" asp-action="Logout"><i class="fa fa-sign-out"></i> Đăng xuất</a>
-                @* <a href="#"><i class="fa fa-user"></i> Đăng xuất</a> *@
-            </div>
+                @* <a href="#"><i class="fa fa-user"></i> Đăng xuất</a> 
+            </div>*@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
@@ -137,7 +154,8 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="~Assets/img/logo.png" alt=""></a>
+                        @* <a href="./index.html"><img src="~Assets/img/logo.png" alt=""></a> *@
+                        <a class="logo-textcustom" asp-controller="Home" asp-action="Index">SHOP <span style="color: fuchsia;">LIÊN HOAN</span></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -156,7 +174,8 @@
                             @if (@contxt.HttpContext.Session.GetInt32("UserId") != null)
                             {
                                 <li>Giỏ hàng</li>
-                                <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                                <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i></a></li>
+                                @* <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li> *@
                             }
                         </ul>
                     </div>

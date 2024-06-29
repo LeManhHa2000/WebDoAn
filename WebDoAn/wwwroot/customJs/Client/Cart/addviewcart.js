@@ -23,8 +23,9 @@
     $(".btnUpdate").on("click", function () {
         var cartId = $(this).data("id");
         var soluong = $("#Quantt_" + cartId).val();
-        var gia = $("#Price-" + cartId).text();
-        var total = parseInt(gia) * soluong; 
+        var gia = $("#Price-" + cartId).data("gia");
+        var total = parseInt(gia) * soluong;
+        var texttotal = Intl.NumberFormat('en-US').format(total);
 
         $.ajax({
             url: "/Cart/UpdateToCart",
@@ -32,7 +33,8 @@
             data: { id: cartId, soluong: soluong },
             success: function (rs) {
                 if (rs.isUpdate == true) {
-                    $("#total-" + cartId).text(total);
+                    $("#total-" + cartId).text(texttotal);
+                    $("#total-" + cartId).data("total", total);
                     SumToTalAll();
                     $(".tomuch.name-" + cartId).removeClass("tomuch");
                     loadToQuantityMax();
@@ -50,11 +52,12 @@
         var classtotal = $(".total-card");
         for (var i = 0; i < classtotal.length; i++) {
             /*console.log("sd", $(classtotal[i]).text());*/
-            var sotien = parseInt($(classtotal[i]).text());
+            var sotien = parseInt($(classtotal[i]).data("total"));
 
             tong += sotien;
         }
-        var textTong = tong + " VND";
+        console.log("tt", tong);
+        var textTong = Intl.NumberFormat('en-US').format(tong) + " VND";
         $("#TongSum").text(textTong);
     }
 

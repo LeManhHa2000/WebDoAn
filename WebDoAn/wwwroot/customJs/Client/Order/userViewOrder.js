@@ -51,15 +51,13 @@
         ],
         columnDefs: [
             {
-                orderable: false,
+                orderable: true,
                 targets: 0,
-                className: 'dt-body-center text-center',
-                render: function (data, type, row, meta) {
-                    var stt = parseInt(meta.row) + 1;
-                    return '<span>' + stt + '<span>';
-                }
+                data: "id",
+                className: 'text-center',
             },
             {
+                orderable: false,
                 targets: 1,
                 data: "createTime",
                 className: 'text-center',
@@ -69,11 +67,21 @@
 
             },
             {
+                orderable: false,
                 targets: 2,
-                data: "id",
+                data: "shipDate",
                 className: 'text-center',
+                render: function (shipDate) {
+                    if (moment(shipDate).format('L') == "01/01/0001") {
+                        return `<span></span>`;
+                    }
+                    else {
+                        return moment(shipDate).format('L')
+                    }
+                }
             },
             {
+                orderable: false,
                 targets: 3,
                 data: "status",
                 className: 'text-center',
