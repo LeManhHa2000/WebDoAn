@@ -119,11 +119,37 @@ namespace WebDoAn.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrder(Order order)
         {
-           
-            var idOrder = await _orderService.Create(order);
-
+            // Check lại số lượng hàng
             var listcart = _db.cart.Where(x => x.UserId == order.UserId).ToList();
             var listproduct = _db.product.ToList();
+
+            var listcartset = (from a in listcart
+                               join b in listproduct on a.ProductId equals b.Id
+                               where a.Quantity > b.Quantity
+                               select new Cart
+                               {
+                                   Id = a.Id,
+                                   Quantity = b.Quantity,
+                                   ProductId = a.ProductId,
+                                   UserId = a.UserId,
+                               }).ToList();
+            
+            // nếu số lượng sản phẩm đã thay đổi
+            if(listcartset.Count > 0)
+            {
+                _notyfService.Warning("Đã có sản phẩm thay đổi số lượng và không phù hợp với số lượng trong giỏ hàng của bạn và chúng tôi đã cập nhật nó cho phù hợp số lượng");
+
+                foreach (var item in listcartset)
+                {
+                    await _cartService.UpdateMultil(item);
+                }
+                return RedirectToAction("Index", "Cart", new { id = _contxt.HttpContext.Session.GetInt32("UserId") });
+            }
+
+            // Nếu không thì tiếp tục tạo order
+
+            var idOrder = await _orderService.Create(order);
+
 
             // Lấy ra chuỗi OrderDetail để tạo mới 
             var listOrderdetail = (from a in listcart

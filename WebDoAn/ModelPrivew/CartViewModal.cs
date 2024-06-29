@@ -9,5 +9,6 @@
         public int Price { get; set; }
         public int Total { get; set; }
         public bool IsToMuch { get; set; }
+        public int ProductId { get; set; }
     }
 }
