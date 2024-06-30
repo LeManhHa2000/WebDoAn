@@ -125,15 +125,20 @@ namespace WebDoAn.Controllers
         {
             var code = new { Success = false, isNot = false, soluong = 0 };
             var listcart = _db.cart.Where(x => x.UserId == _contxt.HttpContext.Session.GetInt32("UserId")).ToList();
+            if(listcart.Count == 0)
+            {
+                _notyfService.Warning("Giỏ hàng trống ! Vui lòng thêm mới sản phẩm vào giỏ trước khi đặt hàng");
+                return RedirectToAction("Index", "Cart", new { id = _contxt.HttpContext.Session.GetInt32("UserId") });
+            }
             var listproduct = _db.product.ToList();
 
             var listcartset = (from a in listcart
                               join b in listproduct on a.ProductId equals b.Id
-                              where a.Quantity > b.Quantity
+                              where a.Quantity > b.Quantity || a.Quantity == 0
                               select new Cart
                               {
                                   Id = a.Id,
-                                  Quantity = b.Quantity,
+                                  Quantity = a.Quantity > 0 ? b.Quantity : 0,
                                   ProductId = a.ProductId,
                                   UserId = a.UserId,
                               }).ToList();
@@ -148,6 +153,20 @@ namespace WebDoAn.Controllers
             }
 
             return RedirectToAction("CreateOrderUser", "OrderUser", new { id = _contxt.HttpContext.Session.GetInt32("UserId") });
+        }
+
+        [HttpPost]
+        public ActionResult ShowCount()
+        {
+            if(_contxt.HttpContext.Session.GetInt32("UserId") != null)
+            {
+                var listcart = _db.cart.Where(x => x.UserId == _contxt.HttpContext.Session.GetInt32("UserId")).ToList();
+                return Json(new { CountCart = listcart.Count });
+            }
+            else
+            {
+                return Json(new { CountCart = 0 });
+            }
         }
     }
 }

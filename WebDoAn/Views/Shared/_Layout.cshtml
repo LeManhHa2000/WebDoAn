@@ -42,7 +42,7 @@
         <div class="humberger__menu__cart">
             <ul>
                 <li>Giỏ hàng</li>
-                <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i></a></li>
+                <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i><span class="countcart-ct"></span></a></li>
             </ul>
         </div>
         <div class="humberger__menu__widget">
@@ -174,7 +174,7 @@
                             @if (@contxt.HttpContext.Session.GetInt32("UserId") != null)
                             {
                                 <li>Giỏ hàng</li>
-                                <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i></a></li>
+                                <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i><span class="countcart-ct"></span></a></li>
                                 @* <li><a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li> *@
                             }
                         </ul>
@@ -196,7 +196,8 @@
                 <div class="col-lg-6 col-md-12 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a href="./index.html"><img src="~Assets/img/logo.png" alt=""></a>
+                            <a style="font-size: 2rem;" class="textlogo-small" asp-controller="Home" asp-action="Index">SHOP <span style="color: fuchsia !important;">LIÊN HOAN</span></a>
+                            @* <a href="./index.html"><img src="~Assets/img/logo.png" alt=""></a> *@
                         </div>
                         <ul>
                             <li>Address: Thôn Đô Hai- xã An Lão - Huyện Bình Lục - Tỉnh Hà Nam</li>
@@ -228,7 +229,42 @@
                                 Được chỉnh sửa bởi Lê Mạnh Hà
                             </p>
                         </div>
-                        <div class="footer__copyright__payment"><img src="~Assets/img/payment-item.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifi custom Start -->
+            <div>
+                <div id="errorNumber" style="display: none;">
+                    <div class="notyf" style="justify-content: flex-end; align-items: flex-end;">
+                        <div class="notyf__toast notyf__toast--dismissible notyf__toast--lower text-dark">
+                            <div class="notyf__wrapper">
+                                <div class="notyf__icon">
+                                    <i class="fa fa-warning text-dark" style="color: orange;"></i>
+                                </div>
+                                <div class="notyf__message" id="Textwaningcart"></div>
+                                <div class="notyf__dismiss"><button class="notyf__dismiss-btn"></button></div>
+                            </div>
+                            <div class="notyf__ripple" style="background: orange;">
+
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                <div id="successNumber" style="display: none;">
+                    <div class="notyf" style="justify-content: flex-end; align-items: flex-end;">
+                        <div class="notyf__toast notyf__toast--dismissible notyf__toast--lower notyf__toast--success">
+                            <div class="notyf__wrapper">
+                                <div class="notyf__icon">
+                                    <i class="notyf__icon--success" style="color: rgb(40, 167, 69);"></i>
+                                </div>
+                                <div class="notyf__message" id="Textsuccesscart"></div>
+                                <div class="notyf__dismiss">
+                                    <button class="notyf__dismiss-btn"></button>
+                                </div>
+                            </div>
+                            <div class="notyf__ripple" style="background: rgb(40, 167, 69);"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -244,6 +280,7 @@
     <script src="~/Assets/js/mixitup.min.js"></script>
     <script src="~/Assets/js/owl.carousel.min.js"></script>
     <script src="~/Assets/js/main.js"></script>
+    <script src="~/customJs/Client/Cart/viewCountCart.js"></script>
 
     @await Component.InvokeAsync("Notyf");
     @await RenderSectionAsync("Scripts", required: false)
