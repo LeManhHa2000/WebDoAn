@@ -8,6 +8,8 @@
 }
 
 @model Order
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor contxt;
 
 <style>
     .nice-select {
@@ -31,7 +33,7 @@
                     <h2>Thông tin đặt hàng</h2>
                     <div class="breadcrumb__option">
                         <a asp-controller="Home" asp-action="Index">Trang chủ</a>
-                        <a asp-controller="Cart" asp-action="Index">Giỏ hàng</a>
+                        <a asp-controller="Cart" asp-action="Index" asp-route-id="@contxt.HttpContext.Session.GetInt32("UserId")">Giỏ hàng</a>
                         <span>Đặt hàng</span>
                     </div>
                 </div>

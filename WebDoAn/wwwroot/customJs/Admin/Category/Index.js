@@ -101,12 +101,8 @@
                 data: "name"
             },
             {
-                targets: 4,
-                data: "description"
-            },
-            {
 
-                targets: 5,
+                targets: 4,
                 data: 'id',
                 orderable: false,
                 autoWidth: false,

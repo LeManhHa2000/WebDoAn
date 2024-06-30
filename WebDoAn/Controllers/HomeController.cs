@@ -21,7 +21,7 @@ namespace WebDoAn.Controllers
             //Sanpham
             var listproduct = _db.product.ToList();
             var list = (from t in listproduct
-                        orderby t.Id
+                        orderby t.Id descending
                         select t).Take(8);
             var listpro = list.ToList();
             ViewBag.ProductInHome = listpro;

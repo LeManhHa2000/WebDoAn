@@ -12,7 +12,7 @@ using WebDoAn.dbs;
 namespace WebDoAn.Migrations
 {
     [DbContext(typeof(DoAnDbContext))]
-    [Migration("20240527153344_lan1")]
+    [Migration("20240630081246_lan1")]
     partial class lan1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,9 @@ namespace WebDoAn.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -70,9 +73,6 @@ namespace WebDoAn.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("numeric");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -103,8 +103,8 @@ namespace WebDoAn.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("boolean");
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -119,17 +119,17 @@ namespace WebDoAn.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Note")
                         .HasColumnType("text");
 
-                    b.Property<bool>("Pay")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<byte>("PaymentMethod")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("ShipDate")
                         .HasColumnType("timestamp with time zone");
@@ -137,7 +137,18 @@ namespace WebDoAn.Migrations
                     b.Property<byte>("Status")
                         .HasColumnType("smallint");
 
+                    b.Property<int>("Total")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("order");
                 });
@@ -153,9 +164,6 @@ namespace WebDoAn.Migrations
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("ImgProduct")
-                        .HasColumnType("text");
-
                     b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
@@ -165,8 +173,8 @@ namespace WebDoAn.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Total")
-                        .HasColumnType("numeric");
+                    b.Property<int>("Total")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -194,11 +202,26 @@ namespace WebDoAn.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<string>("Evaluate")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Length")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Material")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -206,41 +229,17 @@ namespace WebDoAn.Migrations
                     b.Property<string>("ShortDescription")
                         .HasColumnType("text");
 
-                    b.Property<string>("Tags")
-                        .HasColumnType("text");
-
-                    b.Property<byte>("TypeProduct")
-                        .HasColumnType("smallint");
-
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.ToTable("product");
-                });
-
-            modelBuilder.Entity("WebDoAn.Models.ProductImg", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ImgSrc")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("productImg");
                 });
 
             modelBuilder.Entity("WebDoAn.Models.User", b =>
@@ -254,14 +253,20 @@ namespace WebDoAn.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FullName")
                         .HasColumnType("text");
+
+                    b.Property<byte>("Gender")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Password")
                         .HasColumnType("text");
@@ -272,8 +277,8 @@ namespace WebDoAn.Migrations
                     b.Property<byte>("Role")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("SerName")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -310,6 +315,17 @@ namespace WebDoAn.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("WebDoAn.Models.Order", b =>
+                {
+                    b.HasOne("WebDoAn.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("WebDoAn.Models.OrderDetail", b =>
                 {
                     b.HasOne("WebDoAn.Models.Order", "order")
@@ -338,17 +354,6 @@ namespace WebDoAn.Migrations
                         .IsRequired();
 
                     b.Navigation("category");
-                });
-
-            modelBuilder.Entity("WebDoAn.Models.ProductImg", b =>
-                {
-                    b.HasOne("WebDoAn.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

@@ -140,7 +140,7 @@
                             <div class="product__details__tab__desc">
                                 <h6>Thông tin sản phẩm</h6>
                                 <p><b>Kích thước ước lượng (cao x dài x rộng): </b> <span>@Model.Height cm x</span><span>@Model.Length cm x</span><span>@Model.Width cm</span></p>
-                                @Model.Description
+                                @Html.Raw(Model.Description)
                             </div>
                         </div>
                         <div class="tab-pane" id="tabs-3" role="tabpanel">
@@ -178,7 +178,7 @@
                         </div>
                         <div class="product__item__text">
                             <h6><a asp-controller="ProductView" asp-action="Details" asp-route-id="@pro.Id">@pro.Name</a></h6>
-                            <h5>@pro.Price</h5>
+                            <h5>@Common.FormatNumber(pro.Price)</h5>
                         </div>
                     </div>
                 </div>

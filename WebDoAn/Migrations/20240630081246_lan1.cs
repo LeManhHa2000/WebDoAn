@@ -17,31 +17,13 @@ namespace WebDoAn.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    Status = table.Column<bool>(type: "boolean", nullable: false)
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_categorie", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "order",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ShipDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Pay = table.Column<bool>(type: "boolean", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<byte>(type: "smallint", nullable: false),
-                    Note = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_order", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,11 +33,13 @@ namespace WebDoAn.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    SerName = table.Column<string>(type: "text", nullable: true),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    Address = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: true),
                     Role = table.Column<byte>(type: "smallint", nullable: false),
+                    Gender = table.Column<byte>(type: "smallint", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: true),
                     Active = table.Column<bool>(type: "boolean", nullable: false)
                 },
@@ -75,10 +59,14 @@ namespace WebDoAn.Migrations
                     Name = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
                     ShortDescription = table.Column<string>(type: "text", nullable: true),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: true),
+                    Price = table.Column<int>(type: "integer", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
-                    Tags = table.Column<string>(type: "text", nullable: true),
-                    TypeProduct = table.Column<byte>(type: "smallint", nullable: false),
+                    Evaluate = table.Column<string>(type: "text", nullable: true),
+                    Material = table.Column<string>(type: "text", nullable: true),
+                    Length = table.Column<int>(type: "integer", nullable: false),
+                    Width = table.Column<int>(type: "integer", nullable: false),
+                    Height = table.Column<int>(type: "integer", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -99,6 +87,7 @@ namespace WebDoAn.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
                     SubDescription = table.Column<string>(type: "text", nullable: true),
@@ -117,13 +106,39 @@ namespace WebDoAn.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "order",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Code = table.Column<string>(type: "text", nullable: true),
+                    CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ShipDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Total = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<byte>(type: "smallint", nullable: false),
+                    PaymentMethod = table.Column<byte>(type: "smallint", nullable: false),
+                    Note = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_order", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_order_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "cart",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
-                    Total = table.Column<decimal>(type: "numeric", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -152,8 +167,7 @@ namespace WebDoAn.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
-                    Total = table.Column<decimal>(type: "numeric", nullable: false),
-                    ImgProduct = table.Column<string>(type: "text", nullable: true),
+                    Total = table.Column<int>(type: "integer", nullable: false),
                     OrderId = table.Column<int>(type: "integer", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -168,26 +182,6 @@ namespace WebDoAn.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_orderDetail_product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "productImg",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ImgSrc = table.Column<string>(type: "text", nullable: true),
-                    ProductId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_productImg", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_productImg_product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "product",
                         principalColumn: "Id",
@@ -210,6 +204,11 @@ namespace WebDoAn.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_order_UserId",
+                table: "order",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_orderDetail_OrderId",
                 table: "orderDetail",
                 column: "OrderId");
@@ -223,11 +222,6 @@ namespace WebDoAn.Migrations
                 name: "IX_product_CategoryId",
                 table: "product",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_productImg_ProductId",
-                table: "productImg",
-                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -242,16 +236,13 @@ namespace WebDoAn.Migrations
                 name: "orderDetail");
 
             migrationBuilder.DropTable(
-                name: "productImg");
-
-            migrationBuilder.DropTable(
-                name: "user");
-
-            migrationBuilder.DropTable(
                 name: "order");
 
             migrationBuilder.DropTable(
                 name: "product");
+
+            migrationBuilder.DropTable(
+                name: "user");
 
             migrationBuilder.DropTable(
                 name: "categorie");
