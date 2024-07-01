@@ -62,6 +62,17 @@ namespace WebDoAn.Areas.Admin.Controllers
                                      SoLuong = c.ToTal
                                  }).ToList();
 
+            // Lấy số lượng đơn hàng
+            var countOrderAll = _db.order.ToList().Count();
+            var countOrderWait = _db.order.Where(x => x.Status == Enums.OrderEnum.OrderStatus.Waitting).ToList().Count();
+            var countOrderComplete = _db.order.Where(x => x.Status == Enums.OrderEnum.OrderStatus.Complete).ToList().Count();
+            var countOrderReject = _db.order.Where(x => x.Status == Enums.OrderEnum.OrderStatus.Reject).ToList().Count();
+
+            ViewBag.countOrderAll = countOrderAll;
+            ViewBag.countOrderWait = countOrderWait;
+            ViewBag.countOrderComplete = countOrderComplete;
+            ViewBag.countOrderReject = countOrderReject;
+
             ViewBag.ListUserRank = listUserReturn;
             ViewBag.ListProductRank = listproReturn;
             return View();

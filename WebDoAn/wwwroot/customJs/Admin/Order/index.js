@@ -131,7 +131,7 @@
                     else {
                         return `<div class='text-center'>
                                 <a href="Order/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
-                                <a href="Order/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Sửa</a>
+                                <a href="Order/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Cập nhật</a>
                             </div>`;
                     }
                     
