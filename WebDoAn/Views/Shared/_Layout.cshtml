@@ -76,10 +76,10 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
-                <li><a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-name="">Sản phẩm</a></li>
-                <li><a asp-controller="BlogView" asp-action="Index">Tin tức</a></li>
-                <li><a asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
+                <li class="nav-mobi-ct @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="nav-mobi-ct @(ViewContext.RouteData.Values["Controller"].ToString() == "ProductView" ? "active" : "")"><a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-name="">Sản phẩm</a></li>
+                <li class="nav-mobi-ct @(ViewContext.RouteData.Values["Controller"].ToString() == "BlogView" ? "active" : "")"><a asp-controller="BlogView" asp-action="Index">Tin tức</a></li>
+                <li class="nav-mobi-ct @(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "active" : "")"><a asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -161,10 +161,10 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
-                            <li><a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-name="">Sản phẩm</a></li>
-                            <li><a asp-controller="BlogView" asp-action="Index">Tin tức</a></li>
-                            <li><a asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ProductView" ? "active" : "")"><a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-name="">Sản phẩm</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "BlogView" ? "active" : "")"><a asp-controller="BlogView" asp-action="Index">Tin tức</a></li>
+                            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "active" : "")"><a asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>

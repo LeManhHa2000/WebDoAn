@@ -1,7 +1,16 @@
-﻿<div class="side-nav">
+﻿<style>
+    .nav-item.active-ct {
+        background-color: rgba(63, 135, 245, 0.15);
+    }
+
+    .nav-item.active-ct a {
+        color: blue !important;
+    }
+</style>
+<div class="side-nav">
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
-            <li class="nav-item dropdown open">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active-ct" : "")">
                 <a class="dropdown-toggle" asp-area="Admin" asp-controller="Home" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-dashboard"></i>
@@ -10,7 +19,7 @@
                 </a>
                 
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "User" ? "active-ct" : "")">
                 <a asp-area="Admin" asp-controller="User" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-user"></i>
@@ -19,7 +28,7 @@
                 </a>
 
             </li>
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Category" ? "active-ct" : "")">
                 <a asp-area="Admin" asp-controller="Category" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-book"></i>
@@ -28,7 +37,7 @@
                 </a>
 
             </li>
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Product" ? "active-ct" : "")">
                 <a asp-area="Admin" asp-controller="Product" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-appstore"></i>
@@ -37,7 +46,7 @@
                 </a>
 
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" ? "active-ct" : "")">
                 <a asp-area="Admin" asp-controller="Order" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-form"></i>
@@ -46,7 +55,7 @@
                 </a>
                 
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Blogs" ? "active-ct" : "")">
                 <a asp-area="Admin" asp-controller="Blogs" asp-action="Index" class="dropdown-toggle">
                     <span class="icon-holder">
                         <i class="anticon anticon-file"></i>

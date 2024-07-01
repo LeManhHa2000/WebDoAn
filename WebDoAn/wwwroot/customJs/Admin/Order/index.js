@@ -123,7 +123,7 @@
                 orderable: false,
                 autoWidth: false,
                 render: function (data, type, row, meta) {
-                    if (row.status == 5) {
+                    if (row.status == 5 || row.status == 4) {
                         return `<div class='text-center'>
                                 <a href="Order/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
                             </div>`;
