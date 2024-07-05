@@ -1,5 +1,4 @@
 ﻿(function () {
-    moment.locale("vi");
     var data2 = {};
     //$.ajax({
     //    type: "GET",
@@ -80,7 +79,9 @@
                 targets: 1,
                 data: "createTime",
                 render: function (createTime) {
-                    return moment(createTime).format('L');
+                    var createTimecv = createTime.split("T")[0];
+                    var crreturn = createTimecv.split("-")
+                    return crreturn[2] + "/" + crreturn[1] + "/" + crreturn[0];
                 }
                 
             },
@@ -88,11 +89,13 @@
                 targets: 2,
                 data: "updateTime",
                 render: function (updateTime) {
-                    if (moment(updateTime).format('L') == "01/01/0001") {
+                    if (updateTime == "0001-01-01T00:00:00") {
                         return `<span></span>`;
                     }
                     else {
-                        return moment(updateTime).format('L')
+                        var updateTimecv = updateTime.split("T")[0];
+                        var upreturn = updateTimecv.split("-")
+                        return upreturn[2] + "/" + upreturn[1] + "/" + upreturn[0];
                     }
                 }
             },

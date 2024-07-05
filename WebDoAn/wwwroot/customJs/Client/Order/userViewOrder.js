@@ -1,5 +1,4 @@
 ﻿(function () {
-    moment.locale("vi");
     var data2 = {};
 
     var OrderTable = $('#OrderView').DataTable({
@@ -62,7 +61,9 @@
                 data: "createTime",
                 className: 'text-center',
                 render: function (createTime) {
-                    return moment(createTime).format('L');
+                    var createTimecv = createTime.split("T")[0];
+                    var crreturn = createTimecv.split("-")
+                    return crreturn[2] + "/" + crreturn[1] + "/" + crreturn[0];
                 }
 
             },
@@ -72,11 +73,13 @@
                 data: "shipDate",
                 className: 'text-center',
                 render: function (shipDate) {
-                    if (moment(shipDate).format('L') == "01/01/0001") {
+                    if (shipDate == "0001-01-01T00:00:00") {
                         return `<span></span>`;
                     }
                     else {
-                        return moment(shipDate).format('L')
+                        var shipdatecv = shipDate.split("T")[0];
+                        var sdreturn = shipdatecv.split("-")
+                        return sdreturn[2] + "/" + sdreturn[1] + "/" + sdreturn[0];
                     }
                 }
             },

@@ -137,7 +137,7 @@ namespace WebDoAn.Controllers
             // nếu số lượng sản phẩm đã thay đổi
             if(listcartset.Count > 0)
             {
-                _notyfService.Warning("Đã có sản phẩm thay đổi số lượng và không phù hợp với số lượng trong giỏ hàng của bạn và chúng tôi đã cập nhật nó cho phù hợp số lượng");
+                _notyfService.Error("Đã có sản phẩm thay đổi số lượng và không phù hợp với số lượng trong giỏ hàng của bạn và chúng tôi đã cập nhật nó cho phù hợp số lượng");
 
                 foreach (var item in listcartset)
                 {

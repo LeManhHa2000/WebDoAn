@@ -1,5 +1,4 @@
 ﻿(function () {
-    moment.locale("vi");
     var data2 = {};
     var getFilter = () => {
         console.log("value inout", $("#SearchInput").val());
@@ -71,7 +70,9 @@
                 targets: 1,
                 data: "createTime",
                 render: function (createTime) {
-                    return moment(createTime).format('L');
+                    var createTimecv = createTime.split("T")[0];
+                    var crreturn = createTimecv.split("-")
+                    return crreturn[2] + "/" + crreturn[1] + "/" + crreturn[0];
                 }
 
             },

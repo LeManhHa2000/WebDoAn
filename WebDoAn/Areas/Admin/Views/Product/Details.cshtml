@@ -1,4 +1,5 @@
 ﻿@using static WebDoAn.Enums.ProductEnum
+@using WebDoAn.Common
 @model WebDoAn.Models.Product
 
 @{
@@ -65,7 +66,7 @@
                     <p><span class="font-weight-bold mr-2">Số lượng:</span><span> @Model.Quantity</span></p>
                 </div>
                 <div>
-                    <p><span class="font-weight-bold mr-2">Giá:</span><span> @Model.Price </span> VND</p>
+                    <p><span class="font-weight-bold mr-2">Giá:</span><span>@Common.FormatNumber(Model.Price, 0) </span> VND</p>
                 </div>
                 <div>
                     <p><span class="font-weight-bold mr-2">Mô tả ngắn:</span><span> @Model.ShortDescription</span></p>

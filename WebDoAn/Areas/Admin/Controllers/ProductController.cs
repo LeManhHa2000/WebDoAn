@@ -112,7 +112,7 @@ namespace WebDoAn.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Id", productview.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Name", productview.CategoryId);
             return View(productview);
        
         }
