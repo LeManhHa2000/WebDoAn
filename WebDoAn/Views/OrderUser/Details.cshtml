@@ -45,7 +45,7 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label for="inputEmail4">Tên người nhận</label>
+                <label for="inputEmail4">Tên người đặt hàng</label>
                 <input type="text" class="form-control" id="inputEmail4" value="@ViewBag.UserInfor.FullName" readonly>
             </div>
             <div class="form-group col-md-2">
@@ -53,15 +53,19 @@
                 <input type="text" class="form-control" id="inputPassword4" value="@ViewBag.UserInfor.PhoneNumber" readonly>
             </div>
             <div class="form-group col-md-7">
-                <label for="inputAddress">Địa chỉ</label>
-                <input type="text" class="form-control" id="inputAddress" value="@ViewBag.UserInfor.Address" readonly>
+                <label for="inputAddress">Địa chỉ nhận hàng</label>
+                <input type="text" class="form-control" id="inputAddress" value="@Model.AddressReceive" readonly>
             </div>
         </div>
         <form>
             <input type="text" asp-for="UserId" hidden value="@ViewBag.UserInfor.Id" />
             <div class="form-row">
+                <div class="form-group col-md-5">
+                    <label for="inputAddress">Địa chỉ bên giao hàng</label>
+                    <input type="text" class="form-control" id="inputAddress" value="Thôn Đô Hai - Xã An Lão - Huyện Bình Lục - Tỉnh Hà Nam" readonly>
+                </div>
                 <div class="form-group col-md-3">
-                    <label for="inputState">Trạng thái</label>
+                    <label for="inputState">Trạng thái đơn hàng</label>
                     @if(Model.Status == OrderStatus.Waitting)
                     {
                         <input type="text" class="form-control" id="inputAddress" value="Chờ xác nhận" readonly>
@@ -87,7 +91,7 @@
                         <input type="text" class="form-control" id="inputAddress" value="Đơn hàng bị hủy" readonly>
                     }
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label for="inputState">Ngày cập nhật đơn hàng</label>
                     @if (@Model.UpdateTime.Date.ToShortDateString() == "1/1/0001")
                     {
@@ -98,7 +102,7 @@
                         <input asp-for="Total" type="text" class="form-control" id="inputAddress" value="@Model.UpdateTime.Date.ToShortDateString()" readonly>
                     }
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label for="inputState">Ngày giao hàng</label>
                     @if (@Model.ShipDate.Date.ToShortDateString() == "1/1/0001")
                     {

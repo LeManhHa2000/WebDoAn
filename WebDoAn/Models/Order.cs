@@ -16,8 +16,9 @@ namespace WebDoAn.Models
         public OrderEnum.OrderStatus Status { get; set; }
 		public OrderEnum.MethodPay PaymentMethod { get; set; }
 		public string? Note { get; set; }
+		public string? AddressReceive { get; set; }
 
-		[ForeignKey("User")]
+        [ForeignKey("User")]
 		public int UserId { get; set; }
 		public virtual User? user { get; set; }
 

@@ -152,7 +152,7 @@
         </div>
         <div class="container" style="border-bottom: 1px solid #333;">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="header__logo">
                         @* <a href="./index.html"><img src="~Assets/img/logo.png" alt=""></a> *@
                         <a class="logo-textcustom" asp-controller="Home" asp-action="Index">SHOP <span style="color: fuchsia;">LIÊN HOAN</span></a>
@@ -168,7 +168,7 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="header__cart">
                         <ul>
                             @if (@contxt.HttpContext.Session.GetInt32("UserId") != null)

@@ -26,10 +26,10 @@
     </div>
     <div class="card-body" id="ContentPrint">
         <div class="row">
-            <div class="col-2">
-                <p><span class="font-weight-bold mr-2">Mã đơn hàng</span><span> @Model.Code</span></p>
+            <div class="col-3">
+                <p><span class="font-weight-bold mr-2">Mã đơn hàng:</span><span> @Model.Code</span></p>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <p><span class="font-weight-bold mr-2">Ngày tạo:</span><span> @Model.CreateTime.Date.ToShortDateString()</span></p>
             </div>
             <div class="col-3">
@@ -58,14 +58,11 @@
                     }
                 </p>
             </div>
-            <div class="col-2">
-                <p><span class="font-weight-bold mr-2">Tổng tiền:</span><span>@Common.FormatNumber(Model.Total, 0) VNĐ</span></p>
-            </div>
         </div>
         <div class="row">
             <div class="col-3">
                 <p>
-                    <span class="font-weight-bold mr-2">Trạng thái</span>
+                    <span class="font-weight-bold mr-2">Trạng thái:</span>
                     @if (@Model.Status == WebDoAn.Enums.OrderEnum.OrderStatus.Waitting)
                     {
                         <span>Chờ xác nhận</span>
@@ -92,25 +89,34 @@
                     }
                 </p>
             </div>
+            <div class="col-3">
+                <p><span class="font-weight-bold mr-2">Tổng tiền:</span><span>@Common.FormatNumber(Model.Total, 0) VNĐ</span></p>
+            </div>
             <div class="col-6">
                 <p>
-                    <span class="font-weight-bold mr-2">Phương thức thanh toán</span>
+                    <span class="font-weight-bold mr-2">Phương thức thanh toán:</span>
                     @if (@Model.PaymentMethod == WebDoAn.Enums.OrderEnum.MethodPay.COD)
                     {
                         <span>Thanh toán tiền mặt khi nhận hàng</span>
                     }
                 </p>
             </div>
-            <div class="col-3">
-                <p><span class="font-weight-bold mr-2">Người đặt hàng:</span><span> @ViewBag.UserOrderView.FullName</span></p>
-            </div>
         </div>
         <div class="row">
             <div class="col-3">
-                <p><span class="font-weight-bold mr-2">Số điện thoại:</span><span> @ViewBag.UserOrderView.PhoneNumber</span></p>
+                <p><span class="font-weight-bold mr-2">Người đặt hàng:</span><span> @ViewBag.UserOrderView.FullName</span></p>
             </div>
             <div class="col-3">
-                <p><span class="font-weight-bold mr-2">Địa chỉ:</span><span> @ViewBag.UserOrderView.Address</span></p>
+                <p><span class="font-weight-bold mr-2">Số điện thoại:</span><span> @ViewBag.UserOrderView.PhoneNumber</span></p>
+            </div>
+            <div class="col-6">
+                <p><span class="font-weight-bold mr-2">Địa chỉ nhận hàng:</span><span> @ViewBag.UserOrderView.Address</span></p>
+            </div>
+          
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <p><span class="font-weight-bold mr-2">Địa chỉ bên giao hàng:</span><span>Thôn Đô Hai - Xã An Lão - Huyện Bình Lục - Tỉnh Hà Nam</span></p>
             </div>
             <div class="col-6">
                 <p><span class="font-weight-bold mr-2">Ghi chú:</span><span> @Model.Note</span></p>

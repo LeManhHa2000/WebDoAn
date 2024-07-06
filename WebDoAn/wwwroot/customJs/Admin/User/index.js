@@ -94,10 +94,6 @@
             },
             {
                 targets: 5,
-                data: "phoneNumber"
-            },
-            {
-                targets: 6,
                 data: "active",
                 render: function (status) {
                     if (status) {
@@ -110,14 +106,14 @@
             },
             {
 
-                targets: 7,
+                targets: 6,
                 data: 'id',
                 orderable: false,
                 autoWidth: false,
                 render: function (data, type, row, meta) {
-                    return `<div class='text-center'>
+                    return `<div class='text-center d-flex'>
                                 <a href="User/Details/`+ row.id + `" class="btn btn-info m-r-5 text-white">Xem chi tiết</a>
-                                <a href="User/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Sửa</a>
+                                <a href="User/Edit/`+ row.id + `" class="btn btn-warning m-r-5 text-white">Cập nhật</a>
                             </div>`;
                 }
             },

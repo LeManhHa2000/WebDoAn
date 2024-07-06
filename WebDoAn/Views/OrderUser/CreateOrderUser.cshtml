@@ -61,14 +61,14 @@
                 <input type="text" class="form-control" id="inputPassword4" value="@ViewBag.UserInfor.PhoneNumber" readonly>
             </div>
             <div class="form-group col-md-7">
-                <label for="inputAddress">Địa chỉ</label>
-                <input type="text" class="form-control" id="inputAddress" value="@ViewBag.UserInfor.Address" readonly>
+                <label for="inputAddress">Địa chỉ bên giao hàng</label>
+                <input type="text" class="form-control" id="inputAddress" value="Thôn Hai - Xã An Lão - Huyện Bình Lục - Tỉnh Hà Nam" readonly>
             </div>
         </div>
         <form asp-controller="OrderUser" asp-action="AddOrder" method="post">
             <input type="text" asp-for="UserId" hidden value="@ViewBag.UserInfor.Id" />
             <div class="form-row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label for="inputState">Tổng tiền (VND)</label>
                     <input asp-for="Total" type="text" class="form-control" id="inputAddress" value="@ViewBag.ToTalSum" readonly>
                 </div>
@@ -78,7 +78,11 @@
                         <option value="" selected disabled>Chọn</option>
                     </select>
                 </div>
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-6">
+                    <label for="inputAddress">Địa chỉ nhận hàng</label>
+                    <input asp-for="AddressReceive" type="text" class="form-control" value="@ViewBag.UserInfor.Address">
+                </div>
+                <div class="form-group col-md-6">
                     <label for="exampleFormControlTextarea1">Ghi chú</label>
                     <textarea asp-for="Note" class="form-control" id="exampleFormControlTextarea1" required rows="3"></textarea>
                 </div>
