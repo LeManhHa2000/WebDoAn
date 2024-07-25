@@ -12,7 +12,7 @@ using WebDoAn.dbs;
 namespace WebDoAn.Migrations
 {
     [DbContext(typeof(DoAnDbContext))]
-    [Migration("20240630081246_lan1")]
+    [Migration("20240725085130_lan1")]
     partial class lan1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,6 +119,9 @@ namespace WebDoAn.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AddressReceive")
+                        .HasColumnType("text");
+
                     b.Property<string>("Code")
                         .HasColumnType("text");
 
@@ -202,6 +205,9 @@ namespace WebDoAn.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<int>("Discount")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Evaluate")
                         .HasColumnType("text");
 
@@ -240,6 +246,27 @@ namespace WebDoAn.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("product");
+                });
+
+            modelBuilder.Entity("WebDoAn.Models.ProductImg", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImgSrc")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("productImg");
                 });
 
             modelBuilder.Entity("WebDoAn.Models.User", b =>
@@ -354,6 +381,17 @@ namespace WebDoAn.Migrations
                         .IsRequired();
 
                     b.Navigation("category");
+                });
+
+            modelBuilder.Entity("WebDoAn.Models.ProductImg", b =>
+                {
+                    b.HasOne("WebDoAn.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

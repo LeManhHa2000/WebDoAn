@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebDoAn.dbs;
 using WebDoAn.Models;
+using WebDoAn.Service.Admin.Products;
+using WebDoAn.Service.Admin.Products.Dto;
 using X.PagedList;
 
 namespace WebDoAn.Controllers
@@ -8,9 +10,11 @@ namespace WebDoAn.Controllers
     public class ProductViewController : Controller
     {
         private readonly DoAnDbContext _db;
-        public ProductViewController(DoAnDbContext db)
+        private readonly IProductService _productService;
+        public ProductViewController(DoAnDbContext db, IProductService productService)
         {
             _db = db;
+            _productService = productService;
         }
 
         public IActionResult Index(int id, string? name, int? page)
@@ -21,7 +25,7 @@ namespace WebDoAn.Controllers
 
             int pageSize = 6;
             int pageNumber = page == null || page < 0 ? 1 : page.Value;
-            List<Product> products = new List<Product>();
+            List<ProductDto> products = new List<ProductDto>();
 
             ViewBag.CateIdSearch = id;
             ViewBag.NameProSeacrh = name;
@@ -32,14 +36,16 @@ namespace WebDoAn.Controllers
                 {
                     var listproduct = _db.product.ToList();
                     ViewBag.Listproductcount = listproduct.Count;
-                    products = listproduct;
+                    var listquery = _productService.GetAllProDto(listproduct);
+                    products = listquery;
                     //ViewBag.Listproduct = listproduct;
                 }
                 else
                 {
                     var listproduct = _db.product.Where(x => x.CategoryId == id).ToList();
                     ViewBag.Listproductcount = listproduct.Count;
-                    products = listproduct;
+                    var listquery = _productService.GetAllProDto(listproduct);
+                    products = listquery;
                     //ViewBag.Listproduct = listproduct;
                 }
             }
@@ -49,19 +55,21 @@ namespace WebDoAn.Controllers
                 {
                     var listproduct = _db.product.Where(x => x.Name.ToLower().Contains(name.ToLower())).ToList();
                     ViewBag.Listproductcount = listproduct.Count;
-                    products = listproduct;
+                    var listquery = _productService.GetAllProDto(listproduct);
+                    products = listquery;
                     //ViewBag.Listproduct = listproduct;
                 }
                 else
                 {
                     var listproduct = _db.product.Where(x => x.CategoryId == id && x.Name.ToLower().Contains(name.ToLower())).ToList();
                     ViewBag.Listproductcount = listproduct.Count;
-                    products = listproduct;
+                    var listquery = _productService.GetAllProDto(listproduct);
+                    products = listquery;
                     //ViewBag.Listproduct = listproduct;
                 }
             }
 
-            PagedList<Product> lst = new PagedList<Product>(products, pageNumber, pageSize);
+            PagedList<ProductDto> lst = new PagedList<ProductDto>(products, pageNumber, pageSize);
             
             return View(lst);
         }
@@ -69,6 +77,7 @@ namespace WebDoAn.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             var product = await _db.product.FindAsync(id);
+            var proresult = _productService.GetProDto(product);
             if (product == null)
             {
                 return NotFound();
@@ -77,14 +86,19 @@ namespace WebDoAn.Controllers
             ViewBag.DanhMucName = danhmuc;
 
             var productlienquan = _db.product.Where(x => x.Id != id.Value && x.CategoryId == product.CategoryId).ToList();
+
+            var listresult = _productService.GetAllProDto(productlienquan);
             //Sanpham
-            var list = (from t in productlienquan
+            var list = (from t in listresult
                         orderby t.Id
                         select t).Take(4);
             var listpro = list.ToList();
             ViewBag.ProductLienQuan = listpro;
 
-            return View(product);
+            var listproimg = _db.productImg.Where(x => x.ProductId == id).ToList();
+            ViewBag.ListProImgDt = listproimg;
+
+            return View(proresult);
         }
     }
 }

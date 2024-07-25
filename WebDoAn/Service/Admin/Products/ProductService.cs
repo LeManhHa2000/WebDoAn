@@ -16,7 +16,7 @@ namespace WebDoAn.Service.Admin.Products
             _db = db; 
             _notyfService = notyfService;
         }
-        public async Task<bool> Create(Product product)
+        public async Task<int> Create(Product product)
         {
             var isProduct = _db.product.Where(x => x.Name.ToLower() == product.Name.ToLower()).ToList();
             if(isProduct.Count() == 0)
@@ -29,12 +29,12 @@ namespace WebDoAn.Service.Admin.Products
                 _db.product.Add(product);
                 await _db.SaveChangesAsync();
                 _notyfService.Success("Tạo mới thành công");
-                return true;
+                return product.Id;
             }
             else
             {
                 _notyfService.Error("Tên sản phẩm này đã tồn tại, vui lòng thay đổi tên !");
-                return false;
+                return 0;
             }
         }
 
@@ -55,18 +55,84 @@ namespace WebDoAn.Service.Admin.Products
             }
         }
 
-        public List<Product> GetAll(GetInput input)
+        public List<ProductDto> GetAll(GetInput input)
         {
             if (input.Name == "all")
             {
-                var list = _db.product.OrderBy(x => x.Id).ToList();
-                return list;
+                var listproduct = _db.product.OrderBy(x => x.Id).ToList();
+                var listimg = _db.productImg.ToList();
+
+                var listquery = (from pro in listproduct
+                                 select new ProductDto
+                                 {
+                                     Id = pro.Id,
+                                     CreateTime = pro.CreateTime,
+                                     UpdateTime = pro.UpdateTime,
+                                     Name = pro.Name,
+                                     Quantity = pro.Quantity,
+                                     Image = _db.productImg.Where(x => x.ProductId == pro.Id).Count() > 0 ? _db.productImg.Where(x => x.ProductId == pro.Id).ToList()[0].ImgSrc : "anhtrong",
+                                 }).ToList();
+                return listquery;
             }
             else
             {
-                var list = _db.product.Where(x => x.Name.ToLower().Contains(input.Name.ToLower())).OrderBy(x => x.Id).ToList();
-                return list;
+                var listproduct = _db.product.Where(x => x.Name.ToLower().Contains(input.Name.ToLower())).OrderBy(x => x.Id).ToList();
+                var listimg = _db.productImg.ToList();
+
+                var listquery = (from pro in listproduct
+                                 select new ProductDto
+                                 {
+                                     Id = pro.Id,
+                                     CreateTime = pro.CreateTime,
+                                     UpdateTime = pro.UpdateTime,
+                                     Name = pro.Name,
+                                     Quantity = pro.Quantity,
+                                     Image = (from i in listimg where i.ProductId == pro.Id select i.ImgSrc).ToList()[0],
+                                 }).ToList();
+                return listquery;
             }
+        }
+
+        public List<ProductDto> GetAllProDto(List<Product> listproduct)
+        {
+            var listquery = (from pro in listproduct
+                             select new ProductDto
+                             {
+                                 Id = pro.Id,
+                                 CreateTime = pro.CreateTime,
+                                 UpdateTime = pro.UpdateTime,
+                                 Price = pro.Price,
+                                 Discount = pro.Discount,
+                                 Name = pro.Name,
+                                 Quantity = pro.Quantity,
+                                 Image = _db.productImg.Where(x => x.ProductId == pro.Id).Count() > 0 ? _db.productImg.Where(x => x.ProductId == pro.Id).ToList()[0].ImgSrc : "anhtrong",
+                             }).ToList();
+
+            return listquery;
+        }
+
+        public ProductDto GetProDto(Product product)
+        {
+            var proquery = new ProductDto
+            {
+                Id = product.Id,
+                CreateTime = product.CreateTime,
+                UpdateTime = product.UpdateTime,
+                Price = product.Price,
+                Discount = product.Discount,
+                Name = product.Name,
+                Quantity = product.Quantity,
+                Height = product.Height,
+                Width = product.Width,
+                Length = product.Length,
+                Material = product.Material,
+                Evaluate = product.Evaluate,
+                Description = product.Description,
+                ShortDescription = product.ShortDescription,
+                Image = _db.productImg.Where(x => x.ProductId == product.Id).Count() > 0 ? _db.productImg.Where(x => x.ProductId == product.Id).ToList()[0].ImgSrc : "anhtrong",
+            };
+
+            return proquery;
         }
 
         public async Task<string> GetNameCategory(int cateId)
@@ -81,6 +147,7 @@ namespace WebDoAn.Service.Admin.Products
                 return string.Empty;
             }
         }
+
 
         public async Task<Product> GetProductById(int id)
         {

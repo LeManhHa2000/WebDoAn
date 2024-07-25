@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using WebDoAn.dbs;
 using WebDoAn.Models;
+using WebDoAn.Service.Admin.Products.Dto;
 
 namespace WebDoAn.Controllers
 {
@@ -20,7 +21,21 @@ namespace WebDoAn.Controllers
         {
             //Sanpham
             var listproduct = _db.product.ToList();
-            var list = (from t in listproduct
+
+            var listquery = (from pro in listproduct
+                            select new ProductDto
+                            {
+                                Id = pro.Id,
+                                CreateTime = pro.CreateTime,
+                                UpdateTime = pro.UpdateTime,
+                                Price = pro.Price,
+                                Discount = pro.Discount,
+                                Name = pro.Name,
+                                Quantity = pro.Quantity,
+                                Image = _db.productImg.Where(x => x.ProductId == pro.Id).Count() > 0 ? _db.productImg.Where(x => x.ProductId == pro.Id).ToList()[0].ImgSrc : "anhtrong",
+                            }).ToList();
+
+            var list = (from t in listquery
                         orderby t.Id descending
                         select t).Take(8);
             var listpro = list.ToList();

@@ -61,6 +61,7 @@ namespace WebDoAn.Migrations
                     ShortDescription = table.Column<string>(type: "text", nullable: true),
                     Image = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<int>(type: "integer", nullable: false),
+                    Discount = table.Column<int>(type: "integer", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     Evaluate = table.Column<string>(type: "text", nullable: true),
                     Material = table.Column<string>(type: "text", nullable: true),
@@ -119,6 +120,7 @@ namespace WebDoAn.Migrations
                     Status = table.Column<byte>(type: "smallint", nullable: false),
                     PaymentMethod = table.Column<byte>(type: "smallint", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: true),
+                    AddressReceive = table.Column<string>(type: "text", nullable: true),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -155,6 +157,26 @@ namespace WebDoAn.Migrations
                         name: "FK_cart_user_UserId",
                         column: x => x.UserId,
                         principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "productImg",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ImgSrc = table.Column<string>(type: "text", nullable: true),
+                    ProductId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_productImg", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_productImg_product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "product",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -222,6 +244,11 @@ namespace WebDoAn.Migrations
                 name: "IX_product_CategoryId",
                 table: "product",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_productImg_ProductId",
+                table: "productImg",
+                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -234,6 +261,9 @@ namespace WebDoAn.Migrations
 
             migrationBuilder.DropTable(
                 name: "orderDetail");
+
+            migrationBuilder.DropTable(
+                name: "productImg");
 
             migrationBuilder.DropTable(
                 name: "order");

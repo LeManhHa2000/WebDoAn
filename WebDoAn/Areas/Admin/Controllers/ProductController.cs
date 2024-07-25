@@ -60,6 +60,7 @@ namespace WebDoAn.Areas.Admin.Controllers
             }
 
             ViewBag.cateName = await _productService.GetNameCategory(product.CategoryId);
+            ViewBag.ListImgProDt = _context.productImg.Where(x => x.ProductId == id).Select(x => x.ImgSrc).ToList();
 
             return View(product);
         }
@@ -81,14 +82,6 @@ namespace WebDoAn.Areas.Admin.Controllers
             String filename = "";
             if (ModelState.IsValid)
             {
-                String uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images" , "product");
-                filename = Guid.NewGuid().ToString() + "_" + productview.Photo.FileName;
-                string filepath = Path.Combine(uploadfolder, filename);
-
-                using (var sream = System.IO.File.Create(filepath))
-                {
-                    productview.Photo.CopyTo(sream);
-                }
                 //productview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
 
                 Product product = new Product{
@@ -97,6 +90,7 @@ namespace WebDoAn.Areas.Admin.Controllers
                     ShortDescription = productview.ShortDescription,
                     //TypeProduct = productview.TypeProduct,
                     Price = productview.Price,
+                    Discount = productview.Discount,
                     Length = productview.Length,
                     Height = productview.Height,
                     Width = productview.Width,
@@ -104,11 +98,33 @@ namespace WebDoAn.Areas.Admin.Controllers
                     Evaluate = productview.Evaluate,
                     Quantity = productview.Quantity,
                     CategoryId = productview.CategoryId,
-                    Image = filename,
                 };
                 var isproduct = await _productService.Create(product);
-                if (isproduct)
+                // Tạo mới sản phẩm thành công
+                if (isproduct > 0)
                 {
+                    foreach(IFormFile photo in productview.Photo)
+                    {
+                        String uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images", "product");
+                        filename = Guid.NewGuid().ToString() + "_" + photo.FileName;
+                        string filepath = Path.Combine(uploadfolder, filename);
+
+                        using (var sream = System.IO.File.Create(filepath))
+                        {
+                            photo.CopyTo(sream);
+                        }
+
+                        ProductImg productImg = new ProductImg
+                        {
+                            ProductId = isproduct,
+                            ImgSrc = filename,
+                        };
+
+                        // thêm vào bảng ảnh sản phẩm
+                        _context.productImg.Add(productImg);
+                        await _context.SaveChangesAsync();
+                    }
+                    
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -130,7 +146,7 @@ namespace WebDoAn.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["Filename"] = _context.product.Find(id.Value).Image.ToString();
+            ViewBag.ProImgEdit = _context.productImg.Where(x => x.ProductId == id).ToList();
             ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Name", product.CategoryId);
             return View(product);
         }
@@ -143,41 +159,40 @@ namespace WebDoAn.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(ProductViewModal productview)
         {
             var pro = await _productService.GetProductById(productview.Id);
-            
-            
+
+            String filename = "";
             if (!ModelState.IsValid)
             {
                 ViewData["ProductId"] = pro.Id;
-                ViewData["Filename"] = pro.Image;
                 ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Name", productview.CategoryId);
                 return View(productview);
 
             }
 
             // Update lai hinh anh
-            string filename = pro.Image;
-            if(productview.Photo != null)
-            {
-                string uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images", "product");
-                filename = Guid.NewGuid().ToString() + "_" + productview.Photo.FileName;
-                string filepath = Path.Combine(uploadfolder, filename);
+            //if(productview.Photo != null)
+            //{
+            //    string uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images", "product");
+            //    filename = Guid.NewGuid().ToString() + "_" + productview.Photo.FileName;
+            //    string filepath = Path.Combine(uploadfolder, filename);
 
-                using (var sream = System.IO.File.Create(filepath))
-                {
-                    productview.Photo.CopyTo(sream);
-                }
-                //productview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
+            //    using (var sream = System.IO.File.Create(filepath))
+            //    {
+            //        productview.Photo.CopyTo(sream);
+            //    }
+            //    //productview.Photo.CopyTo(new FileStream(filepath, FileMode.Create));
 
-                //delete oldfile
-                string oldfilename = _hostEnvironment.WebRootPath + "\\images\\product\\" + pro.Image;
-                System.IO.File.Delete(oldfilename);
-            }
+            //    //delete oldfile
+            //    string oldfilename = _hostEnvironment.WebRootPath + "\\images\\product\\" + pro.Image;
+            //    System.IO.File.Delete(oldfilename);
+            //}
 
             pro.Name = productview.Name;
             pro.Description = productview.Description;
             pro.ShortDescription = productview.ShortDescription;
             //pro.TypeProduct = productview.TypeProduct;
             pro.Price = productview.Price;
+            pro.Discount = productview.Discount;
             pro.Length = productview.Length;
             pro.Width = productview.Width;
             pro.Height = productview.Height;
@@ -185,21 +200,55 @@ namespace WebDoAn.Areas.Admin.Controllers
             pro.Material = productview.Material;
             pro.Quantity = productview.Quantity;
             pro.CategoryId = productview.CategoryId;
-            pro.Image = filename;
 
             var isproduct = await _productService.Update(pro);
             if (isproduct)
             {
+                if (productview.Photo != null)
+                {
+                    foreach (IFormFile photo in productview.Photo)
+                    {
+                        String uploadfolder = Path.Combine(_hostEnvironment.WebRootPath + "\\images", "product");
+                        filename = Guid.NewGuid().ToString() + "_" + photo.FileName;
+                        string filepath = Path.Combine(uploadfolder, filename);
+
+                        using (var sream = System.IO.File.Create(filepath))
+                        {
+                            photo.CopyTo(sream);
+                        }
+
+                        ProductImg productImg = new ProductImg
+                        {
+                            ProductId = pro.Id,
+                            ImgSrc = filename,
+                        };
+
+                        // thêm vào bảng ảnh sản phẩm
+                        _context.productImg.Add(productImg);
+                        await _context.SaveChangesAsync();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             else
             {
                 ViewData["ProductId"] = pro.Id;
-                ViewData["Filename"] = pro.Image;
                 ViewData["CategoryId"] = new SelectList(_context.categorie, "Id", "Name", productview.CategoryId);
                 return View(productview);
             }
             
+        }
+
+        // Xóa ảnh trong sản phẩm ( Phần lưu , xóa ProductImg)
+        [HttpPost]
+        public async Task<ActionResult> DeleteProImg(int id)
+        {
+            var proImg = _context.productImg.Find(id);
+            _context.productImg.Remove(proImg);
+            await _context.SaveChangesAsync();
+          
+            var code = new { Success = true };
+            return Json(code);
         }
 
         // GET: Admin/Product/Delete/5

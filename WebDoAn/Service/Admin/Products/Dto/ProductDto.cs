@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using WebDoAn.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using WebDoAn.Models;
 
-namespace WebDoAn.Models
+namespace WebDoAn.Service.Admin.Products.Dto
 {
-    public class Product
+    public class ProductDto
     {
-        [Key]
         public int Id { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime UpdateTime { get; set; }
@@ -15,7 +13,7 @@ namespace WebDoAn.Models
         public string? ShortDescription { get; set; }
         public string? Image { get; set; }
         public int Price { get; set; }
-        public int Discount { get; set; } = 0;
+        public int Discount { get; set; }
         public int Quantity { get; set; }
         //public string? Tags { get; set; }
         public string? Evaluate { get; set; }
@@ -28,6 +26,5 @@ namespace WebDoAn.Models
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
         public virtual Category? category { get; set; }
-
     }
 }

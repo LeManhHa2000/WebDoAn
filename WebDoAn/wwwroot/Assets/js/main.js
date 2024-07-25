@@ -152,11 +152,18 @@
     $(".product__details__pic__slider").owlCarousel({
         loop: true,
         margin: 20,
-        items: 4,
-        dots: true,
-        smartSpeed: 1200,
-        autoHeight: false,
-        autoplay: true
+        nav: true,
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 3
+            },
+            1000: {
+                items: 5
+            }
+        }
     });
 
     /*-----------------------

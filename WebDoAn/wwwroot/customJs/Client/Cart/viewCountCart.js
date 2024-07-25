@@ -212,5 +212,16 @@
             hiddentNotiCt();
         }, 3000);
     });
+
+    // View hình ảnh
+    $(".img-child-ct").on("click", function () {
+        var imgurl = $(this).data('imgbigurl');
+        var bigImg = $('.product__details__pic__item--large').attr('src');
+        if (imgurl != bigImg) {
+            $('.product__details__pic__item--large').attr({
+                src: imgurl
+            });
+        }
+    });
     
 })(jQuery);

@@ -113,7 +113,21 @@
                         </div>
                         <div class="featured__item__text">
                             <h6><a asp-controller="ProductView" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></h6>
-                            <h5>@Common.FormatNumber(item.Price , 0) VND</h5>
+                            @if (item.Discount == 0)
+                            {
+                                <h5>@Common.FormatNumber(item.Price, 0) VND</h5>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <h5>
+                                        @Common.FormatNumber(item.Discount, 0) VND
+                                    </h5>
+                                    <span class="discont-text">@Common.FormatNumber(item.Price, 0) VND</span>
+                                </div>
+                               
+                                
+                            }
                         </div>
                     </div>
                 </div>

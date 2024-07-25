@@ -81,9 +81,18 @@
             </div>
             <div class="col-4">
                 <div>
-                    <p><span class="font-weight-bold mr-2">Ảnh sản phẩm:</span></p>
+                    <p><span class="font-weight-bold mr-2 mb-0">Ảnh sản phẩm:</span></p>
                     <div class="blockview_img">
-                        <img class="img-fluid" src="/images/product/@Model.Image" />
+                        <div class="row">
+                            @foreach (var img in ViewBag.ListImgProDt)
+                            {
+                                <div class="col-6 mt-2">
+                                    <img style="width: 100%; height: 160px;" src="/images/product/@img" />
+                                </div>
+                            
+                            }
+                        </div>
+                       
                     </div>
                 </div>
             </div>

@@ -6,8 +6,9 @@
 @using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor contxt;
 @using WebDoAn.Common
+@using WebDoAn.Service.Admin.Products.Dto
 
-@model Product
+@model ProductDto
 
 <style>
     #AddTocart {
@@ -51,19 +52,26 @@
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__pic">
                     <div class="product__details__pic__item">
-                        <img class="product__details__pic__item--large"
+                        <img class="product__details__pic__item--large" style="height: 600px;"
                              src="/images/product/@Model.Image" alt="">
                     </div>
-                   @*  <div class="product__details__pic__slider owl-carousel">
-                        <img data-imgbigurl="img/product/details/product-details-2.jpg"
+                    <div class="row">
+                        @foreach (var imgpro in ViewBag.ListProImgDt)
+                        {
+                            <div class="col-3">
+                                <img class="img-child-ct" data-imgbigurl="/images/product/@imgpro.ImgSrc"
+                                     src="/images/product/@imgpro.ImgSrc" alt="">
+                            </div>
+                        }
+                    @*     <img data-imgbigurl="img/product/details/product-details-2.jpg"
                              src="img/product/details/thumb-1.jpg" alt="">
                         <img data-imgbigurl="img/product/details/product-details-3.jpg"
                              src="img/product/details/thumb-2.jpg" alt="">
                         <img data-imgbigurl="img/product/details/product-details-5.jpg"
                              src="img/product/details/thumb-3.jpg" alt="">
                         <img data-imgbigurl="img/product/details/product-details-4.jpg"
-                             src="img/product/details/thumb-4.jpg" alt="">
-                    </div> *@
+                             src="img/product/details/thumb-4.jpg" alt=""> *@
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
@@ -77,7 +85,18 @@
                         <i class="fa fa-star-half-o"></i>
                         <span>(18 reviews)</span>
                     </div> *@
-                    <div class="product__details__price">@Common.FormatNumber(Model.Price, 0) VND</div>
+                    @if(Model.Discount == 0)
+                    {
+                        <div class="product__details__price">@Common.FormatNumber(Model.Price, 0) VND</div>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center">
+                            <div class="product__details__price mb-0">@Common.FormatNumber(Model.Discount, 0) VND</div>
+                            <span class="discont-text" style="font-size: 1.6rem;">@Common.FormatNumber(Model.Price, 0) VND</span>
+                        </div>
+                    }
+
                     <p>
                         @Model.ShortDescription
                     </p>
@@ -178,7 +197,19 @@
                         </div>
                         <div class="product__item__text">
                             <h6><a asp-controller="ProductView" asp-action="Details" asp-route-id="@pro.Id">@pro.Name</a></h6>
-                            <h5>@Common.FormatNumber(pro.Price)</h5>
+                            @if (pro.Discount == 0)
+                            {
+                                <h5>@Common.FormatNumber(pro.Price, 0) VND</h5>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center">
+                                    <h5>
+                                        @Common.FormatNumber(pro.Discount, 0) VND
+                                    </h5>
+                                    <span class="discont-text">@Common.FormatNumber(pro.Price, 0) VND</span>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
