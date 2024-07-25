@@ -57,7 +57,8 @@ namespace WebDoAn.Controllers
             }
 
             var listcart = _db.cart.Where(x => x.UserId == id).ToList();
-            var listproduct = _db.product.ToList();
+            var listproductdb = _db.product.ToList();
+            var listproduct = _productService.GetAllProDto(listproductdb);
 
             var listreturn = (from a in listcart
                               join b in listproduct on a.ProductId equals b.Id
@@ -67,8 +68,8 @@ namespace WebDoAn.Controllers
                                   Name = b.Name,
                                   Image = b.Image,
                                   Quantity = a.Quantity,
-                                  Price = b.Price,
-                                  Total = a.Quantity * b.Price,
+                                  Price = a.Price,
+                                  Total = a.Quantity * a.Price,
                                   IsToMuch = a.Quantity > b.Quantity ? true : false,
                               }).OrderBy(x => x.Id).ToList();
 
@@ -91,7 +92,8 @@ namespace WebDoAn.Controllers
             }
 
             var listorderdetail = _db.orderDetail.Where(x => x.OrderId == id).ToList();
-            var listproduct = _db.product.ToList();
+            var listproductbd = _db.product.ToList();
+            var listproduct = _productService.GetAllProDto(listproductbd);
 
             var listreturn = (from a in listorderdetail
                               join b in listproduct on a.ProductId equals b.Id
@@ -153,13 +155,12 @@ namespace WebDoAn.Controllers
 
             // Lấy ra chuỗi OrderDetail để tạo mới 
             var listOrderdetail = (from a in listcart
-                              join b in listproduct on a.ProductId equals b.Id
                               select new OrderDetail
                               {
                                   OrderId = idOrder,
-                                  ProductId = b.Id,
+                                  ProductId = a.ProductId,
                                   Quantity = a.Quantity,
-                                  Total = b.Price,
+                                  Total = a.Price,
                               }).ToList();
             // Tạo mới orderDetail
             foreach (var item in listOrderdetail)
@@ -169,17 +170,16 @@ namespace WebDoAn.Controllers
 
             // Cập nhật lại số lượng sản phẩm
             var listproductnew = (from a in listcart
-                              join b in listproduct on a.ProductId equals b.Id
                               select new Product
                               {
-                                  Id = b.Id,
-                                  Quantity = b.Quantity - a.Quantity,
+                                  Id = a.ProductId,
+                                  Quantity = a.Quantity,
                               }).ToList();
 
             // Cập nhật lại số lượng sản phẩm
             foreach(var pro in listproductnew)
             {
-                await _productService.UpdateQuantity(pro);
+                await _productService.UpdateQuantityDH(pro);
             }
 
             // Xóa giỏ hàng

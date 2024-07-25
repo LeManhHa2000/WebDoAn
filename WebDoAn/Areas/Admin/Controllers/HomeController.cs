@@ -3,6 +3,7 @@ using WebDoAn.Authentications;
 using WebDoAn.dbs;
 using WebDoAn.ModelPrivew;
 using WebDoAn.Models;
+using WebDoAn.Service.Admin.Products;
 
 namespace WebDoAn.Areas.Admin.Controllers
 {
@@ -11,10 +12,12 @@ namespace WebDoAn.Areas.Admin.Controllers
     {
         public readonly DoAnDbContext _db;
         private readonly IHttpContextAccessor _contxt;
+        public readonly IProductService _productService;
 
-        public HomeController(DoAnDbContext db, IHttpContextAccessor contxt) {  
+        public HomeController(DoAnDbContext db, IHttpContextAccessor contxt, IProductService productService) {  
             _db = db;
             _contxt = contxt;
+            _productService = productService;
         }
         [Authentication]
         public IActionResult Index()
@@ -38,7 +41,8 @@ namespace WebDoAn.Areas.Admin.Controllers
 
             // lấy ra sản phẩm phẩm có lượt mua nhiều nhất
             var listorderDetail = _db.orderDetail.ToList();
-            var listproFirst = _db.product.ToList();
+            var listproFirstbd = _db.product.ToList();
+            var listproFirst = _productService.GetAllProDto(listproFirstbd);
 
             var listorderDtSc = (from a in listorderDetail
                                  join b in listorder on a.OrderId equals b.Id

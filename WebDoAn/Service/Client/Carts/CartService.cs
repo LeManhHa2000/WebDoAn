@@ -19,6 +19,10 @@ namespace WebDoAn.Service.Client.Carts
         public async Task<bool> AddToCart(Cart cart)
         {
             var iscart = _db.cart.Where(x => x.UserId == cart.UserId && x.ProductId == cart.ProductId).ToList();
+            var productset = _db.product.Where(x => x.Id == cart.ProductId).FirstOrDefault();
+
+            // Kiểm tra sản phẩm đã có trong giỏ hàng hay chưa
+            // Nếu chưa
             if(iscart.Count == 0)
             {
                 var quantitySoluong = _db.product.Where(x => x.Id == cart.ProductId).Select(x => x.Quantity).FirstOrDefault();
@@ -29,6 +33,17 @@ namespace WebDoAn.Service.Client.Carts
                 }
                 else
                 {
+                    // Kiểm tra sản phẩm này có khuyến mãi hay không
+                    //Nếu không
+                    if (productset.Discount == 0)
+                    {
+                        cart.Price = productset.Price;
+                    }
+                    //Nếu có
+                    else
+                    {
+                        cart.Price = productset.Discount;
+                    }
                     _db.cart.Add(cart);
                     await _db.SaveChangesAsync();
                     _notyfService.Success("Thêm vào giỏ hàng thành công");
@@ -37,22 +52,66 @@ namespace WebDoAn.Service.Client.Carts
             }
             else
             {
-                var soluongmoi = cart.Quantity + iscart[0].Quantity;
-                var quantitySoluong = _db.product.Where(x => x.Id == cart.ProductId).Select(x => x.Quantity).FirstOrDefault();
-                if(soluongmoi > quantitySoluong)
+                // Kiểm tra sản phẩm này khuyến mãi hay không
+                //Nếu không
+                if(productset.Discount == 0)
                 {
-                    _notyfService.Warning("Số lượng sản phẩm không đủ, vui lòng nhập lại số lượng");
-                    return false;
+                    var soluongmoi = cart.Quantity + iscart[0].Quantity;
+                    var quantitySoluong = _db.product.Where(x => x.Id == cart.ProductId).Select(x => x.Quantity).FirstOrDefault();
+                    if (soluongmoi > quantitySoluong)
+                    {
+                        _notyfService.Warning("Số lượng sản phẩm không đủ, vui lòng nhập lại số lượng");
+                        return false;
+                    }
+                    else
+                    {
+                        var cartitem = _db.cart.Where(x => x.UserId == cart.UserId && x.ProductId == cart.ProductId).FirstOrDefault();
+                        cartitem.Quantity = cartitem.Quantity + cart.Quantity;
+                        _db.cart.Update(cartitem);
+                        await _db.SaveChangesAsync();
+                        _notyfService.Success("Thêm vào giỏ hàng thành công");
+                        return true;
+                    }
                 }
+                //nếu có
                 else
                 {
-                    var cartitem = _db.cart.Where(x => x.UserId == cart.UserId && x.ProductId == cart.ProductId).FirstOrDefault();
-                    cartitem.Quantity = cartitem.Quantity + cart.Quantity;
-                    _db.cart.Update(cartitem);
-                    await _db.SaveChangesAsync();
-                    _notyfService.Success("Thêm vào giỏ hàng thành công");
-                    return true;
+                    // Lấy giảm giá hiện tại của sản phẩm
+                    var presentPrice = _db.product.Where(x => x.Id == cart.ProductId).Select(x => x.Discount).FirstOrDefault();
+
+                    // Kiểm tra trong giỏ hàng có tồn tại sản phẩm mà có giảm giá giữ nguyên không
+                    var cartitemset = _db.cart.Where(x => x.UserId == cart.UserId && x.ProductId == cart.ProductId && x.Price == presentPrice).ToList();
+                    // Nếu không
+                    if(cartitemset.Count == 0)
+                    {
+                        cart.Price = presentPrice;
+                        _db.cart.Add(cart);
+                        await _db.SaveChangesAsync();
+                        _notyfService.Success("Thêm vào giỏ hàng thành công");
+                        return true;
+                    }
+                    // Nếu có
+                    else
+                    {
+                        var soluongmoi = cart.Quantity + cartitemset[0].Quantity;
+                        var quantitySoluong = _db.product.Where(x => x.Id == cart.ProductId).Select(x => x.Quantity).FirstOrDefault();
+                        if (soluongmoi > quantitySoluong)
+                        {
+                            _notyfService.Warning("Số lượng sản phẩm không đủ, vui lòng nhập lại số lượng");
+                            return false;
+                        }
+                        else
+                        {
+                            var cartitem = _db.cart.Where(x => x.UserId == cart.UserId && x.ProductId == cart.ProductId && x.Price == presentPrice).FirstOrDefault();
+                            cartitem.Quantity = cartitem.Quantity + cart.Quantity;
+                            _db.cart.Update(cartitem);
+                            await _db.SaveChangesAsync();
+                            _notyfService.Success("Thêm vào giỏ hàng thành công");
+                            return true;
+                        }
+                    }
                 }
+              
             }
         }
 
@@ -72,25 +131,52 @@ namespace WebDoAn.Service.Client.Carts
         }
 
         // Tăng thêm 1 sản phẩm
-        public async Task<bool> CreToCart(Cart cart)
+        public async Task<int> CreToCart(Cart cart)
         {
-            // số lượng sản phẩm
-            var proquantity = _db.product.Where(x => x.Id == cart.ProductId).Select(x => x.Quantity).FirstOrDefault();
-            // số lượng sản phẩm trong giỏ hàng + 1
-            var quantitycart = cart.Quantity + 1;
-
-            if(quantitycart > proquantity)
+            // Kiểm tra giá có thay đổi không
+            // Lấy giá sản phẩm hiện tại
+            var presentPrice = 0;
+            var propersent = _db.product.Where(x => x.Id == cart.ProductId).FirstOrDefault();
+            if(propersent.Discount == 0)
             {
-                return false;
+                presentPrice = propersent.Price;
             }
             else
             {
-                var cartnew = _db.cart.Where(x => x.Id == cart.Id).FirstOrDefault();
-                cartnew.Quantity = cartnew.Quantity + 1;
-                _db.cart.Update(cartnew);
-                await _db.SaveChangesAsync();
-                return true;
+                presentPrice = propersent.Discount;
             }
+
+            // Lấy giá sản phẩm trong giỏ hàng hiện tại
+            var cartpresent = _db.cart.Where(x => x.Id == cart.Id).Select(x => x.Price).FirstOrDefault();
+
+            // Nếu đúng
+            if(presentPrice == cartpresent)
+            {
+                // số lượng sản phẩm
+                var proquantity = _db.product.Where(x => x.Id == cart.ProductId).Select(x => x.Quantity).FirstOrDefault();
+                // số lượng sản phẩm trong giỏ hàng + 1
+                var quantitycart = cart.Quantity + 1;
+
+                if (quantitycart > proquantity)
+                {
+                    return 1;
+                }
+                else
+                {
+                    var cartnew = _db.cart.Where(x => x.Id == cart.Id).FirstOrDefault();
+                    cartnew.Quantity = cartnew.Quantity + 1;
+                    _db.cart.Update(cartnew);
+                    await _db.SaveChangesAsync();
+                    return 2;
+                }
+            }
+            // Mếu thêm ở sản phẩm đã thay đổi giá
+            else
+            {
+                return 0;
+            }
+
+           
         }
 
         //Giảm đi 1 sản phẩm

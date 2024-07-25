@@ -228,10 +228,37 @@ namespace WebDoAn.Service.Admin.Products
             
         }
 
-        public async Task<bool> UpdateQuantity(Product product)
+        public async Task<bool> UpdateQuantityDH(Product product)
         {
             var productOld = _db.product.Where(x => x.Id == product.Id).FirstOrDefault();
-            productOld.Quantity = product.Quantity;
+            productOld.Quantity = productOld.Quantity - product.Quantity;
+            //product.Width = productOld.Width;
+            //product.Height = productOld.Height;
+            //product.Length = productOld.Length;
+            //product.Name = productOld.Name;
+            //product.Price = productOld.Price;
+            //product.Description = productOld.Description;
+            //product.ShortDescription = productOld.ShortDescription;
+            //product.Image = productOld.Image;
+            //product.CreateTime = product.CreateTime;
+            //product.Material = productOld.Material;
+            //product.Evaluate = productOld.Evaluate;
+            //product.CategoryId = productOld.CategoryId;
+
+            // Tao moi ngay cập nhật
+            var date = DateTime.Now;
+            var datecustom = DateTime.SpecifyKind(date, DateTimeKind.Utc);
+            productOld.UpdateTime = datecustom;
+
+            _db.product.Update(productOld);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateQuantityHH(Product product)
+        {
+            var productOld = _db.product.Where(x => x.Id == product.Id).FirstOrDefault();
+            productOld.Quantity = productOld.Quantity + product.Quantity;
             //product.Width = productOld.Width;
             //product.Height = productOld.Height;
             //product.Length = productOld.Length;

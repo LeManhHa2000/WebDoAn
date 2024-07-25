@@ -140,17 +140,16 @@ namespace WebDoAn.Service.Admin.Orders
 
                 // lấy ra danh sách sản phẩm khi cập nhật lại số lượng
                 var listspnew = (from a in listorderdt
-                                 join b in listproduct on a.ProductId equals b.Id
                                  select new Product
                                  {
                                      Id = a.ProductId,
-                                     Quantity = a.Quantity + b.Quantity,
+                                     Quantity = a.Quantity,
                                  }).ToList();
 
                 // Cập nhật lại số lượng sản phẩm khi hủy đơn hàng
                 foreach(var item in listspnew )
                 {
-                    await _productService.UpdateQuantity(item);
+                    await _productService.UpdateQuantityHH(item);
                 }
             }
 

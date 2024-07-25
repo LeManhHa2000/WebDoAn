@@ -100,7 +100,7 @@
             type: 'POST',
             data: { id: cartId, soluong: soluong, proid: proId },
             success: function (rs) {
-                if (rs.iscre == true) {
+                if (rs.iscre == 2) {
                     $("#total-" + cartId).text(texttotal);
                     $("#total-" + cartId).data("total", total);
 
@@ -108,8 +108,15 @@
                     $("#Quantt_" + cartId).val(soluongmoi)
                     SumToTalAll();
                 }
-                else {
+                else if (rs.iscre == 1) {
                     $("#Textwaningcart").text("Số lượng sản phẩm trong kho không đủ, vui lòng nhập lại số lượng!");
+                    $("#errorNumber").css("display", "block");
+                    setTimeout(function () {
+                        hiddentNotiCt();
+                    }, 3000);
+                }
+                else if (rs.iscre == 0) {
+                    $("#Textwaningcart").text("Giá của sản phẩm này đã thay đổi , không thể thêm sản phẩm nữa!");
                     $("#errorNumber").css("display", "block");
                     setTimeout(function () {
                         hiddentNotiCt();

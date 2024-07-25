@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebDoAn.dbs;
 using WebDoAn.ModelPrivew;
 using WebDoAn.Models;
+using WebDoAn.Service.Admin.Products;
 using WebDoAn.Service.Client.Carts;
 
 namespace WebDoAn.Controllers
@@ -13,13 +14,16 @@ namespace WebDoAn.Controllers
         private readonly IHttpContextAccessor _contxt;
         public readonly DoAnDbContext _db;
         public INotyfService _notyfService;
+        public readonly IProductService _proService;
 
-        public CartController(ICartService cartService, IHttpContextAccessor contxt, DoAnDbContext db, INotyfService notyfService)
+
+        public CartController(ICartService cartService, IHttpContextAccessor contxt, DoAnDbContext db, INotyfService notyfService, IProductService proService)
         {
             _cartService = cartService;
             _contxt = contxt;
             _db = db;
             _notyfService = notyfService;
+            _proService = proService;
         }
 
         public IActionResult Index(int id)
@@ -30,7 +34,8 @@ namespace WebDoAn.Controllers
             }
 
             var listcart = _db.cart.Where(x => x.UserId == id).ToList();
-            var listproduct = _db.product.ToList();
+            var listproductbd = _db.product.ToList();
+            var listproduct = _proService.GetAllProDto(listproductbd);
 
             var listreturn = (from a in listcart
                               join b in listproduct on a.ProductId equals b.Id
@@ -40,8 +45,8 @@ namespace WebDoAn.Controllers
                                   Name = b.Name,
                                   Image = b.Image,
                                   Quantity = a.Quantity,
-                                  Price = b.Price,
-                                  Total = a.Quantity * b.Price,
+                                  Price = a.Price,
+                                  Total = a.Quantity * a.Price,
                                   ProductId = a.ProductId,
                                   IsToMuch = a.Quantity > b.Quantity ? true : false,
                               }).OrderBy(x => x.Id).ToList();
