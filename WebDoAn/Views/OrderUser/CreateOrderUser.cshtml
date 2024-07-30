@@ -72,6 +72,8 @@
                     <label for="inputState">Tổng tiền (VND)</label>
                     <input asp-for="Total" type="text" class="form-control" id="inputAddress" value="@ViewBag.ToTalSum" readonly>
                 </div>
+                @* <p>@ViewBag.PhiVAT</p>
+                <p>@ViewBag.GiaHDVAT</p> *@
                 <div class="form-group col-md-4">
                     <label for="inputState">Phương thức thanh toán</label>
                     <select asp-for="PaymentMethod" asp-items="Html.GetEnumSelectList<MethodPay>()" id="inputState" required class="form-control" style="display: block !important;">

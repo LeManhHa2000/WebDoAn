@@ -47,6 +47,14 @@
             -o-transition: all, 0.3s;
             transition: all, 0.3s;
     }
+
+    .sort-ct a{
+        color: black;
+    }
+
+    .sort-ct.active a {
+        color: red;
+    }
 </style>
 
 <!-- Breadcrumb Section Begin -->
@@ -77,14 +85,14 @@
                             <input hidden value="@ViewBag.CateIdSearch" id="CateIdSearch" />
                             <form action="#" class="d-flex align-items-center">
                                 <input type="text" value="@ViewBag.NameProSeacrh" placeholder="Nhập tên sản phẩm ..." onchange="myFunction(this.value)" style="padding-right: 25px;">
-                                <a id="btn_searchPro" class="btn_searchPro" href="/ProductView/Index/@ViewBag.CateIdSearch"><span class="icon_search"></span></a>
+                                <a id="btn_searchPro" class="btn_searchPro" href="/ProductView/Index/@ViewBag.CateIdSearch?sort=@ViewBag.NumSort"><span class="icon_search"></span></a>
                             </form>
                         </div>
                         <h4>Danh mục sản phẩm</h4>
                         <ul>
-                            <li class="item-cate" cateid="0"><a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-name="@ViewBag.NameProSeacrh">Tất cả</a></li>
+                            <li class="item-cate" cateid="0"><a asp-controller="ProductView" asp-action="Index" asp-route-id="0" asp-route-sort="@ViewBag.NumSort" asp-route-name="@ViewBag.NameProSeacrh">Tất cả</a></li>
                             @foreach (var item in ViewBag.Listcate){
-                                <li class="item-cate" cateid="@item.Id"><a asp-controller="ProductView" asp-action="Index" asp-route-id="@item.Id" asp-route-name="@ViewBag.NameProSeacrh">@item.Name</a></li>
+                                <li class="item-cate" cateid="@item.Id"><a asp-controller="ProductView" asp-action="Index" asp-route-id="@item.Id" asp-route-sort="@ViewBag.NumSort" asp-route-name="@ViewBag.NameProSeacrh">@item.Name</a></li>
                             }
                             
                         </ul>
@@ -92,6 +100,41 @@
                 </div>
             </div>
             <div class="col-lg-9 col-md-7">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <input type="number" value="@ViewBag.NumSort" id="NumSort" hidden />
+                        <div class="filter__sort">
+                            <span>Sắp xếp theo</span>
+                            <select style="display: none;">
+                                <option value="1">Mới nhất</option>
+                                <option value="2">Giá từ thấp tới cao</option>
+                                <option value="3">Giá từ cao tới thấp</option>
+                            </select>
+                            <div class="nice-select" tabindex="0">
+                                <span class="current" id="curren-text-ct">Mới nhất</span>
+                                <ul class="list">
+                                    <li data-value="1" class="sort-ct option selected">
+                                        <a asp-controller="ProductView" asp-action="Index" asp-route-id="@ViewBag.CateIdSearch" asp-route-sort="1" asp-route-name="@ViewBag.NameProSeacrh">
+                                            Mới nhất
+                                        </a>
+                                    </li>
+                                    <li data-value="2" class="sort-ct option selected">
+                                        <a asp-controller="ProductView" asp-action="Index" asp-route-id="@ViewBag.CateIdSearch" asp-route-sort="2" asp-route-name="@ViewBag.NameProSeacrh">
+                                            Giá từ thấp tới cao
+                                        </a>
+                                    </li>
+                                    <li data-value="3" class="sort-ct option selected">
+                                        <a asp-controller="ProductView" asp-action="Index" asp-route-id="@ViewBag.CateIdSearch" asp-route-sort="3" asp-route-name="@ViewBag.NameProSeacrh">
+                                            Giá từ cao tới thấp
+                                        </a>
+                                    </li>
+                                   @*  <li data-value="2" class="option selected"></li>
+                                    <li data-value="3" class="option selected"></li> *@
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     @if (ViewBag.Listproductcount == 0){
                         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
@@ -133,7 +176,7 @@
                     }
                 </div>
                 <div class="product__pagination">
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, id = ViewBag.CateIdSearch, name = ViewBag.NameProSeacrh }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, id = ViewBag.CateIdSearch, sort = ViewBag.NumSort , name = ViewBag.NameProSeacrh }))
                 </div>
             </div>
         </div>
@@ -143,10 +186,34 @@
     function myFunction(val) {
         const element = document.getElementById("btn_searchPro");
         var text = element.getAttribute("href");
-        var textnew = text + "?name=" + val;
+        var textnew = text + "&name=" + val;
         document.getElementById("btn_searchPro").setAttribute("href", textnew);
         
     }
+
+    //Xet focus sort
+    var numSort = document.getElementById("NumSort").value;
+    console.log("aaa", CSSNumericArray);
+    if (numSort == 1){
+        document.getElementById("curren-text-ct").innerHTML = "Mới nhẩt";
+    }
+    else if (numSort == 2) {
+        document.getElementById("curren-text-ct").innerHTML = "Giá từ thấp tới cao";
+    }
+    else if (numSort == 3) {
+        document.getElementById("curren-text-ct").innerHTML = "Giá từ cao tới thấp";
+    }
+
+    var listsort = document.getElementsByClassName("sort-ct");
+    for (var j = 0; j < listsort.length; j++) {
+        if (listsort[j].getAttribute("data-value") == numSort) {
+            listsort[j].classList.remove("selected");
+            listsort[j].classList.add("focus");
+            listsort[j].classList.add("active");
+
+        }
+    }
+
 
     var idcate = document.getElementById("CateIdSearch").value;
     console.log("adad", idcate);

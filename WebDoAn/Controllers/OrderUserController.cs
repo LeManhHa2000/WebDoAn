@@ -73,8 +73,18 @@ namespace WebDoAn.Controllers
                                   IsToMuch = a.Quantity > b.Quantity ? true : false,
                               }).OrderBy(x => x.Id).ToList();
 
+            // Tong tien hoa don
             var sumTotal = listreturn.Sum(d => d.Total);
             ViewBag.ToTalSum = sumTotal;
+
+            ////phi VAT 10%
+            //var phiVAT = sumTotal * 0.1;
+            //ViewBag.PhiVAT = phiVAT;
+
+            //var giaHDVAT = sumTotal + phiVAT;
+            //ViewBag.GiaHDVAT = giaHDVAT;
+
+
             var user = _db.user.Where(x => x.Id == id).FirstOrDefault();
 
             ViewBag.ListCartModal = listreturn;

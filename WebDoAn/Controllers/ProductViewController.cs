@@ -17,7 +17,7 @@ namespace WebDoAn.Controllers
             _productService = productService;
         }
 
-        public IActionResult Index(int id, string? name, int? page)
+        public IActionResult Index(int id, int sort, string? name, int? page)
         {
             //Lay ds danh muc
             var listcate = _db.categorie.ToList();
@@ -26,8 +26,10 @@ namespace WebDoAn.Controllers
             int pageSize = 6;
             int pageNumber = page == null || page < 0 ? 1 : page.Value;
             List<ProductDto> products = new List<ProductDto>();
+            List<ProductDto> proresult = new List<ProductDto>();
 
             ViewBag.CateIdSearch = id;
+            ViewBag.NumSort = sort;
             ViewBag.NameProSeacrh = name;
 
             if (name == null) 
@@ -37,7 +39,19 @@ namespace WebDoAn.Controllers
                     var listproduct = _db.product.ToList();
                     ViewBag.Listproductcount = listproduct.Count;
                     var listquery = _productService.GetAllProDto(listproduct);
-                    products = listquery;
+                    if (sort == 1)
+                    {
+                        products = listquery.OrderByDescending(x => x.Id).ToList();
+                    }
+                    else if (sort == 2)
+                    {
+                        products = listquery.OrderBy(x => x.Price).ToList();
+                    }
+                    else if (sort == 3)
+                    {
+                        products = listquery.OrderByDescending(x => x.Price).ToList();
+                    }
+                    //products = listquery;
                     //ViewBag.Listproduct = listproduct;
                 }
                 else
@@ -45,7 +59,19 @@ namespace WebDoAn.Controllers
                     var listproduct = _db.product.Where(x => x.CategoryId == id).ToList();
                     ViewBag.Listproductcount = listproduct.Count;
                     var listquery = _productService.GetAllProDto(listproduct);
-                    products = listquery;
+                    if (sort == 1)
+                    {
+                        products = listquery.OrderByDescending(x => x.Id).ToList();
+                    }
+                    else if (sort == 2)
+                    {
+                        products = listquery.OrderBy(x => x.Price).ToList();
+                    }
+                    else if (sort == 3)
+                    {
+                        products = listquery.OrderByDescending(x => x.Price).ToList();
+                    }
+                    //products = listquery;
                     //ViewBag.Listproduct = listproduct;
                 }
             }
@@ -56,7 +82,19 @@ namespace WebDoAn.Controllers
                     var listproduct = _db.product.Where(x => x.Name.ToLower().Contains(name.ToLower())).ToList();
                     ViewBag.Listproductcount = listproduct.Count;
                     var listquery = _productService.GetAllProDto(listproduct);
-                    products = listquery;
+                    if (sort == 1)
+                    {
+                        products = listquery.OrderByDescending(x => x.Id).ToList();
+                    }
+                    else if (sort == 2)
+                    {
+                        products = listquery.OrderBy(x => x.Price).ToList();
+                    }
+                    else if (sort == 3)
+                    {
+                        products = listquery.OrderByDescending(x => x.Price).ToList();
+                    }
+                    //products = listquery;
                     //ViewBag.Listproduct = listproduct;
                 }
                 else
@@ -64,10 +102,24 @@ namespace WebDoAn.Controllers
                     var listproduct = _db.product.Where(x => x.CategoryId == id && x.Name.ToLower().Contains(name.ToLower())).ToList();
                     ViewBag.Listproductcount = listproduct.Count;
                     var listquery = _productService.GetAllProDto(listproduct);
-                    products = listquery;
+                    if (sort == 1)
+                    {
+                        products = listquery.OrderByDescending(x => x.Id).ToList();
+                    }
+                    else if (sort == 2)
+                    {
+                        products = listquery.OrderBy(x => x.Price).ToList();
+                    }
+                    else if (sort == 3)
+                    {
+                        products = listquery.OrderByDescending(x => x.Price).ToList();
+                    }
+                    //products = listquery;
                     //ViewBag.Listproduct = listproduct;
                 }
             }
+
+            
 
             PagedList<ProductDto> lst = new PagedList<ProductDto>(products, pageNumber, pageSize);
             
